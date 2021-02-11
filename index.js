@@ -1,13 +1,17 @@
 "use strict";
 
-const express = require("express");
-const app = express();
+// TODO: clean up
 
+const express = require("express");
 const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const app = express();
 
 require("dotenv").config();
 
 app.use(express.json());
+
+app.use(helmet());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
