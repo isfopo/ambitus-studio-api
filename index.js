@@ -5,18 +5,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+const logger = require("morgan");
+
 const app = express();
 
 require("dotenv").config();
+
+app.use(logger("dev"));
 
 app.use(express.json());
 
 app.use(helmet());
 
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// parse application/json
 app.use(bodyParser.json());
 
 app.listen(process.env.PORT, () => {
