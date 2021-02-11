@@ -5,6 +5,7 @@ Ambitus Studio is a collaborative music making platform that allows you to creat
 To run api, clone repository and run commands:
 
 ```shell
+cd ambitus-studio-api
 npm install
 npm start
 ```
