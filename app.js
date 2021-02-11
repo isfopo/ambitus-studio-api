@@ -22,12 +22,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const userRouter = require("./routes/user");
-// const projectRouter = require("./routes/project");
-// const sceneRouter = require("./routes/scene");
-// const trackRouter = require("./routes/track");
-// const clipRouter = require("./routes/clip");
-// const messageRouter = require("./routes/message");
+const projectRouter = require("./routes/project");
+const sceneRouter = require("./routes/scene");
+const trackRouter = require("./routes/track");
+const clipRouter = require("./routes/clip");
+const messageRouter = require("./routes/message");
 
 app.use("/user", userRouter);
+app.use("/project", projectRouter);
+app.use("/scene", sceneRouter);
+app.use("/track", trackRouter);
+app.use("/clip", clipRouter);
+app.use("/message", messageRouter);
 
 module.exports = app;
