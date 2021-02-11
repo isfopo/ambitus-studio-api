@@ -1,0 +1,19 @@
+{
+  "name": "ambitus-studio-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isfopo/ambitus-studio-api.git"
+  },
+  "author": "Isaac Poole",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isfopo/ambitus-studio-api/issues"
+  },
+  "homepage": "https://github.com/isfopo/ambitus-studio-api#readme"
+}
