@@ -2,8 +2,8 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-  class Project extends Sequelize.Model {}
-  Project.init(
+  class Clip extends Sequelize.Model {}
+  Clip.init(
     {
       id: {
         type: Sequelize.DataTypes.UUID,
@@ -12,8 +12,7 @@ module.exports = (sequelize) => {
       },
       name: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
       tempo: {
         type: Sequelize.DataTypes.INTEGER,
@@ -23,21 +22,18 @@ module.exports = (sequelize) => {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      invited: {
-        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
+      content: {
+        type: Sequelize.DataTypes.BLOB,
         allowNull: false,
       },
-      backlog: {
-        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
-        allowNull: false,
-      },
-      frontlog: {
-        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
+      type: {
+        type: Sequelize.DataTypes.ENUM,
+        values: ["audio", "midi"],
         allowNull: false,
       },
     },
     { sequelize }
   );
 
-  return Project;
+  return Clip;
 };
