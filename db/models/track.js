@@ -27,5 +27,9 @@ module.exports = (sequelize) => {
     { sequelize }
   );
 
+  Track.associate = (models) => {
+    Track.hasOne(models.Project);
+  };
+
   return Track;
 };

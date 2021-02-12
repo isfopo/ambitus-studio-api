@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
       tempo: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
+        validate: {
+          min: 40,
+          max: 280,
+        },
       },
       time_signature: {
         type: Sequelize.DataTypes.STRING,
@@ -38,6 +42,10 @@ module.exports = (sequelize) => {
     },
     { sequelize }
   );
+
+  Project.associate = (models) => {
+    Project.belongsToMany(models.User, { through: "UsersProjects" });
+  };
 
   return Project;
 };

@@ -18,5 +18,10 @@ module.exports = (sequelize) => {
     { sequelize }
   );
 
+  Message.associate = (models) => {
+    Message.hasOne(models.User);
+    Message.hasOne(models.Project);
+  };
+
   return Message;
 };

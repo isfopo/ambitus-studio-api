@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
       tempo: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: true,
+        validate: {
+          min: 40,
+          max: 280,
+        },
       },
       time_signature: {
         type: Sequelize.DataTypes.STRING,
@@ -25,6 +29,10 @@ module.exports = (sequelize) => {
     },
     { sequelize }
   );
+
+  Scene.associate = (models) => {
+    Scene.hasOne(models.Project);
+  };
 
   return Scene;
 };
