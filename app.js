@@ -1,7 +1,5 @@
 "use strict";
 
-// TODO: clean up
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
