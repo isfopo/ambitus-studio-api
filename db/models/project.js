@@ -2,25 +2,30 @@
 const Sequelize = require("sequelize");
 
 module.exports = (sequelize) => {
-  class User extends Sequelize.Model {}
-  User.init(
+  class Project extends Sequelize.Model {}
+  Project.init(
     {
       id: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
       },
-      username: {
+      name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
-      avatar: {
-        type: Sequelize.DataTypes.BLOB,
+      tempo: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      tempo: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
       },
     },
     { sequelize }
   );
 
-  return User;
+  return Project;
 };
