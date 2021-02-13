@@ -16,7 +16,8 @@ module.exports = (sequelize) => {
         unique: true,
       },
       avatar: {
-        type: Sequelize.DataTypes.BLOB,
+        type: Sequelize.DataTypes.BLOB("long"),
+        allowNull: true,
       },
     },
     { sequelize }
