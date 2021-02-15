@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: __dirname + "/temp/" });
-const User = require("../db/models").User;
-
 const fs = require("fs");
+const User = require("../db/models").User;
 
 router.post("/", async (req, res) => {
   const user = await User.findOne({
