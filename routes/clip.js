@@ -1,12 +1,17 @@
 const express = require("express");
 const router = express.Router();
+const Readable = require("stream").Readable;
 const multer = require("multer");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
 const Clip = require("../db/models").Clip;
 
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "you made it!" });
+router.get("/", async (req, res) => {
+  const clip = await Clip.findByPk(req.body.id);
+  const stream = Readable.from(clip.content);
+
+  // TODO: send id, mimetype to response
+  stream.pipe(res);
 });
 
 router.post("/", upload.single("content"), async (req, res) => {
@@ -21,7 +26,7 @@ router.post("/", upload.single("content"), async (req, res) => {
       content: clipBuffer,
     });
 
-    return res.status(200).json(clip);
+    return res.status(200).json({ id: clip.id });
   } catch (e) {
     return res.status(400);
   }
@@ -48,11 +53,9 @@ router.put("/content", upload.single("content"), async (req, res) => {
 
     res.status(200).json(clip);
   } else {
-    return res
-      .status(400)
-      .json({
-        error: "Clip type cannot be changed. Put clip in new track instead.",
-      });
+    return res.status(400).json({
+      error: "Clip type cannot be changed. Put clip in new track instead.",
+    });
   }
 });
 
