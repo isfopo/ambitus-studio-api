@@ -30,14 +30,17 @@ module.exports = (sequelize) => {
       invited: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
         allowNull: false,
+        defaultValue: [],
       },
       backlog: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
         allowNull: false,
+        defaultValue: [],
       },
       frontlog: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
         allowNull: false,
+        defaultValue: [],
       },
     },
     { sequelize }
