@@ -83,23 +83,67 @@ This will start a server on [localhost:3000](http://localhost:3000).
     - [ ] has valid content
 
 - [ ] Helpers
-  - [ ] validate name
-  - [ ] validate tempo
-  - [ ] validate time signature
-  - [ ] validate message content
-  - [ ] validate settings
-  - [ ] validate types
+  - [x] validate name
+  - [x] validate tempo
+  - [x] validate time signature
+  - [x] validate message content
+  - [x] validate settings
+  - [x] validate types
   - [ ] authorize user to change user
   - [ ] authorize user to change project and contents (scenes, track and clips)
 
 ### Define handlers
 
 - [ ] User
+
+  - [ ] check creation parameters
+    - [ ] has valid username
+  - [ ] check if is in database
+
 - [ ] Project
+
+  - [ ] check creation parameters
+    - [ ] User is on database
+    - [ ] valid name, tempo, time signature
+  - [ ] check if is in database
+
 - [ ] Scene
+
+  - [ ] check creation parameters
+    - [ ] project is in database
+    - [ ] valid name, tempo and time signature if present
+  - [ ] check if is in database
+
 - [ ] Track
+
+  - [ ] check creation parameters
+    - [ ] project is in database
+    - [ ] valid name and settings
+  - [ ] check if is in database
+
 - [ ] Clip
+
+  - [ ] check creation parameters
+    - [ ] track and scene are in database
+    - [ ] valid name, type, tempo and time signature
+  - [ ] check if is in database
+
 - [ ] Message
+
+  - [ ] check creation parameters
+    - [ ] user is in database
+    - [ ] project is in database
+    - [ ] has valid content
+
+- [ ] Helpers
+  - [x] validate name
+  - [x] validate tempo
+  - [x] validate time signature
+  - [x] validate message content
+  - [x] validate settings
+  - [x] validate types
+  - [ ] authorize user to change user
+  - [ ] authorize user to change project and contents (scenes, track and clips)
 
 ### Add route functionality
 
