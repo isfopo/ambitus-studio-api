@@ -42,15 +42,28 @@ const message = (message = "") => {
 
 const setting = (input) => {};
 
-const type = (input) => {
-  // values = [
-  //   "audio/aac",
-  //   "audio/mpeg",
-  //   "audio/ogg",
-  //   "audio/webm",
-  //   "audio/wave",
-  //   "audio/midi",
-  // ];
+const type = (type = "") => {
+  const values = [
+    "audio/aac",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/webm",
+    "audio/wave",
+    "audio/midi",
+  ];
+
+  if (typeof type !== "string") {
+    throw new Error("type must be a string");
+  } else if (!values.includes(type)) {
+    throw new Error(`type must be "audio/aac",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/webm",
+    "audio/wave" or
+    "audio/midi"`);
+  } else {
+    return type;
+  }
 };
 
 module.exports = {
