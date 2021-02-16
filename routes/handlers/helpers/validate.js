@@ -1,22 +1,31 @@
 "use strict";
 
-const Name = (input = {}) => {};
+const name = (input) => {};
 
-const Tempo = (input = {}) => {};
+const tempo = (input) => {};
 
-const TimeSignature = (input = {}) => {};
+const timeSignature = (input) => {};
 
-const Message = (input = {}) => {};
+const message = (input) => {};
 
-const Setting = (input = {}) => {};
+const setting = (input) => {};
 
-const Type = (input = {}) => {};
+const type = (input) => {
+  values = [
+    "audio/aac",
+    "audio/mpeg",
+    "audio/ogg",
+    "audio/webm",
+    "audio/wave",
+    "audio/midi",
+  ];
+};
 
 module.exports = {
-  Name,
-  Tempo,
-  TimeSignature,
-  Message,
-  Setting,
-  Type,
+  name,
+  tempo,
+  timeSignature,
+  message,
+  setting,
+  type,
 };
