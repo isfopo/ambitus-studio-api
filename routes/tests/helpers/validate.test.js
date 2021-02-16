@@ -129,9 +129,9 @@ describe("validate time signature", () => {
 
     describe("when lower number is a power of 2", () => {
       it("should return time signature", () => {
-        const input = "4/4";
+        const input = "4/8";
         const output = validate.timeSignature(input);
-        assert.deepStrictEqual(output, "4/4");
+        assert.deepStrictEqual(output, input);
       });
     });
 
@@ -139,7 +139,7 @@ describe("validate time signature", () => {
       it("should return time signature", () => {
         const input = "4/4";
         const output = validate.timeSignature(input);
-        assert.deepStrictEqual(output, "4/4");
+        assert.deepStrictEqual(output, input);
       });
     });
 
@@ -147,7 +147,7 @@ describe("validate time signature", () => {
       it("should return time signature", () => {
         const input = "4/4";
         const output = validate.timeSignature(input);
-        assert.deepStrictEqual(output, "4/4");
+        assert.deepStrictEqual(output, input);
       });
     });
   });
@@ -286,23 +286,23 @@ describe("validate message", () => {
   });
 });
 
-describe("validate setting", () => {
+describe("validate settings", () => {
   describe("valid", () => {
-    describe("when setting is a json object", () => {
-      it("should return setting", () => {
+    describe("when settings are a json object", () => {
+      it("should return settings", () => {
         const input = { delay_feedback: 82, gain: 43, synth: "FM" };
-        const output = validate.setting(input);
+        const output = validate.settings(input);
         assert.deepStrictEqual(output, input);
       });
     });
   });
 
   describe("invalid", () => {
-    describe("when setting is not a json object", () => {
+    describe("when settings are not a json object", () => {
       it("should throw and error", () => {
-        const input = "notASetting";
+        const input = "notSettings";
         assert.throws(() => {
-          const output = validate.setting(input);
+          const output = validate.settings(input);
         });
       });
     });
