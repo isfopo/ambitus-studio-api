@@ -242,7 +242,7 @@ describe("validate message", () => {
       it("should return message", () => {
         const input = "Hello!!";
         const output = validate.message(input);
-        assert.deepStrictEqual(output, "Hello!");
+        assert.deepStrictEqual(output, "Hello!!");
       });
     });
 
