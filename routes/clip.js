@@ -2,17 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Readable = require("stream").Readable;
 const multer = require("multer");
+var FormData = require("form-data");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
 const Clip = require("../db/models").Clip;
-
-router.get("/", async (req, res) => {
-  const clip = await Clip.findByPk(req.body.id);
-  const stream = Readable.from(clip.content);
-
-  // TODO: send id, mimetype to response
-  stream.pipe(res);
-});
 
 router.post("/", upload.single("content"), async (req, res) => {
   const clipBuffer = fs.readFileSync(req.file.path);
@@ -32,6 +25,22 @@ router.post("/", upload.single("content"), async (req, res) => {
   }
 
   // TODO: put reference an existing scene and track
+});
+
+router.get("/content", async (req, res) => {
+  const clip = await Clip.findByPk(req.body.id);
+  const stream = Readable.from(clip.content);
+
+  stream.pipe(res);
+});
+
+router.get("/meta", async (req, res) => {
+  try {
+    const clip = await Clip.findByPk(req.body.id);
+    return res.status(200).json(clip);
+  } catch (e) {
+    return res.status(404).json(e);
+  }
 });
 
 router.put("/name", upload.single("content"), async (req, res) => {
