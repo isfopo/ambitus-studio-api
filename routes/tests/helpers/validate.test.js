@@ -106,7 +106,7 @@ describe("validate time signature", () => {
     describe("when time signature is a string", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -114,7 +114,7 @@ describe("validate time signature", () => {
     describe("when time signature has a '/'", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -122,7 +122,7 @@ describe("validate time signature", () => {
     describe("when time signature is entirely numbers except for '/'", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -130,7 +130,7 @@ describe("validate time signature", () => {
     describe("when lower number is a power of 2", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -138,7 +138,7 @@ describe("validate time signature", () => {
     describe("when lower number is between 1 and 32", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -146,7 +146,7 @@ describe("validate time signature", () => {
     describe("when upper number between 1 and 32", () => {
       it("should return time signature", () => {
         const input = "4/4";
-        const output = validate.name(input);
+        const output = validate.timeSignature(input);
         assert.deepStrictEqual(output, "4/4");
       });
     });
@@ -292,7 +292,7 @@ describe("validate setting", () => {
       it("should return setting", () => {
         const input = { delay_feedback: 82, gain: 43, synth: "FM" };
         const output = validate.setting(input);
-        assert.strictDeepEqual(output, input);
+        assert.deepStrictEqual(output, input);
       });
     });
   });
@@ -315,7 +315,7 @@ describe("validate type", () => {
       it("should return type", () => {
         const input = "audio/midi";
         const output = validate.type(input);
-        assert.strictDeepEqual(output, input);
+        assert.deepStrictEqual(output, input);
       });
     });
 
@@ -323,14 +323,14 @@ describe("validate type", () => {
       it("should return type", () => {
         const input = "audio/midi";
         const output = validate.type(input);
-        assert.strictDeepEqual(output, input);
+        assert.deepStrictEqual(output, input);
       });
     });
   });
 
   describe("invalid", () => {
     describe("when type is not a string", () => {
-      it("should return type", () => {
+      it("should throw an error", () => {
         const input = { type: audio / midi };
         assert.throws(() => {
           const output = validate.type(input);
@@ -339,7 +339,7 @@ describe("validate type", () => {
     });
 
     describe("when type is an incorrect mimetype", () => {
-      it("should return type", () => {
+      it("should throw an error", () => {
         const input = "text/plain";
         assert.throws(() => {
           const output = validate.type(input);
