@@ -47,8 +47,8 @@ module.exports = (sequelize) => {
   );
 
   Clip.associate = (models) => {
-    Clip.hasOne(models.Scene);
-    Clip.hasOne(models.Track);
+    Clip.belongsTo(models.Scene);
+    Clip.belongsTo(models.Track);
   };
 
   return Clip;

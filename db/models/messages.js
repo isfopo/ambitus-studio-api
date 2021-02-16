@@ -19,8 +19,8 @@ module.exports = (sequelize) => {
   );
 
   Message.associate = (models) => {
-    Message.hasOne(models.User);
-    Message.hasOne(models.Project);
+    Message.belongsTo(models.User);
+    Message.belongsTo(models.Project);
   };
 
   return Message;

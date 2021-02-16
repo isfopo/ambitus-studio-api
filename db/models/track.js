@@ -28,7 +28,8 @@ module.exports = (sequelize) => {
   );
 
   Track.associate = (models) => {
-    Track.hasOne(models.Project);
+    Track.belongsTo(models.Project);
+    Track.hasMany(models.Clip);
   };
 
   return Track;
