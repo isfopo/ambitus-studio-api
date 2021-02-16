@@ -315,7 +315,7 @@ describe("validate type", () => {
       it("should return type", () => {
         const input = "audio/midi";
         const output = validate.type(input);
-        assert.deepStrictEqual(output, input);
+        assert.deepStrictEqual(output, "audio/midi");
       });
     });
 
@@ -323,7 +323,7 @@ describe("validate type", () => {
       it("should return type", () => {
         const input = "audio/midi";
         const output = validate.type(input);
-        assert.deepStrictEqual(output, input);
+        assert.deepStrictEqual(output, "audio/midi");
       });
     });
   });
@@ -331,7 +331,7 @@ describe("validate type", () => {
   describe("invalid", () => {
     describe("when type is not a string", () => {
       it("should throw an error", () => {
-        const input = { type: audio / midi };
+        const input = { type: "audio / midi" };
         assert.throws(() => {
           const output = validate.type(input);
         });
