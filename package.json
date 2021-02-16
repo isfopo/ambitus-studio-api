@@ -1,7 +1,7 @@
 {
   "name": "ambitus-studio-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ambitus Studio is a collaborative music making platform that allows you to create music across the internet with anyone.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./bin/www",
