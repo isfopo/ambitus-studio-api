@@ -31,12 +31,6 @@
   - returns error if no user matches sent id
   - must be authorized by user (add password or token)
 
-### PUT api/password/avatar/[id]
-
-- updates avatar of password
-  - returns error if no user matches sent id
-  - must be authorized by user (add old password or token)
-
 ### PUT api/user/leave/[id]
 
 - remove a project from user's projects
