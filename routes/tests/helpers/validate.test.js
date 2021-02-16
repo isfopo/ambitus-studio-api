@@ -72,9 +72,18 @@ describe("validate tempo", () => {
   });
 
   describe("invalid", () => {
-    describe("when tempo is not an integer", () => {
+    describe("when tempo is not an number", () => {
       it("should throw an error", () => {
         const tempo = "IAmNotAnInteger";
+        assert.throws(() => {
+          const output = validate.tempo(tempo);
+        });
+      });
+    });
+
+    describe("when tempo is not an integer", () => {
+      it("should throw an error", () => {
+        const tempo = 120.2;
         assert.throws(() => {
           const output = validate.tempo(tempo);
         });
