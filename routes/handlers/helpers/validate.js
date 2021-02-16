@@ -1,5 +1,11 @@
 "use strict";
 
+const _ = require("lodash");
+
+const isPowerOfTwo = (number) => {
+  return number && !(number & (number - 1));
+};
+
 const name = (name = "") => {
   if (typeof name !== "string") {
     throw new Error("name must be a string");
@@ -26,7 +32,31 @@ const tempo = (tempo = 0) => {
   }
 };
 
-const timeSignature = (input) => {};
+const timeSignature = (timeSignature = "") => {
+  const split = timeSignature.split("/");
+  const upper = parseInt(split[0]);
+  const lower = parseInt(split[1]);
+
+  if (typeof timeSignature !== "string") {
+    throw new Error("timeSignature must be a string");
+  } else if (!timeSignature.includes("/")) {
+    throw new Error("timeSignature must have a '/'");
+  } else if (isNaN(upper) || isNaN(lower)) {
+    throw new Error("timeSignature must have an upper and lower numbers");
+  } else if (!isPowerOfTwo(lower)) {
+    throw new Error("lower number must be a power of two");
+  } else if (lower < 1) {
+    throw new Error("lower number must be greater than 1");
+  } else if (lower > 32) {
+    throw new Error("lower number must be less than 32");
+  } else if (upper < 1) {
+    throw new Error("upper number must be greater than 1");
+  } else if (upper > 32) {
+    throw new Error("upper number must be less than 32");
+  } else {
+    return timeSignature;
+  }
+};
 
 const message = (message = "") => {
   if (typeof message !== "string") {
@@ -40,7 +70,13 @@ const message = (message = "") => {
   }
 };
 
-const setting = (input) => {};
+const settings = (settings = {}) => {
+  if (!_.isObject(settings)) {
+    throw new Error("settings must be an object");
+  } else {
+    return settings;
+  }
+};
 
 const type = (type = "") => {
   const values = [
@@ -71,6 +107,6 @@ module.exports = {
   tempo,
   timeSignature,
   message,
-  setting,
+  settings,
   type,
 };
