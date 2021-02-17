@@ -2,6 +2,17 @@
 
 const _ = require("lodash");
 
+const id = (id = "") => {
+  const uuidRegex = new RegExp(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+  );
+  if (id.match(uuidRegex)) {
+    return id;
+  } else {
+    throw new Error("id must be valid uuid");
+  }
+};
+
 const name = (name = "") => {
   if (typeof name !== "string") {
     throw new Error("name must be a string");
@@ -127,6 +138,7 @@ const type = (type = "") => {
 };
 
 module.exports = {
+  id,
   name,
   password,
   tempo,
