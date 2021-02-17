@@ -4,13 +4,13 @@ const validatePost = (body) => {
   const errors = [];
 
   if (!body.id) {
-    errors.push("body should contain a username");
+    errors.push("body should contain an id");
   } else if (!body.name) {
-    errors.push("body should contain a password");
+    errors.push("body should contain a name");
   } else if (!body.tempo) {
-    errors.push("body should contain a password");
+    errors.push("body should contain a tempo");
   } else if (!body.time_signature) {
-    errors.push("body should contain a password");
+    errors.push("body should contain a time signature");
   }
 
   try {
