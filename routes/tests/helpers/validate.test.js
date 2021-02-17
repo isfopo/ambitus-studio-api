@@ -81,18 +81,18 @@ describe("validate password", () => {
     });
   });
 
-  describe("when password is more than 15 characters", () => {
+  describe("when password does not have two letters", () => {
     it("should throw an error", () => {
-      const input = "te$tPa55wordTe$t";
+      const input = "t12345678$";
       assert.throws(() => {
         const output = validate.password(input);
       });
     });
   });
 
-  describe("when password does not have two letters", () => {
+  describe("when password does not have one capital letters", () => {
     it("should throw an error", () => {
-      const input = "t12345678$";
+      const input = "te$tpa55word";
       assert.throws(() => {
         const output = validate.password(input);
       });
