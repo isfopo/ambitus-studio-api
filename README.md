@@ -73,7 +73,8 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] track and scene are in database
-    - [ ] valid name, type, tempo and time signature
+    - [x] valid id and type
+    - [x] valid name, tempo and time signature if present
   - [ ] check if is in database
 
 - [ ] Message
