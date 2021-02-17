@@ -52,7 +52,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] User is on database
-    - [ ] valid name, tempo, time signature
+    - [x] valid user id, name, tempo, time signature
   - [ ] check if is in database
 
 - [ ] Scene
@@ -107,7 +107,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] User id is on database
-    - [ ] valid id, tempo, time signature
+    - [x] valid id, tempo, time signature
   - [ ] check if is in database
 
 - [ ] Scene
