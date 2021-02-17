@@ -14,6 +14,8 @@ const name = (name = "") => {
   }
 };
 
+const password = (password = "") => {};
+
 const tempo = (tempo = 0) => {
   if (typeof tempo !== "number") {
     throw new Error("tempo must be a number");
