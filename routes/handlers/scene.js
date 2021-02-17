@@ -1,6 +1,6 @@
 const validate = require("./helpers/validate");
 
-const validatePost = (body) => {
+const validatePost = (body = {}) => {
   const errors = [];
 
   if (!body.id) {
