@@ -15,6 +15,11 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
+      password: {
+        // TODO: hash this pass
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
       avatar: {
         type: Sequelize.DataTypes.BLOB("long"),
         allowNull: true,
