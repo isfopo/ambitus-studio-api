@@ -43,8 +43,9 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] User
 
-  - [ ] check creation parameters
-    - [ ] has valid username
+  - [x] check creation parameters
+    - [x] has valid username
+    - [x] has valid password
   - [ ] check if is in database
 
 - [ ] Project
@@ -84,6 +85,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] Helpers
   - [x] validate name
+  - [x] validate password
   - [x] validate tempo
   - [x] validate time signature
   - [x] validate message content
@@ -98,6 +100,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] has valid username
+    - [ ] has valid password
   - [ ] check if is in database
 
 - [ ] Project
@@ -137,6 +140,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] Helpers
   - [x] validate name
+  - [ ] validate password
   - [x] validate tempo
   - [x] validate time signature
   - [x] validate message content
