@@ -10,8 +10,8 @@ const validatePost = (body = {}) => {
   }
 
   try {
-    username = validate.name(body.username);
-    password = validate.password(body.password);
+    validate.name(body.username);
+    validate.password(body.password);
   } catch (e) {
     errors.push(e.message);
   }
