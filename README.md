@@ -98,16 +98,16 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] User
 
-  - [ ] check creation parameters
-    - [ ] has valid username
-    - [ ] has valid password
+  - [x] check creation parameters
+    - [x] has valid username
+    - [x] has valid password
   - [ ] check if is in database
 
 - [ ] Project
 
   - [ ] check creation parameters
-    - [ ] User is on database
-    - [ ] valid name, tempo, time signature
+    - [ ] User id is on database
+    - [ ] valid id, tempo, time signature
   - [ ] check if is in database
 
 - [ ] Scene
@@ -140,7 +140,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] Helpers
   - [x] validate name
-  - [ ] validate password
+  - [x] validate password
   - [x] validate tempo
   - [x] validate time signature
   - [x] validate message content
