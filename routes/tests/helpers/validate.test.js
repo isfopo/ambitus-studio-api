@@ -3,6 +3,25 @@
 const assert = require("assert");
 const validate = require("../../handlers/helpers/validate");
 
+describe("validate id", () => {
+  describe("when id is a valid uuid", () => {
+    it("should return id", () => {
+      const input = "5ece01d0-7017-11eb-beda-e76c7ddac317";
+      const output = validate.id(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when id is not a valid uuid", () => {
+    it("should thrown an error", () => {
+      const input = "1234567890abcdef";
+      assert.throws(() => {
+        const output = validate.id(input);
+      });
+    });
+  });
+});
+
 describe("validate name", () => {
   describe("valid", () => {
     describe("when name is a string", () => {
@@ -53,8 +72,6 @@ describe("validate name", () => {
 });
 
 describe("validate password", () => {
-  // regex for pass - ^(?=(.*[a-zA-Z].*){2,})(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,15}$
-
   describe("when password is valid", () => {
     it("should return password", () => {
       const input = "te$tPa55word";
