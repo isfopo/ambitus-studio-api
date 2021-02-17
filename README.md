@@ -59,14 +59,14 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] project is in database
-    - [ ] valid name, tempo and time signature if present
+    - [x] valid name, tempo and time signature if present
   - [ ] check if is in database
 
 - [ ] Track
 
   - [ ] check creation parameters
     - [ ] project is in database
-    - [ ] valid name and settings
+    - [x] valid name and settings
   - [ ] check if is in database
 
 - [ ] Clip
@@ -81,7 +81,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [ ] check creation parameters
     - [ ] user is in database
     - [ ] project is in database
-    - [ ] has valid content
+    - [x] has valid content
 
 - [ ] Helpers
   - [x] validate name
@@ -114,6 +114,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] project is in database
+    - [x] have valid id
     - [ ] valid name, tempo and time signature if present
   - [ ] check if is in database
 
@@ -121,7 +122,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
   - [ ] check creation parameters
     - [ ] project is in database
-    - [ ] valid name and settings
+    - [x] valid name, type and settings
   - [ ] check if is in database
 
 - [ ] Clip
@@ -136,7 +137,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [ ] check creation parameters
     - [ ] user is in database
     - [ ] project is in database
-    - [ ] has valid content
+    - [x] has id and valid content
 
 - [ ] Helpers
   - [x] validate name
