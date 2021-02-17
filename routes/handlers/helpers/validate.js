@@ -6,15 +6,33 @@ const name = (name = "") => {
   if (typeof name !== "string") {
     throw new Error("name must be a string");
   } else if (name.length < 3) {
-    throw new Error("name must be greater than 3 characters");
+    throw new Error("name must be at least 3 characters");
   } else if (name.length > 18) {
-    throw new Error("name must be less than 18 characters");
+    throw new Error("name must be no more than 18 characters");
   } else {
     return name;
   }
 };
 
-const password = (password = "") => {};
+const password = (password = "") => {
+  if (typeof password !== "string") {
+    throw new Error("password must be a string");
+  } else if (password.length < 8) {
+    throw new Error("password must be at least 8 characters");
+  } else if ((password.match(/[a-zA-Z]/g) || []).length < 2) {
+    throw new Error("password must have at least two characters");
+  } else if ((password.match(/[A-Z]/g) || []).length < 1) {
+    throw new Error("password must have at least one capital letter");
+  } else if ((password.match(/[1-9]/g) || []).length < 1) {
+    throw new Error("password must have at least one number");
+  } else if ((password.match(/[^\w\s]/g) || []).length < 1) {
+    throw new Error("password must have at least one special character");
+  } else if ((password.match(/\s/g) || []).length > 0) {
+    throw new Error("password must not have any spaces");
+  } else {
+    return password;
+  }
+};
 
 const tempo = (tempo = 0) => {
   if (typeof tempo !== "number") {
@@ -22,7 +40,7 @@ const tempo = (tempo = 0) => {
   } else if (tempo % 1 !== 0) {
     throw new Error("tempo must be an integer");
   } else if (tempo < 40) {
-    throw new Error("tempo must be greater than 40 bpm");
+    throw new Error("tempo must be at least 40 bpm");
   } else if (tempo > 280) {
     throw new Error("tempo must be less than 280 bpm");
   } else {
@@ -110,6 +128,7 @@ const type = (type = "") => {
 
 module.exports = {
   name,
+  password,
   tempo,
   timeSignature,
   message,
