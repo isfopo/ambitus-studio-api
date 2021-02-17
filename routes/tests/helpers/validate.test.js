@@ -52,6 +52,81 @@ describe("validate name", () => {
   });
 });
 
+describe("validate password", () => {
+  // regex for pass - ^(?=(.*[a-zA-Z].*){2,})(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,15}$
+
+  describe("when password is valid", () => {
+    it("should return password", () => {
+      const input = "te$tPa55word";
+      const output = validate.password(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when password is not a string", () => {
+    it("should throw an error", () => {
+      const input = 1234;
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when password is less than 8 characters", () => {
+    it("should throw an error", () => {
+      const input = "te$1";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when password is more than 15 characters", () => {
+    it("should throw an error", () => {
+      const input = "te$tPa55wordTe$t";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when password does not have two letters", () => {
+    it("should throw an error", () => {
+      const input = "t12345678$";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when password does not have one special character", () => {
+    it("should throw an error", () => {
+      const input = "testPa55word";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when password does not have one number", () => {
+    it("should throw an error", () => {
+      const input = "te$tPassword";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+
+  describe("when the password has one or more space", () => {
+    it("should throw an error", () => {
+      const input = "te$t Pa55word";
+      assert.throws(() => {
+        const output = validate.password(input);
+      });
+    });
+  });
+});
+
 describe("validate tempo", () => {
   describe("valid", () => {
     describe("when tempo is an integer", () => {
