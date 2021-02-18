@@ -68,8 +68,16 @@ const checkToken = (req, res, next) => {
   }
 };
 
+/**
+ * determines if given user id is present in database
+ * @param {string} id the id of the user to be found
+ * @returns {boolean} if the user is found
+ */
+const isInDatabase = (id = "") => {};
+
 module.exports = {
   validatePost,
   hashValidPassword,
   checkToken,
+  isInDatabase,
 };

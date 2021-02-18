@@ -151,3 +151,5 @@ describe("Track.validatePost", () => {
     });
   });
 });
+
+describe("isInDatabase", () => {}); // TODO: finish test and function

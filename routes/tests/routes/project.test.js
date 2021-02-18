@@ -123,3 +123,5 @@ describe("Project.validatePost", () => {
     });
   });
 });
+
+describe("isInDatabase", () => {}); // TODO: finish test and function

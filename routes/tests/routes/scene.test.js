@@ -167,3 +167,5 @@ describe("Scene.validatePost", () => {
     });
   });
 });
+
+describe("isInDatabase", () => {}); // TODO: finish test and function

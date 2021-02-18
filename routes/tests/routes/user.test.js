@@ -70,3 +70,5 @@ describe("hashValidPassword", () => {
     });
   });
 });
+
+describe("isInDatabase", () => {}); // TODO: finish test and function
