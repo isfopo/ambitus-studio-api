@@ -7,6 +7,7 @@ Ambitus Studio is a collaborative music making platform that allows you to creat
 To start api run these commands in a location you want to store the project:
 
 ```shell
+pg_ctl -D /usr/local/var/postgres // if you have PostgreSQL installed
 git clone https://github.com/isfopo/ambitus-studio-api.git
 cd ambitus-studio-api
 npm install
@@ -102,7 +103,8 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] check creation parameters
     - [x] has valid username
     - [x] has valid password
-  - [ ] check if is in database
+  - [x] check if is in database
+  - [x] login
 
 - [ ] Project
 
@@ -156,10 +158,10 @@ This will start a server on [localhost:3000](http://localhost:3000).
 - [ ] **User**
 
   - [ ] authentication
-    - [ ] sign-up
-    - [ ] login
+    - [x] sign-up
+    - [x] login
   - [ ] authorization
-  - [ ] create User
+  - [x] create User
   - [ ] get User data
   - [ ] change name
   - [ ] change avatar
