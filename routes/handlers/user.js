@@ -42,16 +42,7 @@ const hashValidPassword = async (password = "") => {
   return await bcrypt.hash(password, salt);
 };
 
-const authorize = async (username = "", password = "") => {
-  const user = await UserTable.findOne({ where: { username: username } });
-  console.log(user.password);
-  bcrypt.compare(password, user.password).then((result) => {
-    return result;
-  });
-};
-
 module.exports = {
   validatePost,
   hashValidPassword,
-  authorize,
 };
