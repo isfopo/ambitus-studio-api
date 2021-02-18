@@ -43,14 +43,14 @@ router.get("/login", async (req, res) => {
 
     if (match) {
       jwt.sign(
-        { user },
+        { id: user.id, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: "1h" },
         (error, token) => {
           if (error) {
             console.log(error);
           }
-          return res.status(200).json(token);
+          return res.status(200).json({ token });
         }
       );
     } else {
@@ -61,8 +61,8 @@ router.get("/login", async (req, res) => {
   }
 });
 
-router.put("/name", UserHandler.checkToken, async (req, res) => {
-  return res.status(200).json(req.body);
+router.put("/name", UserHandler.authorize, async (req, res) => {
+  return res.status(200).json(req.user);
 });
 
 router.put("/avatar", upload.single("avatar"), async (req, res) => {

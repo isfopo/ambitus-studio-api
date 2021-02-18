@@ -42,22 +42,24 @@ const hashValidPassword = async (password = "") => {
 };
 
 /**
- * middleware that will check and parse token authentication header
+ * middleware that will check and parse token authentication header assigning user id and name to req.user
  * @param {request} req express request Object
  * @param {response} res express response object
  * @param {next} next express callback function
  */
-const checkToken = (req, res, next) => {
+const authorize = (req, res, next) => {
   const header = req.headers["authorization"];
 
   if (typeof header !== "undefined") {
     const bearer = header.split(" ");
     const token = bearer[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, (error, userData) => {
+    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
       if (error) {
         return res.status(403).json({ error: ["token not authorized"] });
       } else {
+        req.user = user;
+
         next();
       }
     });
@@ -78,6 +80,6 @@ const isInDatabase = (id = "") => {};
 module.exports = {
   validatePost,
   hashValidPassword,
-  checkToken,
+  authorize,
   isInDatabase,
 };
