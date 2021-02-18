@@ -98,7 +98,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 ### Define handlers
 
-- [ ] User
+- [x] User
 
   - [x] check creation parameters
     - [x] has valid username
@@ -160,7 +160,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [ ] authentication
     - [x] sign-up
     - [x] login
-  - [ ] authorization
+  - [x] authorization
   - [x] create User
   - [ ] get User data
   - [ ] change name
