@@ -33,18 +33,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/avatar", upload.single("avatar"), async (req, res) => {
-  const imageBuffer = fs.readFileSync(req.file.path);
-
-  const user = await User.findByPk(req.body.id);
-
-  user.avatar = imageBuffer;
-  await user.save();
-
-  res.status(200).json(user);
-});
-
-router.get("/authorize", async (req, res) => {
+router.get("/login", async (req, res) => {
   try {
     const user = await UserTable.findOne({
       where: { username: req.body.username },
@@ -70,6 +59,21 @@ router.get("/authorize", async (req, res) => {
   } catch (e) {
     return res.status(404).json({ error: ["username does not exist"] });
   }
+});
+
+router.put("/name", UserHandler.checkToken, async (req, res) => {
+  return res.status(200).json(req.body);
+});
+
+router.put("/avatar", upload.single("avatar"), async (req, res) => {
+  const imageBuffer = fs.readFileSync(req.file.path);
+
+  const user = await User.findByPk(req.body.id);
+
+  user.avatar = imageBuffer;
+  await user.save();
+
+  res.status(200).json(user);
 });
 
 module.exports = router;
