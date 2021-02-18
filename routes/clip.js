@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Readable = require("stream").Readable;
 const multer = require("multer");
-var FormData = require("form-data");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
 const Clip = require("../db/models").Clip;
