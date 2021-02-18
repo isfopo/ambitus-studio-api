@@ -56,3 +56,17 @@ describe("validatePost", () => {
     });
   });
 });
+
+describe("hashValidPassword", () => {
+  describe("when a valid password is given", () => {
+    it("should return a hashed password", async () => {
+      const input = "te$tPa55word";
+      const output = await User.hashValidPassword(input);
+      assert.ok(
+        output.match(
+          /^[$]2[abxy]?[$](?:0[4-9]|[12][0-9]|3[01])[$][./0-9a-zA-Z]{53}$/
+        )
+      );
+    });
+  });
+});
