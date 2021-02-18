@@ -4,17 +4,22 @@ const multer = require("multer");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
 const UserHandler = require("./handlers/user.js");
-const UserModel = require("../db/models").User;
+const UserTable = require("../db/models").User;
 
 router.post("/", async (req, res) => {
   try {
     const { username, password } = UserHandler.validatePost(req.body);
 
-    const user = await UserModel.findOne({ where: { username } });
-
-    if (user === null) {
-      const newUser = await UserModel.create({ username, password }); // TODO: hash this password
-      res.status(200).json(newUser);
+    if ((await UserTable.findOne({ where: { username } })) === null) {
+      const newUser = await UserTable.create({
+        username,
+        password: await UserHandler.hashValidPassword(password),
+      });
+      res.status(200).json({
+        id: newUser.id,
+        username: newUser.username,
+        avatar: newUser.avatar,
+      });
     } else {
       return res.status(400).json({ error: ["username already exists"] });
     }
@@ -34,8 +39,14 @@ router.put("/avatar", upload.single("avatar"), async (req, res) => {
   res.status(200).json(user);
 });
 
-router.get("/", (res, req) => {
-  req.status(200).json({ message: "you made it!" });
+router.get("/login", async (req, res) => {
+  const user = await UserTable.findOne({
+    where: { username: req.body.username },
+  });
+
+  if (UserHandler.login(user.username, req.body.password)) {
+    return res.status(200).json(user); // TODO: send back and save JWT
+  }
 });
 
 module.exports = router;
