@@ -16,10 +16,10 @@ router.post("/", async (req, res) => {
       const newUser = await UserModel.create({ username, password }); // TODO: hash this password
       res.status(200).json(newUser);
     } else {
-      res.status(200).json(user);
+      return res.status(400).json({ error: ["username already exists"] });
     }
   } catch (error) {
-    return res.status(400).json(error);
+    return res.status(400).json({ error });
   }
 });
 
