@@ -1,5 +1,8 @@
 const validate = require("./helpers/validate");
 const bcrypt = require("bcrypt");
+
+const UserTable = require("../../db/models").User;
+
 require("dotenv").config();
 
 /**
@@ -39,10 +42,16 @@ const hashValidPassword = async (password = "") => {
   return await bcrypt.hash(password, salt);
 };
 
-const checkPassword = (username = "", password = "") => {};
+const authorize = async (username = "", password = "") => {
+  const user = await UserTable.findOne({ where: { username: username } });
+
+  const match = await bcrypt.compare(password, user.password);
+
+  return match;
+};
 
 module.exports = {
   validatePost,
   hashValidPassword,
-  checkPassword,
+  authorize,
 };
