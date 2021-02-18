@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const bcrypt = require("bcrypt");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
+
 const UserHandler = require("./handlers/user.js");
 const UserTable = require("../db/models").User;
+
+require("dotenv").config();
 
 router.post("/", async (req, res) => {
   try {
@@ -45,15 +50,25 @@ router.get("/authorize", async (req, res) => {
       where: { username: req.body.username },
     });
 
-    if (await UserHandler.authorize(user.username, req.body.password)) {
-      return res.status(200).json(user); // TODO: send back and save JWT
+    const match = await bcrypt.compare(req.body.password, user.password);
+
+    if (match) {
+      jwt.sign(
+        { user },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" },
+        (error, token) => {
+          if (error) {
+            console.log(error);
+          }
+          return res.status(200).json(token);
+        }
+      );
     } else {
       return res.status(400).json({ error: ["password is incorrect"] });
     }
   } catch (e) {
-    return res
-      .status(404)
-      .json({ error: ["the username provided could not be found"] });
+    return res.status(404).json({ error: ["username does not exist"] });
   }
 });
 
