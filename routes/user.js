@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
 
+const validate = require("./handlers/helpers/validate");
 const UserHandler = require("./handlers/user.js");
 const UserTable = require("../db/models").User;
 
@@ -43,7 +44,7 @@ router.get("/login", async (req, res) => {
 
     if (match) {
       jwt.sign(
-        { id: user.id, username: user.username }, // TODO: maybe this can be used to store projects and authorize?
+        { id: user.id, username: user.username }, // TODO: maybe this can be used to store projects and authorize users to them?
         process.env.JWT_SECRET,
         { expiresIn: "1h" },
         (error, token) => {
@@ -62,7 +63,13 @@ router.get("/login", async (req, res) => {
 });
 
 router.put("/username", UserHandler.authorize, async (req, res) => {
-  return res.status(200).json({ user: req.user });
+  const user = await UserTable.findByPk(req.user.id);
+
+  user.username = validate.name(req.body.newName);
+
+  await user.save();
+
+  return res.status(200).json({ id: user.id, username: user.username });
 });
 
 router.put("/avatar", upload.single("avatar"), async (req, res) => {
