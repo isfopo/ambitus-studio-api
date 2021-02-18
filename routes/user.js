@@ -39,13 +39,21 @@ router.put("/avatar", upload.single("avatar"), async (req, res) => {
   res.status(200).json(user);
 });
 
-router.get("/login", async (req, res) => {
-  const user = await UserTable.findOne({
-    where: { username: req.body.username },
-  });
+router.get("/authorize", async (req, res) => {
+  try {
+    const user = await UserTable.findOne({
+      where: { username: req.body.username },
+    });
 
-  if (UserHandler.login(user.username, req.body.password)) {
-    return res.status(200).json(user); // TODO: send back and save JWT
+    if (await UserHandler.authorize(user.username, req.body.password)) {
+      return res.status(200).json(user); // TODO: send back and save JWT
+    } else {
+      return res.status(400).json({ error: ["password is incorrect"] });
+    }
+  } catch (e) {
+    return res
+      .status(404)
+      .json({ error: ["the username provided could not be found"] });
   }
 });
 
