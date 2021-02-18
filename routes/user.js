@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
@@ -34,6 +35,52 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    if (req.body.id) {
+      const user = await UserTable.findByPk(validate.id(req.body.id));
+      if (user) {
+        return res
+          .status(200)
+          .json({ id: user.id, username: user.username, avatar: user.avatar });
+      } else {
+        return res.status(404).json({ error: ["id could not be found"] });
+      }
+    } else if (req.body.username) {
+      const user = await UserTable.findOne({
+        where: { username: validate.name(req.body.username) },
+      });
+      if (user) {
+        return res
+          .status(200)
+          .json({ id: user.id, username: user.username, avatar: user.avatar });
+      } else {
+        return res.status(404).json({ error: ["username could not be found"] });
+      }
+    } else if (_.isEmpty(req.body)) {
+      const users = await UserTable.findAll();
+      return res.status(200).json(
+        users.map((user) => {
+          return {
+            id: user.id,
+            username: user.username,
+            avatar: user.avatar,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+          };
+        })
+      );
+    } else {
+      const keys = Object.keys(req.body);
+      return res.status(400).json({
+        error: keys.map((key) => `${key} is not a valid key`),
+      });
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
 router.get("/login", async (req, res) => {
   try {
     const user = await UserTable.findOne({
@@ -49,7 +96,7 @@ router.get("/login", async (req, res) => {
         { expiresIn: "1h" },
         (error, token) => {
           if (error) {
-            console.log(error);
+            return res.status(400).json({ error: error.message });
           }
           return res.status(200).json({ id: user.id, token });
         }
