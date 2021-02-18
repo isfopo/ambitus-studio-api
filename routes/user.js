@@ -3,22 +3,23 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
-const User = require("../db/models").User;
+const UserHandler = require("./handlers/user.js");
+const UserModel = require("../db/models").User;
 
 router.post("/", async (req, res) => {
-  const user = await User.findOne({
-    where: {
-      username: req.body.username,
-    },
-  });
+  try {
+    const { username, password } = UserHandler.validatePost(req.body);
 
-  if (user === null) {
-    const newUser = await User.create({
-      username: req.body.username,
-    });
-    res.status(200).json(newUser);
-  } else {
-    res.status(200).json(user);
+    const user = await UserModel.findOne({ where: { username } });
+
+    if (user === null) {
+      const newUser = await UserModel.create({ username, password }); // TODO: hash this password
+      res.status(200).json(newUser);
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    return res.status(400).json(error);
   }
 });
 
