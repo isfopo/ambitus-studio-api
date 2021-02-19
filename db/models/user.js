@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
         type: Sequelize.DataTypes.STRING,
         allowNull: true, //TODO: add a default path to a default avatar
       },
+      avatar_type: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
+      },
     },
     { sequelize }
   );
