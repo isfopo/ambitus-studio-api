@@ -144,6 +144,62 @@ describe("validate password", () => {
   });
 });
 
+describe("validate avatar", () => {
+  describe("when file type is valid", () => {
+    it("should return avatar", () => {
+      const input = {
+        mimetype: "image/jpeg",
+        path:
+          "/Users/isaacpoole/Current Projects/ambitus-studio-api/routes/temp/24e961d9968c4e0ff8d017288815edb6",
+        size: 804146,
+      };
+      const output = validate.avatar(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when file size is less than 2GB", () => {
+    it("should return avatar", () => {
+      const input = {
+        mimetype: "image/jpeg",
+        path:
+          "/Users/isaacpoole/Current Projects/ambitus-studio-api/routes/temp/24e961d9968c4e0ff8d017288815edb6",
+        size: 804146,
+      };
+      const output = validate.avatar(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when file type is not valid", () => {
+    it("should throw an error", () => {
+      const input = {
+        mimetype: "text/html",
+        path:
+          "/Users/isaacpoole/Current Projects/ambitus-studio-api/routes/temp/24e961d9968c4e0ff8d017288815edb6",
+        size: 804146,
+      };
+      assert.throws(() => {
+        const output = validate.avatar(input);
+      });
+    });
+  });
+
+  describe("when file size is greater than 2GB", () => {
+    it("should throw an error", () => {
+      const input = {
+        mimetype: "text/html",
+        path:
+          "/Users/isaacpoole/Current Projects/ambitus-studio-api/routes/temp/24e961d9968c4e0ff8d017288815edb6",
+        size: 2147483649,
+      };
+      assert.throws(() => {
+        const output = validate.avatar(input);
+      });
+    });
+  });
+});
+
 describe("validate tempo", () => {
   describe("valid", () => {
     describe("when tempo is an integer", () => {

@@ -45,6 +45,18 @@ const password = (password = "") => {
   }
 };
 
+const avatar = (avatar = {}) => {
+  const values = ["image/jpeg", "image/png"];
+
+  if (!values.includes(avatar.mimetype)) {
+    throw new Error("avatar must be jpeg or png");
+  } else if (avatar.size > 2147483648) {
+    throw new Error("avatar must less than 2GB");
+  } else {
+    return avatar;
+  }
+};
+
 const tempo = (tempo = 0) => {
   if (typeof tempo !== "number") {
     throw new Error("tempo must be a number");
@@ -121,6 +133,7 @@ const type = (type = "") => {
     "audio/webm",
     "audio/wave",
     "audio/midi",
+    "audio/x-midi",
   ];
 
   if (typeof type !== "string") {
@@ -141,6 +154,7 @@ module.exports = {
   id,
   name,
   password,
+  avatar,
   tempo,
   timeSignature,
   message,
