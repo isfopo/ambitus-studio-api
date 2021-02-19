@@ -13,7 +13,6 @@ module.exports = (sequelize) => {
       name: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
       tempo: {
         type: Sequelize.DataTypes.INTEGER,
