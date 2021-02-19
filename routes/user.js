@@ -4,9 +4,9 @@ const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
-const upload = multer({ dest: __dirname + "/temp/" });
-const fs = require("fs");
 const path = require("path");
+const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
+const fs = require("fs");
 
 const validate = require("./handlers/helpers/validate");
 const UserHandler = require("./handlers/user.js");
