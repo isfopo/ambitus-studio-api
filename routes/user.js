@@ -6,6 +6,7 @@ const multer = require("multer");
 const bcrypt = require("bcrypt");
 const upload = multer({ dest: __dirname + "/temp/" });
 const fs = require("fs");
+const path = require("path");
 
 const validate = require("./handlers/helpers/validate");
 const UserHandler = require("./handlers/user.js");
@@ -166,6 +167,17 @@ router.get("/avatar", async (req, res) => {
   try {
     const user = await UserTable.findByPk(req.body.id);
     const stream = fs.createReadStream(user.avatar);
+
+    stream.on("error", async (err) => {
+      user.avatar = path.join(
+        __dirname,
+        "../" + "assets/images/default-avatar.jpg"
+      );
+      user.avatar_type = "image/jpeg";
+      await user.save();
+      res.status(404).json({ error: ["could not find avatar"] });
+    });
+
     res.setHeader("Content-Type", user.avatar_type);
     stream.pipe(res);
   } catch (e) {
@@ -229,6 +241,7 @@ router.put("/password", UserHandler.authorize, async (req, res) => {
  * @param {string} avatar.multipart - user's new avatar
  * @returns {object} 200 - User id and changed avatar path
  * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  404 - Avatar image has been deleted - returns to default
  */
 router.put(
   "/avatar",
@@ -240,8 +253,8 @@ router.put(
 
       const avatar = validate.avatar(req.file);
 
-      if (user.avatar) {
-        fs.unlink(user.avatar, async () => {
+      if (!user.avatar.includes("default-avatar.jpg")) {
+        fs.unlink(user.avatar, async (error) => {
           user.avatar = avatar.path;
           user.avatar_type = avatar.mimetype;
           await user.save();
@@ -253,7 +266,6 @@ router.put(
           });
         });
       } else {
-        //TODO: refactor
         user.avatar = avatar.path;
         user.avatar_type = avatar.mimetype;
         await user.save();

@@ -1,5 +1,6 @@
 "use strict";
 const Sequelize = require("sequelize");
+const path = require("path");
 
 module.exports = (sequelize) => {
   class User extends Sequelize.Model {}
@@ -16,17 +17,21 @@ module.exports = (sequelize) => {
         unique: true,
       },
       password: {
-        // TODO: hash this pass
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
       avatar: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: true, //TODO: add a default path to a default avatar
+        defaultValue: path.join(
+          __dirname,
+          "../../" + "assets/images/default-avatar.jpg"
+        ),
+        allowNull: false,
       },
       avatar_type: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: true,
+        defaultValue: "image/jpeg",
+        allowNull: false,
       },
     },
     { sequelize }
