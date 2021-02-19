@@ -157,6 +157,16 @@ router.get("/projects", UserHandler.authorize, async (req, res) => {
 });
 
 /**
+ * Get user's avatar
+ * @route GET /user/projects
+ * @group user - Operations about user
+ * @param {string} id.body.required - user's id
+ * @returns {object} 200 - user's avatar
+ * @returns {Error}  400 - Invalid id
+ */
+router.get("/avatar-path", async (req, res) => {});
+
+/**
  * Change a user's username (Authorization Bearer Required)
  * @route PUT /user/username
  * @group user - Operations about user
@@ -218,14 +228,24 @@ router.put(
   UserHandler.authorize,
   upload.single("avatar"),
   async (req, res) => {
-    const imageBuffer = fs.readFileSync(req.file.path);
+    try {
+      const user = await UserTable.findByPk(req.user.id);
 
-    const user = await User.findByPk(req.body.id);
+      const avatar = validate.avatar(req.file);
 
-    user.avatar = imageBuffer;
-    await user.save();
+      fs.unlink(user.avatar, async () => {
+        user.avatar = avatar.path;
+        await user.save();
 
-    res.status(200).json(user);
+        res
+          .status(200)
+          .json({ id: user.id, username: user.username, avatar: user.avatar });
+      });
+    } catch (e) {
+      fs.unlink(req.file.path, (error) => {
+        return res.status(400).json({ error: e.message });
+      });
+    }
   }
 );
 
