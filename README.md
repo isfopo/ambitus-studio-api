@@ -155,7 +155,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 ### Add route functionality
 
-- [ ] **User**
+- [x] **User**
 
   - [x] authentication
     - [x] sign-up
@@ -163,10 +163,11 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] authorization
   - [x] create User
   - [x] get User data
-  - [ ] get User's projects
+  - [x] get User's projects
+  - [x] get user's avatar
   - [x] change name
-  - [ ] change avatar
-  - [ ] delete user
+  - [x] change avatar
+  - [x] delete user
 
 - [ ] **Project**
 
