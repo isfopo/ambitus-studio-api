@@ -21,8 +21,8 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       avatar: {
-        type: Sequelize.DataTypes.BLOB("long"),
-        allowNull: true,
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true, //TODO: add a default path to a default avatar
       },
     },
     { sequelize }
