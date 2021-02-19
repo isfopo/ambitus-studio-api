@@ -24,9 +24,9 @@ const validatePost = (body = {}) => {
 };
 
 /**
- * determines if given user id is present in database
- * @param {string} id the id of the user to be found
- * @returns {boolean} if the user is found
+ * determines if given scene id is present in database
+ * @param {string} id the id of the scene to be found
+ * @returns {boolean} if the scene is found
  */
 const isInDatabase = (id = "") => {};
 
