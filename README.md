@@ -93,7 +93,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] validate message content
   - [x] validate settings
   - [x] validate types
-  - [ ] authorize user to change user
+  - [x] authorize user to change user
   - [ ] authorize user to change project and contents (scenes, track and clips)
 
 ### Define handlers
@@ -150,22 +150,22 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] validate message content
   - [x] validate settings
   - [x] validate types
-  - [ ] authorize user to change user
+  - [x] authorize user to change user
   - [ ] authorize user to change project and contents (scenes, track and clips)
 
 ### Add route functionality
 
 - [ ] **User**
 
-  - [ ] authentication
+  - [x] authentication
     - [x] sign-up
     - [x] login
   - [x] authorization
   - [x] create User
-  - [ ] get User data
-  - [ ] change name
+  - [x] get User data
+  - [ ] get User's projects
+  - [x] change name
   - [ ] change avatar
-  - [ ] leave project
   - [ ] delete user
 
 - [ ] **Project**
@@ -183,6 +183,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [ ] change order of tracks
   - [ ] invite a user to a project
   - [ ] accept an invitation to a project
+  - [ ] leave project
   - [ ] request access to a project
   - [ ] accept a request to a project
   - [ ] undo
