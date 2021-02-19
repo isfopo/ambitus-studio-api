@@ -59,12 +59,8 @@ const authorize = (req, res, next) => {
         return res.status(403).json({ error: ["token not authorized"] });
       } else {
         if (user.exp < Date.now()) {
-          if (user.id === req.body.id) {
-            req.user = user;
-            next();
-          } else {
-            return res.status(403).json({ error: ["token not authorized"] });
-          }
+          req.user = user;
+          next();
         } else {
           return res.status(403).json({ error: ["token has expired"] });
         }
