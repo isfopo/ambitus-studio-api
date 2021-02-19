@@ -1,26 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../db/models").User;
-const Project = require("../db/models").Project;
+const UserHandler = require("./handlers/user");
+const ProjectHandler = require("./handlers/project");
+const UserTable = require("../db/models").User;
+const ProjectTable = require("../db/models").Project;
 
-router.post("/", async (req, res) => {
+router.post("/", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await User.findByPk(req.body.userId);
+    const newProject = ProjectHandler.validatePost(req.body);
+
+    const user = await UserTable.findByPk(req.user.id);
     const project = await user.createProject({
-      name: req.body.name,
-      tempo: req.body.tempo,
-      time_signature: req.body.time_signature,
+      name: newProject.name,
+      tempo: newProject.tempo,
+      time_signature: newProject.time_signature,
     });
 
     return res.status(200).json(project);
   } catch (e) {
-    return res.status(400).json(e);
+    return res.status(400).json({ error: e.message });
   }
 });
 
 router.get("/scenes", async (req, res) => {
   try {
-    const project = await Project.findByPk(req.body.id);
+    const project = await ProjectTable.findByPk(req.body.id);
     const scenes = await project.getScenes();
 
     res.status(200).json(scenes);
