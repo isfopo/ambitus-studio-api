@@ -13,6 +13,15 @@ const UserTable = require("../db/models").User;
 
 require("dotenv").config();
 
+/**
+ * Create a new user with a username and password
+ * @route POST /user/
+ * @group user - Operations about user
+ * @param {string} username.body.required - new user's username
+ * @param {string} password.body.required - new user's password
+ * @returns {object} 200 - An object of user's info with generated user id
+ * @returns {Error}  400 - Invalid or taken username or password
+ */
 router.post("/", async (req, res) => {
   try {
     const { username, password } = UserHandler.validatePost(req.body);
@@ -35,6 +44,15 @@ router.post("/", async (req, res) => {
   }
 });
 
+/**
+ * Gets either all users or one user based on id or username
+ * @route GET /user/
+ * @group user - Operations about user
+ * @param {string} id.body.optional - user's id
+ * @param {string} username.body.optional - user's username
+ * @returns {object} 200 - An object of user's info of an array of all users info
+ * @returns {Error}  404 - User could not be found
+ */
 router.get("/", async (req, res) => {
   try {
     if (req.body.id) {
@@ -81,6 +99,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+/**
+ * Get a JWT with a username and password
+ * @route GET /user/login
+ * @group user - Operations about user
+ * @param {string} username.body.required - new user's username
+ * @param {string} password.body.required - new user's password
+ * @returns {object} 200 - a valid JSON Web Token
+ * @returns {Error}  400 - Invalid or taken username or password
+ */
 router.get("/login", async (req, res) => {
   try {
     const user = await UserTable.findOne({
@@ -98,7 +125,7 @@ router.get("/login", async (req, res) => {
           if (error) {
             return res.status(400).json({ error: error.message });
           }
-          return res.status(200).json({ id: user.id, token });
+          return res.status(200).json({ token });
         }
       );
     } else {
@@ -109,25 +136,96 @@ router.get("/login", async (req, res) => {
   }
 });
 
+/**
+ * Get an array of user's current projects by id
+ * @route GET /user/projects
+ * @group user - Operations about user
+ * @param {string} id.body.required - user's id
+ * @returns {object} 200 - User id and an array of project ids
+ * @returns {Error}  400 - Invalid id
+ */
+router.get("/projects", async (req, res) => {});
+
+/**
+ * Change a user's username (Authorization Bearer Required)
+ * @route PUT /user/username
+ * @group user - Operations about user
+ * @param {string} newName.body - user's newName
+ * @returns {object} 200 - User id and changed name
+ * @returns {Error}  400 - Invalid token, id or username
+ */
 router.put("/username", UserHandler.authorize, async (req, res) => {
-  const user = await UserTable.findByPk(req.user.id);
+  try {
+    const user = await UserTable.findByPk(req.user.id);
 
-  user.username = validate.name(req.body.newName);
+    user.username = validate.name(req.body.newName);
 
-  await user.save();
+    await user.save();
 
-  return res.status(200).json({ id: user.id, username: user.username });
+    return res.status(200).json({ id: user.id, username: user.username });
+  } catch (e) {
+    if (e.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ error: ["username already exists"] });
+    } else {
+      return res.status(400).json({ error: e.message });
+    }
+  }
 });
 
-router.put("/avatar", upload.single("avatar"), async (req, res) => {
-  const imageBuffer = fs.readFileSync(req.file.path);
+/**
+ * Change a user's password (Authorization Bearer Required)
+ * @route PUT /user/password
+ * @group user - Operations about user
+ * @param {string} newPassword.body - user's new password
+ * @returns {object} 200 - User id
+ * @returns {Error}  400 - Invalid token, id or password
+ */
+router.put("/password", UserHandler.authorize, async (req, res) => {
+  try {
+    const user = await UserTable.findByPk(req.user.id);
 
-  const user = await User.findByPk(req.body.id);
+    user.password = await UserHandler.hashValidPassword(
+      validate.password(req.body.newPassword)
+    );
+    await user.save();
 
-  user.avatar = imageBuffer;
-  await user.save();
-
-  res.status(200).json(user);
+    return res.status(200).json({ id: user.id });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
 });
+
+/**
+ * Change a user's avatar (Authorization Bearer Required)
+ * @route PUT /user/avatar
+ * @group user - Operations about user
+ * @param {string} avatar.multipart - user's new avatar
+ * @returns {object} 200 - User id and changed avatar path
+ * @returns {Error}  400 - Invalid token or id
+ */
+router.put(
+  "/avatar",
+  UserHandler.authorize,
+  upload.single("avatar"),
+  async (req, res) => {
+    const imageBuffer = fs.readFileSync(req.file.path);
+
+    const user = await User.findByPk(req.body.id);
+
+    user.avatar = imageBuffer;
+    await user.save();
+
+    res.status(200).json(user);
+  }
+);
+
+/**
+ * Delete user (Authorization Bearer Required)
+ * @route DELETE /user/
+ * @group user - Operations about user
+ * @returns {object} 204
+ * @returns {Error}  400 - Invalid token or id
+ */
+router.delete("/", UserHandler.authorize, async (req, res) => {});
 
 module.exports = router;
