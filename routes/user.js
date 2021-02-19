@@ -144,7 +144,7 @@ router.get("/login", async (req, res) => {
  * @returns {object} 200 - User id and an array of project ids
  * @returns {Error}  400 - Invalid id
  */
-router.get("/projects", async (req, res) => {
+router.get("/projects", UserHandler.authorize, async (req, res) => {
   try {
     const user = await UserTable.findByPk(req.body.id);
 
