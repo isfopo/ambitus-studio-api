@@ -34,7 +34,6 @@ router.post("/", async (req, res) => {
       res.status(200).json({
         id: newUser.id,
         username: newUser.username,
-        avatar: newUser.avatar,
       });
     } else {
       return res.status(400).json({ error: ["username already exists"] });
@@ -50,7 +49,7 @@ router.post("/", async (req, res) => {
  * @group user - Operations about user
  * @param {string} id.body.optional - user's id
  * @param {string} username.body.optional - user's username
- * @returns {object} 200 - An object of user's info of an array of all users info
+ * @returns {object} 200 - An object of user's info or an array of all users info
  * @returns {Error}  404 - User could not be found
  */
 router.get("/", async (req, res) => {
@@ -82,7 +81,6 @@ router.get("/", async (req, res) => {
           return {
             id: user.id,
             username: user.username,
-            avatar: user.avatar,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
           };
@@ -164,7 +162,16 @@ router.get("/projects", UserHandler.authorize, async (req, res) => {
  * @returns {object} 200 - user's avatar
  * @returns {Error}  400 - Invalid id
  */
-router.get("/avatar-path", async (req, res) => {});
+router.get("/avatar", async (req, res) => {
+  try {
+    const user = await UserTable.findByPk(req.body.id);
+    const stream = fs.createReadStream(user.avatar);
+    res.setHeader("Content-Type", user.avatar_type);
+    stream.pipe(res);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change a user's username (Authorization Bearer Required)
@@ -233,14 +240,30 @@ router.put(
 
       const avatar = validate.avatar(req.file);
 
-      fs.unlink(user.avatar, async () => {
+      if (user.avatar) {
+        fs.unlink(user.avatar, async () => {
+          user.avatar = avatar.path;
+          user.avatar_type = avatar.mimetype;
+          await user.save();
+
+          res.status(200).json({
+            id: user.id,
+            username: user.username,
+            avatar: user.avatar,
+          });
+        });
+      } else {
+        //TODO: refactor
         user.avatar = avatar.path;
+        user.avatar_type = avatar.mimetype;
         await user.save();
 
-        res
-          .status(200)
-          .json({ id: user.id, username: user.username, avatar: user.avatar });
-      });
+        res.status(200).json({
+          id: user.id,
+          username: user.username,
+          avatar: user.avatar,
+        });
+      }
     } catch (e) {
       fs.unlink(req.file.path, (error) => {
         return res.status(400).json({ error: e.message });
