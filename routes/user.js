@@ -137,7 +137,7 @@ router.get("/login", async (req, res) => {
 });
 
 /**
- * Get an array of user's current projects by id
+ * Get an array of user's current projects by id (Authorization Bearer Required)
  * @route GET /user/projects
  * @group user - Operations about user
  * @param {string} id.body.required - user's id
@@ -236,6 +236,19 @@ router.put(
  * @returns {object} 204
  * @returns {Error}  400 - Invalid token or id
  */
-router.delete("/", UserHandler.authorize, async (req, res) => {});
+router.delete("/", UserHandler.authorize, async (req, res) => {
+  try {
+    const user = await UserTable.findByPk(req.user.id);
+
+    if (user) {
+      await user.destroy();
+      return res.sendStatus(204);
+    } else {
+      return res.status(400).json({ error: ["user does not exist"] });
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 module.exports = router;
