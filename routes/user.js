@@ -118,14 +118,14 @@ router.get("/login", async (req, res) => {
 
     if (match) {
       jwt.sign(
-        { id: user.id, username: user.username }, // TODO: maybe this can be used to store projects and authorize users to them?
+        { id: user.id, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: "1h" },
         (error, token) => {
           if (error) {
             return res.status(400).json({ error: error.message });
           }
-          return res.status(200).json({ token });
+          return res.status(200).json({ id: user.id, token });
         }
       );
     } else {
@@ -144,7 +144,17 @@ router.get("/login", async (req, res) => {
  * @returns {object} 200 - User id and an array of project ids
  * @returns {Error}  400 - Invalid id
  */
-router.get("/projects", async (req, res) => {});
+router.get("/projects", async (req, res) => {
+  try {
+    const user = await UserTable.findByPk(req.body.id);
+
+    return res
+      .status(200)
+      .json({ id: user.id, projects: await user.getProjects() });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change a user's username (Authorization Bearer Required)
