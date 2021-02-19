@@ -3,9 +3,7 @@ const validate = require("./helpers/validate");
 const validatePost = (body = {}) => {
   const errors = [];
 
-  if (!body.id) {
-    errors.push("body should contain an id");
-  } else if (!body.name) {
+  if (!body.name) {
     errors.push("body should contain a name");
   } else if (!body.tempo) {
     errors.push("body should contain a tempo");
@@ -14,7 +12,6 @@ const validatePost = (body = {}) => {
   }
 
   try {
-    validate.id(body.id);
     validate.name(body.name);
     validate.tempo(body.tempo);
     validate.timeSignature(body.time_signature);
@@ -30,9 +27,9 @@ const validatePost = (body = {}) => {
 };
 
 /**
- * determines if given user id is present in database
- * @param {string} id the id of the user to be found
- * @returns {boolean} if the user is found
+ * determines if given project id is present in database
+ * @param {string} id the id of the project to be found
+ * @returns {boolean} if the project is found
  */
 const isInDatabase = (id = "") => {};
 
