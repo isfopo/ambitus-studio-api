@@ -145,7 +145,7 @@ router.get("/login", async (req, res) => {
  */
 router.get("/projects", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.body.id);
+    const user = await UserTable.findByPk(req.user.id);
 
     return res
       .status(200)
