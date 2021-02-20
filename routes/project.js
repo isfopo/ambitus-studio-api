@@ -5,6 +5,16 @@ const ProjectHandler = require("./handlers/project");
 const UserTable = require("../db/models").User;
 const ProjectTable = require("../db/models").Project;
 
+/**
+ * Create a new project (Authorization Bearer Required)
+ * @route POST /project
+ * @group project - Operations about project
+ * @param {string} name.body.required - new project's name
+ * @param {integer} tempo.body.required - new project's tempo
+ * @param {string} time_signature.body.required - new project's time signature
+ * @returns {object} 200 - An object of project's info with generated project id
+ * @returns {Error}  400 - Invalid token, name, tempo or time signature
+ */
 router.post("/", UserHandler.authorize, async (req, res) => {
   try {
     const newProject = ProjectHandler.validatePost(req.body);
@@ -22,7 +32,17 @@ router.post("/", UserHandler.authorize, async (req, res) => {
   }
 });
 
-router.get("/scenes", async (req, res) => {
+/**
+ * gets all scenes from a project (Authorization Bearer Required)
+ * @route GET /project/scenes
+ * @group project - Operations about project
+ * @param {string} id.body.required - project's id
+ * @returns {object} 200 - An array of scenes in project
+ * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  403 - User is not in project
+ * @returns {Error}  404 - Project not found
+ */
+router.get("/scenes", ProjectHandler.authorize, async (req, res) => {
   try {
     const project = await ProjectTable.findByPk(req.body.id);
     const scenes = await project.getScenes();
