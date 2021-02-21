@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const UserHandler = require("./handlers/user");
-const ProjectHandler = require("./handlers/project");
-const UserTable = require("../db/models").User;
-const ProjectTable = require("../db/models").Project;
+const User = require("./handlers/user");
+const Project = require("./handlers/project");
 
 /**
  * Create a new project (Authorization Bearer Required)
@@ -15,12 +13,11 @@ const ProjectTable = require("../db/models").Project;
  * @returns {object} 200 - An object of project's info with generated project id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
-router.post("/", UserHandler.authorize, async (req, res) => {
+router.post("/", User.authorize, async (req, res) => {
   try {
-    const projectParameters = ProjectHandler.validatePost(req.body);
+    const projectParameters = Project.validatePost(req.body);
 
-    const user = await UserTable.findByPk(req.user.id);
-    const project = await user.createProject({
+    const project = await req.user.createProject({
       name: projectParameters.name,
       tempo: projectParameters.tempo,
       time_signature: projectParameters.time_signature,
@@ -42,7 +39,7 @@ router.post("/", UserHandler.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/", ProjectHandler.authorize, async (req, res) => {
+router.get("/", Project.authorize, async (req, res) => {
   res.status(200).json(req.project);
 });
 
@@ -56,7 +53,7 @@ router.get("/", ProjectHandler.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/scenes", ProjectHandler.authorize, async (req, res) => {
+router.get("/scenes", Project.authorize, async (req, res) => {
   const scenes = await req.project.getScenes();
   res.status(200).json(scenes);
 });
@@ -71,7 +68,7 @@ router.get("/scenes", ProjectHandler.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/clips", ProjectHandler.authorize, async (req, res) => {
+router.get("/clips", Project.authorize, async (req, res) => {
   try {
     const scenes = await req.project.getScenes();
 
