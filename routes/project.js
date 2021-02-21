@@ -17,13 +17,13 @@ const ProjectTable = require("../db/models").Project;
  */
 router.post("/", UserHandler.authorize, async (req, res) => {
   try {
-    const newProject = ProjectHandler.validatePost(req.body);
+    const projectParameters = ProjectHandler.validatePost(req.body);
 
     const user = await UserTable.findByPk(req.user.id);
     const project = await user.createProject({
-      name: newProject.name,
-      tempo: newProject.tempo,
-      time_signature: newProject.time_signature,
+      name: projectParameters.name,
+      tempo: projectParameters.tempo,
+      time_signature: projectParameters.time_signature,
     });
 
     return res.status(200).json(project);
@@ -33,7 +33,21 @@ router.post("/", UserHandler.authorize, async (req, res) => {
 });
 
 /**
- * gets all scenes from a project (Authorization Bearer Required)
+ * Get project information (Authorization Bearer Required)
+ * @route POST /project
+ * @group project - Operations about project
+ * @param {string} id.body.required - project's id
+ * @returns {object} 200 - An object of project's info with generated project id
+ * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  403 - User is not in project
+ * @returns {Error}  404 - Project not found
+ */
+router.get("/", ProjectHandler.authorize, async (req, res) => {
+  res.status(200).json(req.project);
+});
+
+/**
+ * Get all scenes from a project (Authorization Bearer Required)
  * @route GET /project/scenes
  * @group project - Operations about project
  * @param {string} id.body.required - project's id
@@ -43,11 +57,29 @@ router.post("/", UserHandler.authorize, async (req, res) => {
  * @returns {Error}  404 - Project not found
  */
 router.get("/scenes", ProjectHandler.authorize, async (req, res) => {
-  try {
-    const project = await ProjectTable.findByPk(req.body.id);
-    const scenes = await project.getScenes();
+  const scenes = await req.project.getScenes();
+  res.status(200).json(scenes);
+});
 
-    res.status(200).json(scenes);
+/**
+ * Get all clips from a project (Authorization Bearer Required)
+ * @route GET /project/clips
+ * @group project - Operations about project
+ * @param {string} id.body.required - project's id
+ * @returns {object} 200 - An nested array of clips in project by scene
+ * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  403 - User is not in project
+ * @returns {Error}  404 - Project not found
+ */
+router.get("/clips", ProjectHandler.authorize, async (req, res) => {
+  try {
+    const scenes = await req.project.getScenes();
+
+    // TODO: get clips for each scene
+
+    const clips = scenes.map(async (scene) => {});
+
+    res.status(200).json(clips);
   } catch (e) {
     res.status(400).json(e);
   }

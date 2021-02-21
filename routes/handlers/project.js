@@ -33,7 +33,7 @@ const validatePost = (body = {}) => {
 
 /**
  * middleware that will check and parse token authentication header assigning user id and name to req.user
- * then authorize user for the requested project
+ * then authorize user for the requested project and assigns project to req.project
  * @param {request} req express request Object
  * @param {response} res express response object
  * @param {next} next express callback function
@@ -52,11 +52,10 @@ const authorize = (req, res, next) => {
         if (user.exp < Date.now()) {
           try {
             req.user = user;
-            const project = await ProjectTable.findByPk(
-              validate.id(req.body.id)
-            );
+            const project = await findInDatabase(validate.id(req.body.id));
 
             if (await project.hasUser(await UserTable.findByPk(user.id))) {
+              req.project = project;
               next();
             } else {
               return res.status(403).json({
@@ -76,7 +75,23 @@ const authorize = (req, res, next) => {
   }
 };
 
+/**
+ * determines if given project id is present in database
+ * @param {string} id the id of the project to be found
+ * @returns {boolean} if the project is found
+ */
+const findInDatabase = async (id = "") => {
+  const project = await ProjectTable.findByPk(id);
+
+  if (project === null) {
+    throw new Error("Couldn't find requested project in database");
+  } else {
+    return project;
+  }
+};
+
 module.exports = {
   validatePost,
   authorize,
+  findInDatabase,
 };
