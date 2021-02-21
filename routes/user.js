@@ -56,7 +56,7 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     if (req.body.id) {
-      const user = await UserTable.findByPk(validate.id(req.body.id));
+      const user = await UserHandler.isInDatabase(validate.id(req.body.id));
       if (user) {
         return res
           .status(200)
@@ -145,11 +145,9 @@ router.get("/login", async (req, res) => {
  */
 router.get("/projects", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.user.id);
-
     return res
       .status(200)
-      .json({ id: user.id, projects: await user.getProjects() });
+      .json({ id: req.user.id, projects: await req.user.getProjects() });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -165,20 +163,19 @@ router.get("/projects", UserHandler.authorize, async (req, res) => {
  */
 router.get("/avatar", async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.body.id);
-    const stream = fs.createReadStream(user.avatar);
+    const stream = fs.createReadStream(req.user.avatar);
 
     stream.on("error", async (err) => {
       user.avatar = path.join(
         __dirname,
         "../" + "assets/images/default-avatar.jpg"
       );
-      user.avatar_type = "image/jpeg";
-      await user.save();
+      req.user.avatar_type = "image/jpeg";
+      await req.user.save();
       res.status(404).json({ error: ["could not find avatar"] });
     });
 
-    res.setHeader("Content-Type", user.avatar_type);
+    res.setHeader("Content-Type", req.user.avatar_type);
     stream.pipe(res);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -195,13 +192,13 @@ router.get("/avatar", async (req, res) => {
  */
 router.put("/username", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.user.id);
+    req.user.username = validate.name(req.body.newName);
 
-    user.username = validate.name(req.body.newName);
+    await req.user.save();
 
-    await user.save();
-
-    return res.status(200).json({ id: user.id, username: user.username });
+    return res
+      .status(200)
+      .json({ id: req.user.id, username: req.user.username });
   } catch (e) {
     if (e.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({ error: ["username already exists"] });
@@ -221,14 +218,12 @@ router.put("/username", UserHandler.authorize, async (req, res) => {
  */
 router.put("/password", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.user.id);
-
-    user.password = await UserHandler.hashValidPassword(
+    req.user.password = await UserHandler.hashValidPassword(
       validate.password(req.body.newPassword)
     );
     await user.save();
 
-    return res.status(200).json({ id: user.id });
+    return res.status(200).json({ id: req.user.id });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -254,26 +249,26 @@ router.put(
       const avatar = validate.avatar(req.file);
 
       if (!user.avatar.includes("default-avatar.jpg")) {
-        fs.unlink(user.avatar, async (error) => {
-          user.avatar = avatar.path;
-          user.avatar_type = avatar.mimetype;
-          await user.save();
+        fs.unlink(req.user.avatar, async (error) => {
+          req.user.avatar = avatar.path;
+          req.user.avatar_type = avatar.mimetype;
+          await req.user.save();
 
           res.status(200).json({
-            id: user.id,
-            username: user.username,
-            avatar: user.avatar,
+            id: req.user.id,
+            username: req.user.username,
+            avatar: req.user.avatar,
           });
         });
       } else {
-        user.avatar = avatar.path;
-        user.avatar_type = avatar.mimetype;
-        await user.save();
+        req.user.avatar = avatar.path;
+        req.user.avatar_type = avatar.mimetype;
+        await req.user.save();
 
         res.status(200).json({
-          id: user.id,
-          username: user.username,
-          avatar: user.avatar,
+          id: req.user.id,
+          username: req.user.username,
+          avatar: req.user.avatar,
         });
       }
     } catch (e) {
@@ -293,14 +288,8 @@ router.put(
  */
 router.delete("/", UserHandler.authorize, async (req, res) => {
   try {
-    const user = await UserTable.findByPk(req.user.id);
-
-    if (user) {
-      await user.destroy();
-      return res.sendStatus(204);
-    } else {
-      return res.status(400).json({ error: ["user does not exist"] });
-    }
+    await req.user.destroy();
+    return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }

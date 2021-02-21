@@ -2,6 +2,8 @@ const validate = require("./helpers/validate");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const UserTable = require("../../db/models").User;
+
 require("dotenv").config();
 
 /**
@@ -54,12 +56,12 @@ const authorize = (req, res, next) => {
     const bearer = header.split(" ");
     const token = bearer[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (error, user) => {
       if (error) {
         return res.status(403).json({ error: ["token not authorized"] });
       } else {
         if (user.exp < Date.now()) {
-          req.user = user;
+          req.user = await isInDatabase(user.id);
           next();
         } else {
           return res.status(403).json({ error: ["token has expired"] });
@@ -76,7 +78,15 @@ const authorize = (req, res, next) => {
  * @param {string} id the id of the user to be found
  * @returns {boolean} if the user is found
  */
-const isInDatabase = (id = "") => {};
+const isInDatabase = async (id = "") => {
+  const user = await UserTable.findByPk(id);
+
+  if (user === null) {
+    throw new Error("Couldn't find requested user in database");
+  } else {
+    return user;
+  }
+};
 
 module.exports = {
   validatePost,
