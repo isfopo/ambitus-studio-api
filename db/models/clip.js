@@ -27,8 +27,8 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       content: {
-        type: Sequelize.DataTypes.BLOB,
-        allowNull: false,
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
       },
       type: {
         type: Sequelize.DataTypes.ENUM,
