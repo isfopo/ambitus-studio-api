@@ -1,5 +1,7 @@
 const validate = require("./helpers/validate");
 
+const Clip = require("../../db/models").Clip;
+
 const validatePost = (body = {}) => {
   const errors = [];
 
@@ -26,6 +28,22 @@ const validatePost = (body = {}) => {
   }
 };
 
+/**
+ * determines if given clip id is present in database
+ * @param {string} id the id of the clip to be found
+ * @returns {boolean} if the clip is found
+ */
+const isInDatabase = async (id = "") => {
+  const clip = await Clip.findByPk(id);
+
+  if (clip === null) {
+    throw new Error("Couldn't find requested clip in database");
+  } else {
+    return clip;
+  }
+};
+
 module.exports = {
   validatePost,
+  isInDatabase,
 };

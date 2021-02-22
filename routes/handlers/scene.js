@@ -1,4 +1,5 @@
 const validate = require("./helpers/validate");
+const Scene = require("../../db/models").Scene;
 
 const validatePost = (body = {}) => {
   const errors = [];
@@ -28,7 +29,15 @@ const validatePost = (body = {}) => {
  * @param {string} id the id of the scene to be found
  * @returns {boolean} if the scene is found
  */
-const isInDatabase = (id = "") => {};
+const isInDatabase = async (id = "") => {
+  const scene = await Scene.findByPk(id);
+
+  if (scene === null) {
+    throw new Error("Couldn't find requested scene in database");
+  } else {
+    return scene;
+  }
+};
 
 module.exports = {
   validatePost,

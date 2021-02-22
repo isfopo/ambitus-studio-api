@@ -1,4 +1,5 @@
 const validate = require("./helpers/validate");
+const Track = require("../../db/models").Track;
 
 const validatePost = (body = {}) => {
   const errors = [];
@@ -30,11 +31,19 @@ const validatePost = (body = {}) => {
 };
 
 /**
- * determines if given user id is present in database
- * @param {string} id the id of the user to be found
- * @returns {boolean} if the user is found
+ * determines if given track id is present in database
+ * @param {string} id the id of the track to be found
+ * @returns {boolean} if the track is found
  */
-const isInDatabase = (id = "") => {};
+const isInDatabase = async (id = "") => {
+  const track = await Track.findByPk(id);
+
+  if (track === null) {
+    throw new Error("Couldn't find requested track in database");
+  } else {
+    return track;
+  }
+};
 
 module.exports = {
   validatePost,
