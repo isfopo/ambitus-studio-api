@@ -59,6 +59,21 @@ router.get("/scenes", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get all tracks from a project (Authorization Bearer Required)
+ * @route GET /project/tracks
+ * @group project - Operations about project
+ * @param {string} id.body.required - project's id
+ * @returns {object} 200 - An array of tracks in project
+ * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  403 - User is not in project
+ * @returns {Error}  404 - Project not found
+ */
+router.get("/tracks", Project.authorize, async (req, res) => {
+  const tracks = await req.project.getTracks();
+  res.status(200).json(tracks);
+});
+
+/**
  * Get all clips from a project (Authorization Bearer Required)
  * @route GET /project/clips
  * @group project - Operations about project
