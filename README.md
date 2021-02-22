@@ -42,33 +42,30 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 ### Define tests
 
-- [ ] User
+- [x] User
 
   - [x] check creation parameters
     - [x] has valid username
     - [x] has valid password
-  - [ ] check if is in database
 
-- [ ] Project
+- [x] Project
 
-  - [ ] check creation parameters
-    - [ ] User is on database
+  - [x] check creation parameters
+    - [x] User is on database
     - [x] valid user id, name, tempo, time signature
-  - [ ] check if is in database
 
-- [ ] Scene
+- [x] Scene
 
-  - [ ] check creation parameters
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] project is in database
     - [x] valid name, tempo and time signature if present
-  - [ ] check if is in database
 
-- [ ] Track
+- [x] Track
 
-  - [ ] check creation parameters
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] project is in database
     - [x] valid name and settings
-  - [ ] check if is in database
+  - [x] check if is in database
 
 - [ ] Clip
 
@@ -76,7 +73,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
     - [ ] track and scene are in database
     - [x] valid id and type
     - [x] valid name, tempo and time signature if present
-  - [ ] check if is in database
+  - [x] check if is in database
 
 - [ ] Message
 
@@ -85,7 +82,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
     - [ ] project is in database
     - [x] has valid content
 
-- [ ] Helpers
+- [x] Helpers
   - [x] validate name
   - [x] validate password
   - [x] validate tempo
@@ -94,7 +91,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] validate settings
   - [x] validate types
   - [x] authorize user to change user
-  - [ ] authorize user to change project and contents (scenes, track and clips)
+  - [x] authorize user to change project and contents (scenes, track and clips)
 
 ### Define handlers
 
@@ -106,12 +103,11 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] check if is in database
   - [x] login
 
-- [ ] Project
+- [x] Project
 
-  - [ ] check creation parameters
-    - [ ] User id is on database
+  - [x] check creation parameters
+    - [x] User id is on database
     - [x] valid id, tempo, time signature
-  - [ ] check if is in database
 
 - [ ] Scene
 
@@ -142,7 +138,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
     - [ ] project is in database
     - [x] has id and valid content
 
-- [ ] Helpers
+- [x] Helpers
   - [x] validate name
   - [x] validate password
   - [x] validate tempo
@@ -151,7 +147,7 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - [x] validate settings
   - [x] validate types
   - [x] authorize user to change user
-  - [ ] authorize user to change project and contents (scenes, track and clips)
+  - [x] authorize user to change project and contents (scenes, track and clips)
 
 ### Add route functionality
 
@@ -171,11 +167,10 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] **Project**
 
-  - [ ] create a new project
-  - [ ] get all projects
-  - [ ] get info about one project
-  - [ ] get all scenes in a project
-  - [ ] get all tracks in a project
+  - [x] create a new project
+  - [x] get info about one project
+  - [x] get all scenes in a project
+  - [x] get all tracks in a project
   - [ ] get all clips in project organized by scenes and tracks
   - [ ] change name of project
   - [ ] change tempo of project
@@ -192,8 +187,8 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] **Scene**
 
-  - [ ] create a new scene at end of scenes in project
-  - [ ] get info about a scene
+  - [x] create a new scene at end of scenes in project
+  - [x] get info about a scene
   - [ ] get all clips in scene
   - [ ] change tempo of scene
   - [ ] change time signature of scene
@@ -201,8 +196,8 @@ This will start a server on [localhost:3000](http://localhost:3000).
 
 - [ ] **Track**
 
-  - [ ] create a new track at end of tracks in project
-  - [ ] get info about a track
+  - [x] create a new track at end of tracks in project
+  - [x] get info about a track
   - [ ] get all clips in track
   - [ ] change name of track
   - [ ] change settings of track
