@@ -27,7 +27,7 @@ const validatePost = (body = {}) => {
 /**
  * determines if given scene id is present in database
  * @param {string} id the id of the scene to be found
- * @returns {boolean} if the scene is found
+ * @returns {scene} if the scene is found
  */
 const isInDatabase = async (id = "") => {
   const scene = await Scene.findByPk(id);

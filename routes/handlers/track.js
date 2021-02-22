@@ -33,7 +33,7 @@ const validatePost = (body = {}) => {
 /**
  * determines if given track id is present in database
  * @param {string} id the id of the track to be found
- * @returns {boolean} if the track is found
+ * @returns {track} if the track is found
  */
 const isInDatabase = async (id = "") => {
   const track = await Track.findByPk(id);
