@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const validate = require("./helpers/validate");
 
-const UserTable = require("../../db/models").User;
-const ProjectTable = require("../../db/models").Project;
+const User = require("../../db/models").User;
+const Project = require("../../db/models").Project;
 
 const validatePost = (body = {}) => {
   const errors = [];
@@ -54,7 +54,7 @@ const authorize = (req, res, next) => {
             req.user = user;
             const project = await findInDatabase(validate.id(req.body.id));
 
-            if (await project.hasUser(await UserTable.findByPk(user.id))) {
+            if (await project.hasUser(await User.findByPk(user.id))) {
               req.project = project;
               next();
             } else {
@@ -81,7 +81,7 @@ const authorize = (req, res, next) => {
  * @returns {boolean} if the project is found
  */
 const findInDatabase = async (id = "") => {
-  const project = await ProjectTable.findByPk(id);
+  const project = await Project.findByPk(id);
 
   if (project === null) {
     throw new Error("Couldn't find requested project in database");
