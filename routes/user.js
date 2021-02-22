@@ -288,8 +288,15 @@ router.put(
  */
 router.delete("/", UserHandler.authorize, async (req, res) => {
   try {
-    await req.user.destroy();
-    return res.sendStatus(204);
+    if (!user.avatar.includes("default-avatar.jpg")) {
+      fs.unlink(req.user.avatar, async (error) => {
+        await req.user.destroy();
+        return res.sendStatus(204);
+      });
+    } else {
+      await req.user.destroy();
+      return res.sendStatus(204);
+    }
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
