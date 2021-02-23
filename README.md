@@ -31,14 +31,19 @@ This will start a server on [localhost:3000](http://localhost:3000).
   - uses multer to store an audio or image file on the system, saving the path to that file in the database
   - deletes old file when new file is added
 
-## Technology used
+- Testing
+  - uses Mocha and the node assert library to drive unit driven development
+  - learning best practices regarding breaking down functionality led to smarter refactoring and abstraction of code and ultimately produced better code faster than without testing
+
+## Technologies Used
 
 - Node.js
 - Express
 - PostgreSQL
 - Sequelize
+- Mocha
 - bcrypt
 - JWT
 - multer
 
-For project breakdown, see `/documentation/project-plan.md`
+For project breakdown, see [/documentation/project-plan.md](https://github.com/isfopo/ambitus-studio-api/blob/main/documentation/project-plan.md)
