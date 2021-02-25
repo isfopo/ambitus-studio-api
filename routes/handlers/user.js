@@ -1,8 +1,13 @@
 const validate = require("./helpers/validate");
-const bcrypt = require("bcrypt");
+const _ = require("lodash");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const bcrypt = require("bcrypt");
+const path = require("path");
+const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
+const fs = require("fs");
 
-const UserTable = require("../../db/models").User;
+const User = require("../../db/models").User;
 
 require("dotenv").config();
 
@@ -79,7 +84,7 @@ const authorize = (req, res, next) => {
  * @returns {boolean} if the user is found
  */
 const isInDatabase = async (id = "") => {
-  const user = await UserTable.findByPk(id);
+  const user = await User.findByPk(id);
 
   if (user === null) {
     throw new Error("Couldn't find requested user in database");
@@ -88,9 +93,224 @@ const isInDatabase = async (id = "") => {
   }
 };
 
+const post = async (req, res) => {
+  try {
+    const { username, password } = validatePost(req.body);
+
+    if ((await User.findOne({ where: { username } })) === null) {
+      const newUser = await User.create({
+        username,
+        password: await hashValidPassword(password),
+      });
+      res.status(200).json({
+        id: newUser.id,
+        username: newUser.username,
+      });
+    } else {
+      return res.status(400).json({ error: ["username already exists"] });
+    }
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
+const get = async (req, res) => {
+  try {
+    if (req.body.id) {
+      const user = await UserHandler.isInDatabase(validate.id(req.body.id));
+      if (user) {
+        return res
+          .status(200)
+          .json({ id: user.id, username: user.username, avatar: user.avatar });
+      } else {
+        return res.status(404).json({ error: ["id could not be found"] });
+      }
+    } else if (req.body.username) {
+      const user = await UserTable.findOne({
+        where: { username: validate.name(req.body.username) },
+      });
+      if (user) {
+        return res
+          .status(200)
+          .json({ id: user.id, username: user.username, avatar: user.avatar });
+      } else {
+        return res.status(404).json({ error: ["username could not be found"] });
+      }
+    } else if (_.isEmpty(req.body)) {
+      const users = await UserTable.findAll();
+      return res.status(200).json(
+        users.map((user) => {
+          return {
+            id: user.id,
+            username: user.username,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+          };
+        })
+      );
+    } else {
+      const keys = Object.keys(req.body);
+      return res.status(400).json({
+        error: keys.map((key) => `${key} is not a valid key`),
+      });
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
+const getLogin = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { username: req.body.username },
+    });
+
+    const match = await bcrypt.compare(req.body.password, user.password);
+
+    if (match) {
+      jwt.sign(
+        { id: user.id, username: user.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" },
+        (error, token) => {
+          if (error) {
+            return res.status(400).json({ error: error.message });
+          }
+          return res.status(200).json({ id: user.id, token });
+        }
+      );
+    } else {
+      return res.status(400).json({ error: ["password is incorrect"] });
+    }
+  } catch (e) {
+    return res.status(404).json({ error: ["username does not exist"] });
+  }
+};
+
+const getProjects = async (req, res) => {
+  try {
+    return res
+      .status(200)
+      .json({ id: req.user.id, projects: await req.user.getProjects() });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
+const getAvatar = async (req, res) => {
+  try {
+    const stream = fs.createReadStream(req.user.avatar);
+
+    stream.on("error", async (err) => {
+      user.avatar = path.join(
+        __dirname,
+        "../" + "assets/images/default-avatar.jpg"
+      );
+      req.user.avatar_type = "image/jpeg";
+      await req.user.save();
+      res.status(404).json({ error: ["could not find avatar"] });
+    });
+
+    res.setHeader("Content-Type", req.user.avatar_type);
+    stream.pipe(res);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
+const putUsername = async (req, res) => {
+  try {
+    req.user.username = validate.name(req.body.newName);
+
+    await req.user.save();
+
+    return res
+      .status(200)
+      .json({ id: req.user.id, username: req.user.username });
+  } catch (e) {
+    if (e.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ error: ["username already exists"] });
+    } else {
+      return res.status(400).json({ error: e.message });
+    }
+  }
+};
+
+const putPassword = async (req, res) => {
+  try {
+    req.user.password = await UserHandler.hashValidPassword(
+      validate.password(req.body.newPassword)
+    );
+    await user.save();
+
+    return res.status(200).json({ id: req.user.id });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
+const putAvatar = async (req, res) => {
+  try {
+    const userInDb = await User.findByPk(req.user.id);
+
+    const avatar = validate.avatar(req.file);
+
+    if (!userInDb.avatar.includes("default-avatar.jpg")) {
+      fs.unlink(req.user.avatar, async (error) => {
+        req.user.avatar = avatar.path;
+        req.user.avatar_type = avatar.mimetype;
+        await req.user.save();
+
+        res.status(200).json({
+          id: req.user.id,
+          username: req.user.username,
+          avatar: req.user.avatar,
+        });
+      });
+    } else {
+      req.user.avatar = avatar.path;
+      req.user.avatar_type = avatar.mimetype;
+      await req.user.save();
+
+      res.status(200).json({
+        id: req.user.id,
+        username: req.user.username,
+        avatar: req.user.avatar,
+      });
+    }
+  } catch (e) {
+    fs.unlink(req.file.path, (error) => {
+      return res.status(400).json({ error: e.message });
+    });
+  }
+};
+
+const remove = async (req, res) => {
+  try {
+    if (!user.avatar.includes("default-avatar.jpg")) {
+      fs.unlink(req.user.avatar, async (error) => {
+        await req.user.destroy();
+        return res.sendStatus(204);
+      });
+    } else {
+      await req.user.destroy();
+      return res.sendStatus(204);
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
 module.exports = {
-  validatePost,
-  hashValidPassword,
   authorize,
   isInDatabase,
+  post,
+  get,
+  getLogin,
+  getProjects,
+  getAvatar,
+  putUsername,
+  putPassword,
+  putAvatar,
+  remove,
 };
