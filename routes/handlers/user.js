@@ -93,6 +93,12 @@ const isInDatabase = async (id = "") => {
   }
 };
 
+/**
+ * creates user in database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const post = async (req, res) => {
   try {
     const { username, password } = validatePost(req.body);
@@ -114,6 +120,12 @@ const post = async (req, res) => {
   }
 };
 
+/**
+ * gets a user's info from database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const get = async (req, res) => {
   try {
     if (req.body.id) {
@@ -159,6 +171,12 @@ const get = async (req, res) => {
   }
 };
 
+/**
+ * authenticates user and gives a token is the response
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const getLogin = async (req, res) => {
   try {
     const user = await User.findOne({
@@ -187,6 +205,12 @@ const getLogin = async (req, res) => {
   }
 };
 
+/**
+ * gets list of all of a user's projects
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const getProjects = async (req, res) => {
   try {
     return res
@@ -197,6 +221,12 @@ const getProjects = async (req, res) => {
   }
 };
 
+/**
+ * gets a user's avatar
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const getAvatar = async (req, res) => {
   try {
     const stream = fs.createReadStream(req.user.avatar);
@@ -218,6 +248,12 @@ const getAvatar = async (req, res) => {
   }
 };
 
+/**
+ * changes a user's name in database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const putUsername = async (req, res) => {
   try {
     req.user.username = validate.name(req.body.newName);
@@ -236,6 +272,12 @@ const putUsername = async (req, res) => {
   }
 };
 
+/**
+ * changes a user's password in database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const putPassword = async (req, res) => {
   try {
     req.user.password = await UserHandler.hashValidPassword(
@@ -249,6 +291,12 @@ const putPassword = async (req, res) => {
   }
 };
 
+/**
+ * changes a user's avatar in database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const putAvatar = async (req, res) => {
   try {
     const userInDb = await User.findByPk(req.user.id);
@@ -285,6 +333,12 @@ const putAvatar = async (req, res) => {
   }
 };
 
+/**
+ * removes a user from database
+ * @param {req} request from client
+ * @param {res} response to client passed from other middleware
+ * @returns {res} response to client
+ */
 const remove = async (req, res) => {
   try {
     if (!user.avatar.includes("default-avatar.jpg")) {
@@ -304,6 +358,7 @@ const remove = async (req, res) => {
 module.exports = {
   authorize,
   isInDatabase,
+  hashValidPassword,
   post,
   get,
   getLogin,
