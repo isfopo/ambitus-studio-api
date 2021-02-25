@@ -13,14 +13,11 @@ const validatePost = (body = {}) => {
     errors.push("body should contain a tempo");
   } else if (!body.time_signature) {
     errors.push("body should contain a time_signature");
-  } else if (!body.type) {
-    errors.push("body should contain a type");
   }
 
   try {
     validate.id(body.sceneId);
     validate.id(body.trackId);
-    validate.type(body.type);
     validate.tempo(body.tempo);
     validate.timeSignature(body.time_signature);
     body.name && validate.name(body.name);

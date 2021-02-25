@@ -30,18 +30,6 @@ module.exports = (sequelize) => {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
       },
-      type: {
-        type: Sequelize.DataTypes.ENUM,
-        values: [
-          "audio/aac",
-          "audio/mpeg",
-          "audio/ogg",
-          "audio/webm",
-          "audio/wave",
-          "audio/midi",
-        ],
-        allowNull: false,
-      },
     },
     { sequelize }
   );
