@@ -1,6 +1,8 @@
 const assert = require("assert");
 const User = require("../../handlers/user");
 
+let token = "";
+
 describe("validatePost", () => {
   describe("when body contains a valid username and password", () => {
     it("should return body", () => {
@@ -71,4 +73,75 @@ describe("hashValidPassword", () => {
   });
 });
 
-describe("isInDatabase", () => {}); // TODO: finish test and function
+describe("authorize", () => {
+  describe("when the request contains a valid token in header", () => {
+    it("should assign user object to req.user", () => {
+      const req = { headers: { Authorization: `Bearer ${token}` } };
+      User.authorize(req);
+      assert.deepStrictEqual(req.user, {});
+    });
+  });
+
+  describe("when the request contains an invalid token", () => {
+    it("should throw an error", () => {});
+  });
+
+  describe("when the request does not contain a token", () => {
+    it("should throw an error", () => {});
+  });
+
+  describe("when the request contains an expired token", () => {
+    it("should throw an error", () => {});
+  });
+});
+
+describe("isInDatabase", () => {
+  describe("when is given valid user id", () => {
+    it("should return user object", () => {});
+  });
+
+  describe("when is given user id that is in database", () => {
+    it("should return user object", () => {});
+  });
+
+  describe("when is given invalid user id", () => {
+    it("should throw an error", () => {});
+  });
+
+  describe("when is given user id that is  not in database", () => {
+    it("should throw an error", () => {});
+  });
+});
+
+describe("post", () => {
+  describe("when a valid username and password are given", () => {
+    it("should return a 200 status", () => {});
+    it("should return id and username in response", () => {});
+  });
+
+  describe("when a valid username and password are given", () => {
+    it("should return a 400 status", () => {});
+    it("should throw an error", () => {});
+  });
+
+  describe("when given username is taken", () => {
+    it("should return a 400 status", () => {});
+    it("should throw an error", () => {});
+  });
+});
+
+describe("get", () => {});
+
+describe("getLogin", () => {});
+
+describe("getProjects", () => {});
+
+describe("getAvatar", () => {});
+
+describe("putUsername", () => {});
+
+describe("putPassword", () => {});
+
+describe("putAvatar", () => {});
+
+describe("remove", () => {});
