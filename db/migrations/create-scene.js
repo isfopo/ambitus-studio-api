@@ -3,33 +3,34 @@ const path = require("path");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Users", {
-      UserId: {
+    await queryInterface.createTable("Scene", {
+      SceneId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
       },
-      username: {
+      name: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
-      password: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
+      tempo: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
+        validate: {
+          min: 40,
+          max: 280,
+        },
       },
-      avatar: {
+      time_signature: {
         type: Sequelize.DataTypes.STRING,
-        defaultValue: path.join(
-          __dirname,
-          "../../" + "assets/images/default-avatar.jpg"
-        ),
-        allowNull: false,
+        allowNull: true,
       },
-      avatar_type: {
-        type: Sequelize.DataTypes.STRING,
-        defaultValue: "image/jpeg",
-        allowNull: false,
+      ProjectId: {
+        type: Sequelize.DataTypes.UUID,
+        references: {
+          model: "Projects",
+          key: "ProjectId",
+        },
       },
       createdAt: {
         type: Sequelize.DataTypes.DATE,
@@ -42,6 +43,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("Scene");
   },
 };

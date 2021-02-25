@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   class Scene extends Sequelize.Model {}
   Scene.init(
     {
-      id: {
+      SceneId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
