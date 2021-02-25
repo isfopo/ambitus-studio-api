@@ -39,7 +39,34 @@ const isInDatabase = async (id = "") => {
   }
 };
 
+const post = async (req, res) => {
+  try {
+    const sceneParameters = validatePost(req.body);
+
+    const scene = await req.project.createScene({
+      name: sceneParameters.name,
+      tempo: sceneParameters.tempo,
+      time_signature: sceneParameters.time_signature,
+    });
+
+    return res.status(200).json(scene);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
+const get = async (req, res) => {
+  try {
+    const scene = Scene.isInDatabase(req.body.sceneId);
+    return res.status(200).json(scene);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
 module.exports = {
   validatePost,
   isInDatabase,
+  post,
+  get,
 };

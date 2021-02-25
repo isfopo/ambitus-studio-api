@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-//const User = require("../db/models").User;
+const Message = require("./handlers/message");
 
-router.get("/", (res, req) => {
-  req.status(200).json({ message: "you made it!" });
-});
+router.get("/", Message.get);
 
 module.exports = router;

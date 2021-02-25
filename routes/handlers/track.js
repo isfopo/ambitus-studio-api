@@ -45,7 +45,35 @@ const isInDatabase = async (id = "") => {
   }
 };
 
+const post = async (req, res) => {
+  try {
+    const trackParameters = validatePost(req.body);
+
+    const track = await req.project.createTrack({
+      name: trackParameters.name,
+      settings: trackParameters.settings,
+      type: trackParameters.type,
+    });
+
+    return res.status(200).json(track);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+};
+
+const get = async (req, res) => {
+  try {
+    const track = Track.isInDatabase(req.body.trackId);
+    return res.status(200).json(track);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+
 module.exports = {
   validatePost,
   isInDatabase,
+  post,
+  get,
 };

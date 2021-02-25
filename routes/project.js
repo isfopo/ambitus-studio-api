@@ -13,21 +13,7 @@ const Project = require("./handlers/project");
  * @returns {object} 200 - An object of project's info with generated project id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
-router.post("/", User.authorize, async (req, res) => {
-  try {
-    const projectParameters = Project.validatePost(req.body);
-
-    const project = await req.user.createProject({
-      name: projectParameters.name,
-      tempo: projectParameters.tempo,
-      time_signature: projectParameters.time_signature,
-    });
-
-    return res.status(200).json(project);
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
-  }
-});
+router.post("/", User.authorize, Project.post);
 
 /**
  * Get project information (Authorization Bearer Required)
@@ -39,9 +25,7 @@ router.post("/", User.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/", Project.authorize, async (req, res) => {
-  res.status(200).json(req.project);
-});
+router.get("/", Project.authorize, Project.get);
 
 /**
  * Get all scenes from a project (Authorization Bearer Required)
@@ -53,10 +37,7 @@ router.get("/", Project.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/scenes", Project.authorize, async (req, res) => {
-  const scenes = await req.project.getScenes();
-  res.status(200).json(scenes);
-});
+router.get("/scenes", Project.authorize, Project.getScenes);
 
 /**
  * Get all tracks from a project (Authorization Bearer Required)
@@ -68,10 +49,7 @@ router.get("/scenes", Project.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/tracks", Project.authorize, async (req, res) => {
-  const tracks = await req.project.getTracks();
-  res.status(200).json(tracks);
-});
+router.get("/tracks", Project.authorize, Project.getTracks);
 
 /**
  * Get all clips from a project (Authorization Bearer Required)
@@ -83,30 +61,8 @@ router.get("/tracks", Project.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Project not found
  */
-router.get("/clips", Project.authorize, async (req, res) => {
-  try {
-    const scenes = await req.project.getScenes();
+router.get("/clips", Project.authorize, Project.getClips);
 
-    // TODO: get clips for each scene
-
-    const clips = scenes.map(async (scene) => {});
-
-    res.status(200).json(clips);
-  } catch (e) {
-    res.status(400).json(e);
-  }
-});
-
-router.put("/invite", async (req, res) => {
-  try {
-    const project = findByPk(req.body.id);
-    project.invited.push(req.body.invitee); // TODO: check if invitee is in db
-    await project.save();
-
-    return res.status(200).json(project);
-  } catch (e) {
-    return res.status(400).json(e);
-  }
-});
+router.put("/invite", Project.authorize, Project.putInvite);
 
 module.exports = router;

@@ -90,8 +90,70 @@ const findInDatabase = async (id = "") => {
   }
 };
 
+const post = async (req, res) => {
+  try {
+    const projectParameters = Project.validatePost(req.body);
+
+    const project = await req.user.createProject({
+      name: projectParameters.name,
+      tempo: projectParameters.tempo,
+      time_signature: projectParameters.time_signature,
+    });
+
+    return res.status(200).json(project);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+};
+
+const get = async (req, res) => {
+  res.status(200).json(req.project);
+};
+
+const getScenes = async (req, res) => {
+  const scenes = await req.project.getScenes();
+  res.status(200).json(scenes);
+};
+
+const getTracks = async (req, res) => {
+  const tracks = await req.project.getTracks();
+  res.status(200).json(tracks);
+};
+
+const getClips = async (req, res) => {
+  try {
+    const scenes = await req.project.getScenes();
+
+    // TODO: get clips for each scene
+
+    const clips = scenes.map(async (scene) => {});
+
+    res.status(200).json(clips);
+  } catch (e) {
+    res.status(400).json(e);
+  }
+};
+
+const putInvite = async (req, res) => {
+  try {
+    const project = findByPk(req.body.id);
+    project.invited.push(req.body.invitee); // TODO: check if invitee is in db
+    await project.save();
+
+    return res.status(200).json(project);
+  } catch (e) {
+    return res.status(400).json(e);
+  }
+};
+
 module.exports = {
   validatePost,
   authorize,
   findInDatabase,
+  post,
+  get,
+  getScenes,
+  getTracks,
+  getClips,
+  putInvite,
 };

@@ -15,22 +15,7 @@ const Track = require("./handlers/track");
  * @returns {object} 200 - An object of track's info with generated track id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
-router.post("/", Project.authorize, async (req, res) => {
-  try {
-    const trackParameters = Track.validatePost(req.body);
-
-    const track = await req.project.createTrack({
-      name: trackParameters.name,
-      settings: trackParameters.settings,
-      type: trackParameters.type,
-    });
-
-    return res.status(200).json(track);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
-  }
-});
+router.post("/", Project.authorize, Track.post);
 
 /**
  * Get track information (Authorization Bearer Required)
@@ -43,13 +28,6 @@ router.post("/", Project.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Track not found
  */
-router.get("/", Project.authorize, async (req, res) => {
-  try {
-    const track = Track.isInDatabase(req.body.trackId);
-    return res.status(200).json(track);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-});
+router.get("/", Project.authorize, Track.get);
 
 module.exports = router;

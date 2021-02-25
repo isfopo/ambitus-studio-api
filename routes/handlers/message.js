@@ -23,6 +23,11 @@ const validatePost = (body = {}) => {
   }
 };
 
+const get = async (req, res) => {
+  return res.status(200).json({ msg: "you made it!" });
+};
+
 module.exports = {
   validatePost,
+  get,
 };

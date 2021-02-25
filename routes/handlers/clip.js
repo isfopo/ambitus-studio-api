@@ -47,7 +47,75 @@ const isInDatabase = async (id = "") => {
   }
 };
 
+const post = async (req, res) => {
+  try {
+    const clipParameters = validatePost(req.body);
+
+    const scene = await Scene.isInDatabase(req.body.sceneId);
+    const track = await Track.isInDatabase(req.body.trackId);
+
+    const clip = await scene.createClip({
+      name: clipParameters.name,
+      tempo: clipParameters.tempo,
+      time_signature: clipParameters.time_signature,
+    });
+
+    await track.addClip(clip); // TODO: overwrite a clip with the same scene and track
+
+    return res.status(200).json(clip);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+};
+
+const get = async (req, res) => {
+  try {
+    const clip = await Clip.findByPk(req.body.id);
+    return res.status(200).json(clip);
+  } catch (e) {
+    return res.status(404).json(e);
+  }
+};
+
+const getContent = async (req, res) => {
+  const clip = await isInDatabase(req.body.id);
+  const stream = Readable.from(clip.content);
+
+  stream.pipe(res);
+};
+
+const putName = async (req, res) => {
+  const clip = await User.findByPk(req.body.id);
+
+  clip.name = req.body.name;
+  await clip.save();
+
+  res.status(200).json(clip);
+};
+
+const putContent = async (req, res) => {
+  const clip = await isInDatabase(req.body.id);
+
+  if ((clip.type = req.file.mimetype)) {
+    const clipBuffer = fs.readFileSync(req.file.path);
+    clip.content = clip;
+    await clip.save();
+
+    res.status(200).json(clip);
+  } else {
+    return res.status(400).json({
+      error: "Clip type cannot be changed. Put clip in new track instead.",
+    });
+  }
+};
+
 module.exports = {
   validatePost,
   isInDatabase,
+  post,
+  get,
+  getContent,
+  putName,
+  putContent,
 };

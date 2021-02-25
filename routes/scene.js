@@ -15,21 +15,7 @@ const Scene = require("./handlers/scene");
  * @returns {object} 200 - An object of scene's info with generated scene id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
-router.post("/", Project.authorize, async (req, res) => {
-  try {
-    const sceneParameters = Scene.validatePost(req.body);
-
-    const scene = await req.project.createScene({
-      name: sceneParameters.name,
-      tempo: sceneParameters.tempo,
-      time_signature: sceneParameters.time_signature,
-    });
-
-    return res.status(200).json(scene);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-});
+router.post("/", Project.authorize, Scene.post);
 
 /**
  * Get scene information (Authorization Bearer Required)
@@ -42,13 +28,6 @@ router.post("/", Project.authorize, async (req, res) => {
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Scene not found
  */
-router.get("/", Project.authorize, async (req, res) => {
-  try {
-    const scene = Scene.isInDatabase(req.body.sceneId);
-    return res.status(200).json(scene);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-});
+router.get("/", Project.authorize, Scene.get);
 
 module.exports = router;
