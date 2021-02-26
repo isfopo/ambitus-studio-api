@@ -8,6 +8,7 @@ const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
 const fs = require("fs");
 
 const User = require("../../db/models").User;
+const Message = require("../../db/models").Message;
 
 require("dotenv").config();
 
@@ -129,35 +130,31 @@ const post = async (req, res) => {
 const get = async (req, res) => {
   try {
     if (req.body.UserId) {
-      const user = await UserHandler.isInDatabase(validate.id(req.body.UserId));
+      const user = await isInDatabase(validate.id(req.body.UserId));
       if (user) {
-        return res
-          .status(200)
-          .json({
-            UserId: user.UserId,
-            username: user.username,
-            avatar: user.avatar,
-          });
+        return res.status(200).json({
+          UserId: user.UserId,
+          username: user.username,
+          avatar: user.avatar,
+        });
       } else {
         return res.status(404).json({ error: ["UserId could not be found"] });
       }
     } else if (req.body.username) {
-      const user = await UserTable.findOne({
+      const user = await User.findOne({
         where: { username: validate.name(req.body.username) },
       });
       if (user) {
-        return res
-          .status(200)
-          .json({
-            UserId: user.UserId,
-            username: user.username,
-            avatar: user.avatar,
-          });
+        return res.status(200).json({
+          UserId: user.UserId,
+          username: user.username,
+          avatar: user.avatar,
+        });
       } else {
         return res.status(404).json({ error: ["username could not be found"] });
       }
     } else if (_.isEmpty(req.body)) {
-      const users = await UserTable.findAll();
+      const users = await User.findAll();
       return res.status(200).json(
         users.map((user) => {
           return {
@@ -221,12 +218,10 @@ const getLogin = async (req, res) => {
  */
 const getProjects = async (req, res) => {
   try {
-    return res
-      .status(200)
-      .json({
-        UserId: req.user.UserId,
-        projects: await req.user.getProjects(),
-      });
+    return res.status(200).json({
+      UserId: req.user.UserId,
+      projects: await req.user.getProjects(),
+    });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -240,19 +235,20 @@ const getProjects = async (req, res) => {
  */
 const getAvatar = async (req, res) => {
   try {
-    const stream = fs.createReadStream(req.user.avatar);
+    const user = await isInDatabase(req.body.UserId);
+    const stream = fs.createReadStream(user.avatar);
 
     stream.on("error", async (err) => {
       user.avatar = path.join(
         __dirname,
-        "../" + "assets/images/default-avatar.jpg"
+        "../../assets/images/default-avatar.jpg"
       );
-      req.user.avatar_type = "image/jpeg";
-      await req.user.save();
+      user.avatar_type = "image/jpeg";
+      await user.save();
       res.status(404).json({ error: ["could not find avatar"] });
     });
 
-    res.setHeader("Content-Type", req.user.avatar_type);
+    res.setHeader("Content-Type", user.avatar_type);
     stream.pipe(res);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -291,10 +287,10 @@ const putUsername = async (req, res) => {
  */
 const putPassword = async (req, res) => {
   try {
-    req.user.password = await UserHandler.hashValidPassword(
+    req.user.password = await hashValidPassword(
       validate.password(req.body.newPassword)
     );
-    await user.save();
+    await req.user.save();
 
     return res.status(200).json({ UserId: req.user.UserId });
   } catch (e) {
@@ -352,7 +348,12 @@ const putAvatar = async (req, res) => {
  */
 const remove = async (req, res) => {
   try {
-    if (!user.avatar.includes("default-avatar.jpg")) {
+    // delete messages of user
+    const messages = await req.user.getMessages();
+    messages.forEach(async (message) => {
+      await message.destroy();
+    });
+    if (!req.user.avatar.includes("default-avatar.jpg")) {
       fs.unlink(req.user.avatar, async (error) => {
         await req.user.destroy();
         return res.sendStatus(204);
