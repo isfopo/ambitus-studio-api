@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   class Track extends Sequelize.Model {}
   Track.init(
     {
-      id: {
+      TrackId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
       },
       settings: {
         type: Sequelize.DataTypes.JSON,
+        defaultValue: {},
         allowNull: false,
       },
       type: {

@@ -3,44 +3,28 @@ const path = require("path");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Clip", {
-      ClipId: {
+    await queryInterface.createTable("Messages", {
+      MessageId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
       },
-      name: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: true,
-      },
-      tempo: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          min: 40,
-          max: 280,
-        },
-      },
-      time_signature: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
       content: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
-      SceneId: {
+      UserId: {
         type: Sequelize.DataTypes.UUID,
         references: {
-          model: "Scenes",
-          key: "SceneId",
+          model: "Users",
+          key: "UserId",
         },
       },
-      TrackId: {
+      ProjectId: {
         type: Sequelize.DataTypes.UUID,
         references: {
-          model: "Tracks",
-          key: "TrackId",
+          model: "Projects",
+          key: "ProjectId",
         },
       },
       createdAt: {
@@ -54,6 +38,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Clip");
+    await queryInterface.dropTable("Messages");
   },
 };

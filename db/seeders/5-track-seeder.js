@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      "Track",
+      "Tracks",
       [
         {
           TrackId: "d5656678-77c2-11eb-9439-0242ac130002",
@@ -41,6 +41,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("Track", null, {});
+    await queryInterface.bulkDelete("Tracks", null, {});
   },
 };

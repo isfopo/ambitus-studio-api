@@ -3,8 +3,8 @@ const path = require("path");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Track", {
-      TrackId: {
+    await queryInterface.createTable("Scenes", {
+      SceneId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
@@ -13,22 +13,17 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
       },
-      settings: {
-        type: Sequelize.DataTypes.JSON,
-        defaultValue: {},
-        allowNull: false,
+      tempo: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
+        validate: {
+          min: 40,
+          max: 280,
+        },
       },
-      type: {
-        type: Sequelize.DataTypes.ENUM,
-        values: [
-          "audio/aac",
-          "audio/mpeg",
-          "audio/ogg",
-          "audio/webm",
-          "audio/wave",
-          "audio/midi",
-        ],
-        allowNull: false,
+      time_signature: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
       },
       ProjectId: {
         type: Sequelize.DataTypes.UUID,
@@ -48,6 +43,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Track");
+    await queryInterface.dropTable("Scenes");
   },
 };

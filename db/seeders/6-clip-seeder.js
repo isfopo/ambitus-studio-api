@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert(
-      "Track",
+      "Clips",
       [
         {
           ClipId: "d5656678-77c2-11eb-9439-0242ac130002",
@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           ClipId: "d5656894-77c2-11eb-9439-0242ac130002",
-          name: "MyFirstClip",
+          name: "MySecondClip",
           tempo: 120,
           time_signature: "4/4",
           SceneId: "0e30ef4e-77bf-11eb-9439-0242ac130002",
@@ -23,7 +23,7 @@ module.exports = {
         },
         {
           ClipId: "d565698e-77c2-11eb-9439-0242ac130002",
-          name: "MyFirstClip",
+          name: "MyThirdClip",
           tempo: 120,
           time_signature: "4/4",
           SceneId: "0e30f354-77bf-11eb-9439-0242ac130002",
@@ -31,19 +31,11 @@ module.exports = {
         },
         {
           ClipId: "d5656b00-77c2-11eb-9439-0242ac130002",
-          name: "MyFirstClip",
+          name: "AnotherClip",
           tempo: 120,
           time_signature: "4/4",
           SceneId: "0e30f462-77bf-11eb-9439-0242ac130002",
           TrackId: "d565698e-77c2-11eb-9439-0242ac130002",
-        },
-        {
-          ClipId: "d5656bdc-77c2-11eb-9439-0242ac130002",
-          name: "MyFirstClip",
-          tempo: 120,
-          time_signature: "4/4",
-          SceneId: "d5656b00-77c2-11eb-9439-0242ac130002",
-          TrackId: "0e30f520-77bf-11eb-9439-0242ac130002",
         },
       ],
       {}
@@ -51,6 +43,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("Track", null, {});
+    await queryInterface.bulkDelete("Clips", null, {});
   },
 };
