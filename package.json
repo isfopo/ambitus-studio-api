@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "start": "nodemon ./bin/www",
+    "start": "watch 'npm run reset-and-start' .",
+    "reset-and-start": "npm run db:reset && npm run dev",
     "dev": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
     "test-helpers": "mocha --watch routes/tests/helpers/*.test.js",
     "test-routes": "npm run db:reset && mocha routes/tests/routes/*.test.js",
@@ -44,6 +45,7 @@
     "express-swagger-generator": "^1.1.17",
     "faker": "^5.4.0",
     "mocha": "^8.3.0",
+    "mock-req-res": "^1.2.0",
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
     "sequelize-cli": "^6.2.0",
