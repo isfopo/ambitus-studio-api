@@ -52,9 +52,11 @@ const authorize = (req, res, next) => {
         if (user.exp < Date.now()) {
           try {
             req.user = user;
-            const project = await findInDatabase(validate.id(req.body.id));
+            const project = await findInDatabase(
+              validate.id(req.body.ProjectId)
+            );
 
-            if (await project.hasUser(await User.findByPk(user.id))) {
+            if (await project.hasUser(await User.findByPk(user.UserId))) {
               req.project = project;
               next();
             } else {
@@ -107,7 +109,12 @@ const post = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  res.status(200).json(req.project);
+  return res.status(200).json(req.project);
+};
+
+const getUsers = async (req, res) => {
+  const users = await req.project.getUsers();
+  return res.status(200).json(users);
 };
 
 const getScenes = async (req, res) => {
@@ -152,6 +159,7 @@ module.exports = {
   findInDatabase,
   post,
   get,
+  getUsers,
   getScenes,
   getTracks,
   getClips,

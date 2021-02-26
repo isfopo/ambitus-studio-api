@@ -27,6 +27,8 @@ router.post("/", User.authorize, Project.post);
  */
 router.get("/", Project.authorize, Project.get);
 
+router.get("/users", Project.authorize, Project.getUsers);
+
 /**
  * Get all scenes from a project (Authorization Bearer Required)
  * @route GET /project/scenes
