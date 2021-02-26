@@ -5,10 +5,12 @@ const Clip = require("../../db/models").Clip;
 const validatePost = (body = {}) => {
   const errors = [];
 
-  if (!body.sceneId) {
-    errors.push("body should contain an sceneId");
-  } else if (!body.trackId) {
-    errors.push("body should contain an trackId");
+  if (!body.SceneId) {
+    errors.push("body should contain an SceneId");
+  } else if (!body.TrackId) {
+    errors.push("body should contain an TrackId");
+  } else if (!body.name) {
+    errors.push("body should contain a name");
   } else if (!body.tempo) {
     errors.push("body should contain a tempo");
   } else if (!body.time_signature) {
@@ -16,8 +18,8 @@ const validatePost = (body = {}) => {
   }
 
   try {
-    validate.id(body.sceneId);
-    validate.id(body.trackId);
+    validate.id(body.SceneId);
+    validate.id(body.TrackId);
     validate.tempo(body.tempo);
     validate.timeSignature(body.time_signature);
     body.name && validate.name(body.name);
