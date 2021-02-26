@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   class Project extends Sequelize.Model {}
   Project.init(
     {
-      id: {
+      ProjectId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
@@ -46,7 +46,10 @@ module.exports = (sequelize) => {
   );
 
   Project.associate = (models) => {
-    Project.belongsToMany(models.User, { through: "UsersProjects" });
+    Project.belongsToMany(models.User, {
+      through: "UsersProjects",
+      foreignKey: "ProjectId",
+    });
     Project.hasMany(models.Scene);
     Project.hasMany(models.Track);
   };

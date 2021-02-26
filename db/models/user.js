@@ -38,8 +38,11 @@ module.exports = (sequelize) => {
   );
 
   User.associate = (models) => {
-    User.belongsToMany(models.Project, { through: "UsersProjects" });
-    User.hasMany(models.Message);
+    User.belongsToMany(models.Project, {
+      through: "UsersProjects",
+      foreignKey: "UserId",
+    });
+    User.hasMany(models.Message, { foreignKey: "UserId" });
   };
 
   return User;

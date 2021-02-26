@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   class Message extends Sequelize.Model {}
   Message.init(
     {
-      id: {
+      MessageId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
@@ -19,8 +19,8 @@ module.exports = (sequelize) => {
   );
 
   Message.associate = (models) => {
-    Message.belongsTo(models.User);
-    Message.belongsTo(models.Project);
+    Message.belongsTo(models.User, { foreignKey: "MessageId" });
+    Message.belongsTo(models.Project, { foreignKey: "MessageId" });
   };
 
   return Message;
