@@ -6,7 +6,7 @@ module.exports = (sequelize) => {
   class User extends Sequelize.Model {}
   User.init(
     {
-      id: {
+      UserId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
