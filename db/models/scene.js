@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
   );
 
   Scene.associate = (models) => {
-    Scene.belongsTo(models.Project);
+    Scene.belongsTo(models.Project, { foreignKey: "SceneId" });
     Scene.hasMany(models.Clip);
   };
 

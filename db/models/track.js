@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
   );
 
   Track.associate = (models) => {
-    Track.belongsTo(models.Project);
+    Track.belongsTo(models.Project, { foreignKey: "TrackId" });
     Track.hasMany(models.Clip);
   };
 
