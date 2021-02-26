@@ -66,7 +66,7 @@ const authorize = (req, res, next) => {
         return res.status(403).json({ error: ["token not authorized"] });
       } else {
         if (user.exp < Date.now()) {
-          req.user = await isInDatabase(user.id);
+          req.user = await isInDatabase(user.UserId);
           next();
         } else {
           return res.status(403).json({ error: ["token has expired"] });
@@ -80,11 +80,11 @@ const authorize = (req, res, next) => {
 
 /**
  * determines if given user id is present in database
- * @param {string} id the id of the user to be found
+ * @param {string} UserId the UserId of the user to be found
  * @returns {boolean} if the user is found
  */
-const isInDatabase = async (id = "") => {
-  const user = await User.findByPk(id);
+const isInDatabase = async (UserId = "") => {
+  const user = await User.findByPk(UserId);
 
   if (user === null) {
     throw new Error("Couldn't find requested user in database");
@@ -109,7 +109,7 @@ const post = async (req, res) => {
         password: await hashValidPassword(password),
       });
       res.status(200).json({
-        id: newUser.id,
+        UserId: newUser.UserId,
         username: newUser.username,
       });
     } else {
@@ -128,14 +128,18 @@ const post = async (req, res) => {
  */
 const get = async (req, res) => {
   try {
-    if (req.body.id) {
-      const user = await UserHandler.isInDatabase(validate.id(req.body.id));
+    if (req.body.UserId) {
+      const user = await UserHandler.isInDatabase(validate.id(req.body.UserId));
       if (user) {
         return res
           .status(200)
-          .json({ id: user.id, username: user.username, avatar: user.avatar });
+          .json({
+            UserId: user.UserId,
+            username: user.username,
+            avatar: user.avatar,
+          });
       } else {
-        return res.status(404).json({ error: ["id could not be found"] });
+        return res.status(404).json({ error: ["UserId could not be found"] });
       }
     } else if (req.body.username) {
       const user = await UserTable.findOne({
@@ -144,7 +148,11 @@ const get = async (req, res) => {
       if (user) {
         return res
           .status(200)
-          .json({ id: user.id, username: user.username, avatar: user.avatar });
+          .json({
+            UserId: user.UserId,
+            username: user.username,
+            avatar: user.avatar,
+          });
       } else {
         return res.status(404).json({ error: ["username could not be found"] });
       }
@@ -153,7 +161,7 @@ const get = async (req, res) => {
       return res.status(200).json(
         users.map((user) => {
           return {
-            id: user.id,
+            UserId: user.UserId,
             username: user.username,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
@@ -187,14 +195,14 @@ const getLogin = async (req, res) => {
 
     if (match) {
       jwt.sign(
-        { id: user.id, username: user.username },
+        { UserId: user.UserId, username: user.username },
         process.env.JWT_SECRET,
         { expiresIn: "1h" },
         (error, token) => {
           if (error) {
             return res.status(400).json({ error: error.message });
           }
-          return res.status(200).json({ id: user.id, token });
+          return res.status(200).json({ UserId: user.UserId, token });
         }
       );
     } else {
@@ -215,7 +223,10 @@ const getProjects = async (req, res) => {
   try {
     return res
       .status(200)
-      .json({ id: req.user.id, projects: await req.user.getProjects() });
+      .json({
+        UserId: req.user.UserId,
+        projects: await req.user.getProjects(),
+      });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -262,7 +273,7 @@ const putUsername = async (req, res) => {
 
     return res
       .status(200)
-      .json({ id: req.user.id, username: req.user.username });
+      .json({ UserId: req.user.UserId, username: req.user.username });
   } catch (e) {
     if (e.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({ error: ["username already exists"] });
@@ -285,7 +296,7 @@ const putPassword = async (req, res) => {
     );
     await user.save();
 
-    return res.status(200).json({ id: req.user.id });
+    return res.status(200).json({ UserId: req.user.UserId });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -299,7 +310,7 @@ const putPassword = async (req, res) => {
  */
 const putAvatar = async (req, res) => {
   try {
-    const userInDb = await User.findByPk(req.user.id);
+    const userInDb = await User.findByPk(req.user.UserId);
 
     const avatar = validate.avatar(req.file);
 
@@ -310,7 +321,7 @@ const putAvatar = async (req, res) => {
         await req.user.save();
 
         res.status(200).json({
-          id: req.user.id,
+          UserId: req.user.UserId,
           username: req.user.username,
           avatar: req.user.avatar,
         });
@@ -321,7 +332,7 @@ const putAvatar = async (req, res) => {
       await req.user.save();
 
       res.status(200).json({
-        id: req.user.id,
+        UserId: req.user.UserId,
         username: req.user.username,
         avatar: req.user.avatar,
       });
@@ -356,6 +367,7 @@ const remove = async (req, res) => {
 };
 
 module.exports = {
+  validatePost,
   authorize,
   isInDatabase,
   hashValidPassword,
