@@ -109,17 +109,43 @@ const post = async (req, res) => {
 };
 
 const get = async (req, res) => {
-  return res.status(200).json(req.project);
+  const users = await req.project.getUsers();
+  const scenes = await req.project.getScenes();
+  const tracks = await req.project.getTracks();
+  return res.status(200).json({
+    ...req.project.dataValues,
+    users: users.map((user) => user.UserId),
+    scenes: scenes.map((scene) => scene.SceneId),
+    tracks: tracks.map((track) => track.TrackId),
+  });
 };
 
 const getUsers = async (req, res) => {
   const users = await req.project.getUsers();
-  return res.status(200).json(users);
+  return res.status(200).json(
+    users.map((user) => {
+      return {
+        UserId: user.UserId,
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
+    })
+  );
 };
 
 const getScenes = async (req, res) => {
   const scenes = await req.project.getScenes();
-  res.status(200).json(scenes);
+  res.status(200).json(
+    scenes.map((scene) => {
+      return {
+        SceneId: scene.SceneId,
+        name: scene.name,
+        tempo: scene.tempo,
+        time_signature: scene.time_signature,
+      };
+    })
+  );
 };
 
 const getTracks = async (req, res) => {
@@ -140,6 +166,8 @@ const getClips = async (req, res) => {
     res.status(400).json(e);
   }
 };
+
+const getMessages = async (req, res) => {};
 
 const putInvite = async (req, res) => {
   try {
@@ -163,5 +191,6 @@ module.exports = {
   getScenes,
   getTracks,
   getClips,
+  getMessages,
   putInvite,
 };
