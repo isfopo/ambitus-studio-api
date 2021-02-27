@@ -52,6 +52,7 @@ module.exports = (sequelize) => {
     });
     Project.hasMany(models.Scene, { foreignKey: "ProjectId" });
     Project.hasMany(models.Track, { foreignKey: "ProjectId" });
+    Project.hasMany(models.Message, { foreignKey: "ProjectId" });
   };
 
   return Project;
