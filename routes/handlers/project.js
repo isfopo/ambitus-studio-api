@@ -143,6 +143,8 @@ const getScenes = async (req, res) => {
         name: scene.name,
         tempo: scene.tempo,
         time_signature: scene.time_signature,
+        createdAt: scene.createdAt,
+        updatedAt: scene.updatedAt,
       };
     })
   );
@@ -150,7 +152,18 @@ const getScenes = async (req, res) => {
 
 const getTracks = async (req, res) => {
   const tracks = await req.project.getTracks();
-  res.status(200).json(tracks);
+  res.status(200).json(
+    tracks.map((track) => {
+      return {
+        TrackId: track.TrackId,
+        name: track.name,
+        settings: track.settings,
+        type: track.type,
+        createdAt: track.createdAt,
+        updatedAt: track.updatedAt,
+      };
+    })
+  );
 };
 
 const getClips = async (req, res) => {
@@ -167,7 +180,10 @@ const getClips = async (req, res) => {
   }
 };
 
-const getMessages = async (req, res) => {};
+const getMessages = async (req, res) => {
+  const messages = await req.project.getMessages();
+  res.status(200).json(messages);
+};
 
 const putInvite = async (req, res) => {
   try {
