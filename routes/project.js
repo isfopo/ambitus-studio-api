@@ -87,6 +87,17 @@ router.get("/clips", Project.authorize, Project.getClips);
  */
 router.get("/messages", Project.authorize, Project.getMessages);
 
+/**
+ * Put a UserId into invited array (Authorization Bearer Required)
+ * @route POST /project/invite
+ * @group project - Operations about project
+ * @param {string} ProjectId.body.required - project's id
+ * @param {string} invitee.body.required - invitee's UserId
+ * @returns {object} 200 - invited array
+ * @returns {Error}  400 - Invalid token or id
+ * @returns {Error}  403 - User is not in project
+ * @returns {Error}  404 - Project not found
+ */
 router.put("/invite", Project.authorize, Project.putInvite);
 
 module.exports = router;

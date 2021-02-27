@@ -187,13 +187,18 @@ const getMessages = async (req, res) => {
 
 const putInvite = async (req, res) => {
   try {
-    const project = findByPk(req.body.id);
-    project.invited.push(req.body.invitee); // TODO: check if invitee is in db
-    await project.save();
+    const users = await req.project.getUsers();
 
-    return res.status(200).json(project);
+    if (!users.map((user) => user.UserId).includes(req.body.invitee)) {
+      req.project.invited.push(req.body.invitee);
+    } else {
+      return res.status(400).json({ error: ["user is already in project"] });
+    }
+    await req.project.save();
+
+    return res.status(200).json(req.project.invited);
   } catch (e) {
-    return res.status(400).json(e);
+    return res.status(400).json({ error: e.message });
   }
 };
 
