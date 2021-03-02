@@ -128,7 +128,16 @@ router.get("/login", async (req, res) => {
  * @returns {object} 200 - User id and an array of project ids
  * @returns {Error}  400 - Invalid id
  */
-router.get("/projects", User.authorize, User.getProjects);
+router.get("/projects", User.authorize, async (req, res) => {
+  try {
+    return res.status(200).json({
+      UserId: req.user.UserId,
+      projects: await req.user.getProjects(),
+    });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Get user's avatar
@@ -138,7 +147,27 @@ router.get("/projects", User.authorize, User.getProjects);
  * @returns {object} 200 - user's avatar
  * @returns {Error}  400 - Invalid id
  */
-router.get("/avatar", User.getAvatar);
+router.get("/avatar", async (req, res) => {
+  try {
+    const user = await findInDatabase(req.body.UserId);
+    const stream = fs.createReadStream(user.avatar);
+
+    stream.on("error", async (err) => {
+      user.avatar = path.join(
+        __dirname,
+        "../../assets/images/default-avatar.jpg"
+      );
+      user.avatar_type = "image/jpeg";
+      await user.save();
+      res.status(404).json({ error: ["could not find avatar"] });
+    });
+
+    res.setHeader("Content-Type", user.avatar_type);
+    stream.pipe(res);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Get an array of projects that user has been invited to(Authorization Bearer Required)
@@ -147,7 +176,9 @@ router.get("/avatar", User.getAvatar);
  * @returns {object} 200 - an array of projects that user has been invited to
  * @returns {Error}  400 - Invalid token or id
  */
-router.get("/invited", User.authorize, User.getInvited);
+router.get("/invited", User.authorize, async (req, res) => {
+  const allProjects = await models.Project.findAll(); // TODO: this might be too expensive, maybe rethink
+});
 
 /**
  * Change a user's username (Authorization Bearer Required)
@@ -157,7 +188,23 @@ router.get("/invited", User.authorize, User.getInvited);
  * @returns {object} 200 - User id and changed name
  * @returns {Error}  400 - Invalid token, id or username
  */
-router.put("/username", User.authorize, User.putUsername);
+router.put("/username", User.authorize, async (req, res) => {
+  try {
+    req.user.username = validate.name(req.body.newName);
+
+    await req.user.save();
+
+    return res
+      .status(200)
+      .json({ UserId: req.user.UserId, username: req.user.username });
+  } catch (e) {
+    if (e.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ error: ["username already exists"] });
+    } else {
+      return res.status(400).json({ error: e.message });
+    }
+  }
+});
 
 /**
  * Change a user's password (Authorization Bearer Required)
@@ -167,7 +214,18 @@ router.put("/username", User.authorize, User.putUsername);
  * @returns {object} 200 - User id
  * @returns {Error}  400 - Invalid token, id or password
  */
-router.put("/password", User.authorize, User.putPassword);
+router.put("/password", User.authorize, async (req, res) => {
+  try {
+    req.user.password = await hashValidPassword(
+      validate.password(req.body.newPassword)
+    );
+    await req.user.save();
+
+    return res.status(200).json({ UserId: req.user.UserId });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change a user's avatar (Authorization Bearer Required)
@@ -178,7 +236,46 @@ router.put("/password", User.authorize, User.putPassword);
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  404 - Avatar image has been deleted - returns to default
  */
-router.put("/avatar", User.authorize, upload.single("avatar"), User.putAvatar);
+router.put(
+  "/avatar",
+  User.authorize,
+  upload.single("avatar"),
+  async (req, res) => {
+    try {
+      const userInDb = await models.User.findByPk(req.user.UserId);
+
+      const avatar = validate.avatar(req.file);
+
+      if (!userInDb.avatar.includes("default-avatar.jpg")) {
+        fs.unlink(req.user.avatar, async (error) => {
+          req.user.avatar = avatar.path;
+          req.user.avatar_type = avatar.mimetype;
+          await req.user.save();
+
+          res.status(200).json({
+            UserId: req.user.UserId,
+            username: req.user.username,
+            avatar: req.user.avatar,
+          });
+        });
+      } else {
+        req.user.avatar = avatar.path;
+        req.user.avatar_type = avatar.mimetype;
+        await req.user.save();
+
+        res.status(200).json({
+          UserId: req.user.UserId,
+          username: req.user.username,
+          avatar: req.user.avatar,
+        });
+      }
+    } catch (e) {
+      fs.unlink(req.file.path, (error) => {
+        return res.status(400).json({ error: e.message });
+      });
+    }
+  }
+);
 
 /**
  * Delete user (Authorization Bearer Required)
@@ -187,6 +284,25 @@ router.put("/avatar", User.authorize, upload.single("avatar"), User.putAvatar);
  * @returns {object} 204
  * @returns {Error}  400 - Invalid token or id
  */
-router.delete("/", User.authorize, User.remove);
+router.delete("/", User.authorize, async (req, res) => {
+  try {
+    // delete messages of user
+    const messages = await req.user.getMessages();
+    messages.forEach(async (message) => {
+      await message.destroy();
+    });
+    if (!req.user.avatar.includes("default-avatar.jpg")) {
+      fs.unlink(req.user.avatar, async (error) => {
+        await req.user.destroy();
+        return res.sendStatus(204);
+      });
+    } else {
+      await req.user.destroy();
+      return res.sendStatus(204);
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 module.exports = router;
