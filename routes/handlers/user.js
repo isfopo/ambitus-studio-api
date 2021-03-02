@@ -7,8 +7,7 @@ const path = require("path");
 const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
 const fs = require("fs");
 
-const User = require("../../db/models").User;
-const Message = require("../../db/models").Message;
+const models = require("../../db/models");
 
 require("dotenv").config();
 
@@ -50,32 +49,56 @@ const hashValidPassword = async (password = "") => {
 };
 
 /**
+ * parses header to get authorization token
+ * @param {Object} header headers from req.headers;
+ * @returns {String} token
+ */
+const parseHeadersForToken = (headers = {}) => {
+  const authorization = headers["authorization"];
+
+  if (typeof authorization !== "undefined") {
+    const bearer = authorization.split(" ");
+    return bearer[1];
+  } else {
+    throw new Error("token not present");
+  }
+};
+
+/**
+ * verifies the given json web token and returns token contents
+ * @param {String} token the JWT from request
+ * @returns {Object} token contents
+ */
+const verifyToken = (token) => {
+  let output;
+  jwt.verify(token, process.env.JWT_SECRET, async (error, contents) => {
+    if (error) {
+      throw new Error("token not authorized");
+    } else {
+      if (contents.exp < Date.now()) {
+        output = contents;
+      } else {
+        throw new Error("token has expired");
+      }
+    }
+  });
+  return output;
+};
+
+/**
  * middleware that will check and parse token authentication header assigning user id and name to req.user
  * @param {request} req express request Object
  * @param {response} res express response object
  * @param {next} next express callback function
  */
-const authorize = (req, res, next) => {
-  const header = req.headers["authorization"];
-
-  if (typeof header !== "undefined") {
-    const bearer = header.split(" ");
-    const token = bearer[1];
-
-    jwt.verify(token, process.env.JWT_SECRET, async (error, user) => {
-      if (error) {
-        return res.status(403).json({ error: ["token not authorized"] });
-      } else {
-        if (user.exp < Date.now()) {
-          req.user = await isInDatabase(user.UserId);
-          next();
-        } else {
-          return res.status(403).json({ error: ["token has expired"] });
-        }
-      }
-    });
-  } else {
-    return res.status(403).json({ error: ["token not present"] });
+const authorize = async (req, res, next) => {
+  try {
+    const token = parseHeadersForToken(req.headers);
+    const user = verifyToken(token);
+    req.user = await findInDatabase(user.UserId);
+    next();
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
   }
 };
 
@@ -84,8 +107,8 @@ const authorize = (req, res, next) => {
  * @param {string} UserId the UserId of the user to be found
  * @returns {boolean} if the user is found
  */
-const isInDatabase = async (UserId = "") => {
-  const user = await User.findByPk(UserId);
+const findInDatabase = async (UserId = "") => {
+  const user = await models.User.findByPk(validate.id(UserId));
 
   if (user === null) {
     throw new Error("Couldn't find requested user in database");
@@ -95,119 +118,38 @@ const isInDatabase = async (UserId = "") => {
 };
 
 /**
- * creates user in database
- * @param {req} request from client
- * @param {res} response to client passed from other middleware
- * @returns {res} response to client
+ * checks password password in database
+ * @param {String} username given user's username
+ * @param {String} password to test
+ * @returns {Object} User object if correct, error if not
  */
-const post = async (req, res) => {
-  try {
-    const { username, password } = validatePost(req.body);
-
-    if ((await User.findOne({ where: { username } })) === null) {
-      const newUser = await User.create({
-        username,
-        password: await hashValidPassword(password),
-      });
-      res.status(200).json({
-        UserId: newUser.UserId,
-        username: newUser.username,
-      });
-    } else {
-      return res.status(400).json({ error: ["username already exists"] });
-    }
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-};
-
-/**
- * gets a user's info from database
- * @param {req} request from client
- * @param {res} response to client passed from other middleware
- * @returns {res} response to client
- */
-const get = async (req, res) => {
-  try {
-    if (req.body.UserId) {
-      const user = await isInDatabase(validate.id(req.body.UserId));
-      if (user) {
-        return res.status(200).json({
-          UserId: user.UserId,
-          username: user.username,
-          avatar: user.avatar,
-        });
-      } else {
-        return res.status(404).json({ error: ["UserId could not be found"] });
-      }
-    } else if (req.body.username) {
-      const user = await User.findOne({
-        where: { username: validate.name(req.body.username) },
-      });
-      if (user) {
-        return res.status(200).json({
-          UserId: user.UserId,
-          username: user.username,
-          avatar: user.avatar,
-        });
-      } else {
-        return res.status(404).json({ error: ["username could not be found"] });
-      }
-    } else if (_.isEmpty(req.body)) {
-      const users = await User.findAll();
-      return res.status(200).json(
-        users.map((user) => {
-          return {
-            UserId: user.UserId,
-            username: user.username,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-          };
-        })
-      );
-    } else {
-      const keys = Object.keys(req.body);
-      return res.status(400).json({
-        error: keys.map((key) => `${key} is not a valid key`),
-      });
-    }
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
-  }
-};
-
-/**
- * authenticates user and gives a token is the response
- * @param {req} request from client
- * @param {res} response to client passed from other middleware
- * @returns {res} response to client
- */
-const getLogin = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      where: { username: req.body.username },
-    });
-
-    const match = await bcrypt.compare(req.body.password, user.password);
+const verifyPassword = async (username = "", password = "") => {
+  const user = await models.User.findOne({
+    where: { username },
+  });
+  if (user === null) {
+    throw new Error("username does not exist");
+  } else {
+    const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      jwt.sign(
-        { UserId: user.UserId, username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" },
-        (error, token) => {
-          if (error) {
-            return res.status(400).json({ error: error.message });
-          }
-          return res.status(200).json({ UserId: user.UserId, token });
-        }
-      );
+      return user;
     } else {
-      return res.status(400).json({ error: ["password is incorrect"] });
+      throw new Error("password does not match");
     }
-  } catch (e) {
-    return res.status(404).json({ error: ["username does not exist"] });
   }
+};
+
+/**
+ * signs json web token with UserId and username
+ * @param {String} UserId to embed in token
+ * @param {String} username to embed in token
+ * @returns {String} json web token
+ */
+const signToken = async (UserId = "") => {
+  return await jwt.sign({ UserId }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 };
 
 /**
@@ -235,7 +177,7 @@ const getProjects = async (req, res) => {
  */
 const getAvatar = async (req, res) => {
   try {
-    const user = await isInDatabase(req.body.UserId);
+    const user = await findInDatabase(req.body.UserId);
     const stream = fs.createReadStream(user.avatar);
 
     stream.on("error", async (err) => {
@@ -253,6 +195,10 @@ const getAvatar = async (req, res) => {
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
+};
+
+const getInvited = async (req, res) => {
+  const allProjects = await models.Project.findAll(); // TODO: this might be too expensive, maybe rethink
 };
 
 /**
@@ -306,7 +252,7 @@ const putPassword = async (req, res) => {
  */
 const putAvatar = async (req, res) => {
   try {
-    const userInDb = await User.findByPk(req.user.UserId);
+    const userInDb = await models.User.findByPk(req.user.UserId);
 
     const avatar = validate.avatar(req.file);
 
@@ -370,13 +316,13 @@ const remove = async (req, res) => {
 module.exports = {
   validatePost,
   authorize,
-  isInDatabase,
+  findInDatabase,
   hashValidPassword,
-  post,
-  get,
-  getLogin,
+  verifyPassword,
+  signToken,
   getProjects,
   getAvatar,
+  getInvited,
   putUsername,
   putPassword,
   putAvatar,
