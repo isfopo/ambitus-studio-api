@@ -17,7 +17,26 @@ require("dotenv").config();
  * @returns {object} 200 - An object of user's info with generated user id
  * @returns {Error}  400 - Invalid or taken username or password
  */
-router.post("/", User.post);
+router.post("/", async (req, res) => {
+  try {
+    const { username, password } = validatePost(req.body);
+
+    if ((await models.User.findOne({ where: { username } })) === null) {
+      const newUser = await models.User.create({
+        username,
+        password: await hashValidPassword(password),
+      });
+      res.status(200).json({
+        UserId: newUser.UserId,
+        username: newUser.username,
+      });
+    } else {
+      return res.status(400).json({ error: ["username already exists"] });
+    }
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
 
 /**
  * Gets either all users or one user based on id or username
@@ -28,7 +47,54 @@ router.post("/", User.post);
  * @returns {object} 200 - An object of user's info or an array of all users info
  * @returns {Error}  404 - User could not be found
  */
-router.get("/", User.get);
+router.get("/", async (req, res) => {
+  try {
+    if (req.body.UserId) {
+      const user = await findInDatabase(validate.id(req.body.UserId));
+      if (user) {
+        return res.status(200).json({
+          UserId: user.UserId,
+          username: user.username,
+          avatar: user.avatar,
+        });
+      } else {
+        return res.status(404).json({ error: ["UserId could not be found"] });
+      }
+    } else if (req.body.username) {
+      const user = await models.User.findOne({
+        where: { username: validate.name(req.body.username) },
+      });
+      if (user) {
+        return res.status(200).json({
+          UserId: user.UserId,
+          username: user.username,
+          avatar: user.avatar,
+        });
+      } else {
+        return res.status(404).json({ error: ["username could not be found"] });
+      }
+    } else if (_.isEmpty(req.body)) {
+      const users = await models.User.findAll();
+      return res.status(200).json(
+        users.map((user) => {
+          return {
+            UserId: user.UserId,
+            username: user.username,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
+          };
+        })
+      );
+    } else {
+      const keys = Object.keys(req.body);
+      return res.status(400).json({
+        error: keys.map((key) => `${key} is not a valid key`),
+      });
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Get a JWT with a username and password
@@ -39,13 +105,26 @@ router.get("/", User.get);
  * @returns {object} 200 - a valid JSON Web Token
  * @returns {Error}  400 - Invalid or taken username or password
  */
-router.get("/login", User.getLogin);
+router.get("/login", async (req, res) => {
+  try {
+    const user = await User.verifyPassword(
+      req.body.username,
+      req.body.password
+    );
+    if (user) {
+      token = await User.signToken(user.UserId);
+      return res.status(200).json({ token, UserId: user.UserId });
+    }
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Get an array of user's current projects by id (Authorization Bearer Required)
  * @route GET /user/projects
  * @group user - Operations about user
- * @param {string} id.body.required - user's id
+ * @param {string} UserId.body.required - user's id
  * @returns {object} 200 - User id and an array of project ids
  * @returns {Error}  400 - Invalid id
  */
@@ -53,13 +132,22 @@ router.get("/projects", User.authorize, User.getProjects);
 
 /**
  * Get user's avatar
- * @route GET /user/projects
+ * @route GET /user/avatar
  * @group user - Operations about user
  * @param {string} id.body.required - user's id
  * @returns {object} 200 - user's avatar
  * @returns {Error}  400 - Invalid id
  */
 router.get("/avatar", User.getAvatar);
+
+/**
+ * Get an array of projects that user has been invited to(Authorization Bearer Required)
+ * @route GET /user/invited
+ * @group user - Operations about user
+ * @returns {object} 200 - an array of projects that user has been invited to
+ * @returns {Error}  400 - Invalid token or id
+ */
+router.get("/invited", User.authorize, User.getInvited);
 
 /**
  * Change a user's username (Authorization Bearer Required)
