@@ -1,9 +1,11 @@
 const assert = require("assert");
+const sinon = require("sinon");
 const User = require("../../handlers/user");
+const models = require("../../../db/models");
 
 let token = "";
 
-describe("validatePost", () => {
+describe("User.validatePost", () => {
   describe("when body contains a valid username and password", () => {
     it("should return body", () => {
       const input = { username: "test", password: "te$tPa55word" };
@@ -59,7 +61,7 @@ describe("validatePost", () => {
   });
 });
 
-describe("hashValidPassword", () => {
+describe("User.hashValidPassword", () => {
   describe("when a valid password is given", () => {
     it("should return a hashed password", async () => {
       const input = "te$tPa55word";
@@ -73,75 +75,52 @@ describe("hashValidPassword", () => {
   });
 });
 
-describe("authorize", () => {
-  describe("when the request contains a valid token in header", () => {
-    it("should assign user object to req.user", () => {
-      const req = { headers: { Authorization: `Bearer ${token}` } };
-      User.authorize(req);
-      assert.deepStrictEqual(req.user, {});
+describe("User.findInDatabase", () => {
+  beforeEach(() => {
+    models.User = {
+      findByPk: (UserId) => Promise.resolve({ UserId, username: "isfopo" }),
+    };
+    sinon.spy(models.User, "findByPk");
+  });
+
+  afterEach(() => {
+    models.User.findByPk.restore();
+  });
+
+  describe("when is given valid user id that is in database", () => {
+    it("should query database for id", () => {
+      const userId = "3a4639f8-77b6-11eb-9439-0242ac130002";
+      return User.findInDatabase(userId).then(() => {
+        assert.deepStrictEqual(models.User.findByPk.firstCall.args, [userId]);
+      });
+    });
+
+    it("should return a user object", async () => {
+      const userId = "3a4639f8-77b6-11eb-9439-0242ac130002";
+      const output = await User.findInDatabase(userId);
+      assert.deepStrictEqual(output, { UserId: userId, username: "isfopo" });
     });
   });
 
-  describe("when the request contains an invalid token", () => {
-    it("should throw an error", () => {});
-  });
-
-  describe("when the request does not contain a token", () => {
-    it("should throw an error", () => {});
-  });
-
-  describe("when the request contains an expired token", () => {
-    it("should throw an error", () => {});
-  });
-});
-
-describe("isInDatabase", () => {
-  describe("when is given valid user id", () => {
-    it("should return user object", () => {});
-  });
-
-  describe("when is given user id that is in database", () => {
-    it("should return user object", () => {});
-  });
-
   describe("when is given invalid user id", () => {
-    it("should throw an error", () => {});
+    it("should throw an error", () => {
+      const userId = "12345";
+      assert.throws(() => {
+        const user = new User.findInDatabase(userId);
+      });
+    });
   });
 
-  describe("when is given user id that is  not in database", () => {
-    it("should throw an error", () => {});
-  });
-});
-
-describe("post", () => {
-  describe("when a valid username and password are given", () => {
-    it("should return a 200 status", () => {});
-    it("should return id and username in response", () => {});
-  });
-
-  describe("when a valid username and password are given", () => {
-    it("should return a 400 status", () => {});
-    it("should throw an error", () => {});
-  });
-
-  describe("when given username is taken", () => {
-    it("should return a 400 status", () => {});
-    it("should throw an error", () => {});
+  describe("when is given user id that is not in database", () => {
+    it("should throw an error", () => {
+      const userId = "120e31ef4e-77bf-11eb-9439-0242ac130002345";
+      assert.throws(() => {
+        const user = new User.findInDatabase(userId);
+      });
+    });
   });
 });
 
-describe("get", () => {});
+describe("User.verifyPassword", () => {});
 
-describe("getLogin", () => {});
-
-describe("getProjects", () => {});
-
-describe("getAvatar", () => {});
-
-describe("putUsername", () => {});
-
-describe("putPassword", () => {});
-
-describe("putAvatar", () => {});
-
-describe("remove", () => {});
+describe("User.signToken", () => {});
