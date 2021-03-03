@@ -39,6 +39,7 @@ const validatePost = (body = {}) => {
  * @param {next} next express callback function
  */
 const authorize = (req, res, next) => {
+  //TODO: refactor
   const header = req.headers["authorization"];
 
   if (typeof header !== "undefined") {
@@ -92,113 +93,50 @@ const findInDatabase = async (id = "") => {
   }
 };
 
-const post = async (req, res) => {
-  try {
-    const projectParameters = Project.validatePost(req.body);
+/**
+ * Validates and creates a new project in the database
+ * @param {Object} body request body with project info
+ * @returns {Object} project
+ */
+const post = async (body = {}) => {
+  const projectParameters = Project.validatePost(req.body);
 
-    const project = await req.user.createProject({
-      name: projectParameters.name,
-      tempo: projectParameters.tempo,
-      time_signature: projectParameters.time_signature,
-    });
+  const project = await req.user.createProject({
+    name: projectParameters.name,
+    tempo: projectParameters.tempo,
+    time_signature: projectParameters.time_signature,
+  });
 
-    return res.status(200).json(project);
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
-  }
+  return project;
 };
 
-const get = async (req, res) => {
-  const users = await req.project.getUsers();
-  const scenes = await req.project.getScenes();
-  const tracks = await req.project.getTracks();
-  return res.status(200).json({
-    ...req.project.dataValues,
+/**
+ * Takes a project and returns all info, users, scenes and tracks
+ * @param {Object} project object to get users, scenes and tracks of
+ * @returns {Object} all info, users, scenes and tracks of project
+ */
+const get = async (project = {}) => {
+  const users = await project.getUsers();
+  const scenes = await project.getScenes();
+  const tracks = await project.getTracks();
+  return {
+    ...project.dataValues,
     users: users.map((user) => user.UserId),
     scenes: scenes.map((scene) => scene.SceneId),
     tracks: tracks.map((track) => track.TrackId),
-  });
+  };
 };
 
-const getUsers = async (req, res) => {
-  const users = await req.project.getUsers();
-  return res.status(200).json(
-    users.map((user) => {
-      return {
-        UserId: user.UserId,
-        username: user.username,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-      };
-    })
-  );
-};
-
-const getScenes = async (req, res) => {
-  const scenes = await req.project.getScenes();
-  res.status(200).json(
-    scenes.map((scene) => {
-      return {
-        SceneId: scene.SceneId,
-        name: scene.name,
-        tempo: scene.tempo,
-        time_signature: scene.time_signature,
-        createdAt: scene.createdAt,
-        updatedAt: scene.updatedAt,
-      };
-    })
-  );
-};
-
-const getTracks = async (req, res) => {
-  const tracks = await req.project.getTracks();
-  res.status(200).json(
-    tracks.map((track) => {
-      return {
-        TrackId: track.TrackId,
-        name: track.name,
-        settings: track.settings,
-        type: track.type,
-        createdAt: track.createdAt,
-        updatedAt: track.updatedAt,
-      };
-    })
-  );
-};
-
-const getClips = async (req, res) => {
-  try {
-    const scenes = await req.project.getScenes();
-
-    // TODO: get clips for each scene
-
-    const clips = scenes.map(async (scene) => {});
-
-    res.status(200).json(clips);
-  } catch (e) {
-    res.status(400).json(e);
-  }
-};
-
-const getMessages = async (req, res) => {
-  const messages = await req.project.getMessages();
-  res.status(200).json(messages);
-};
-
-const putInvite = async (req, res) => {
-  try {
-    const users = await req.project.getUsers();
-
-    if (!users.map((user) => user.UserId).includes(req.body.invitee)) {
-      req.project.invited.push(req.body.invitee);
-    } else {
-      return res.status(400).json({ error: ["user is already in project"] });
-    }
-    await req.project.save();
-
-    return res.status(200).json(req.project.invited);
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
+/**
+ * removes a given user from the project
+ * @param {Object} user object from database
+ * @param {Object} project object from database
+ */
+const leave = async (user, project) => {
+  await project.removeUser(user);
+  const usersLeftInProject = await project.getUsers();
+  if (usersLeftInProject.length === 0) {
+    await project.destroy();
   }
 };
 
@@ -208,10 +146,5 @@ module.exports = {
   findInDatabase,
   post,
   get,
-  getUsers,
-  getScenes,
-  getTracks,
-  getClips,
-  getMessages,
-  putInvite,
+  leave,
 };
