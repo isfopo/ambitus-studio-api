@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       },
       invited: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
-        allowNull: false,
+        allowNull: true,
         defaultValue: [],
       },
       backlog: {
