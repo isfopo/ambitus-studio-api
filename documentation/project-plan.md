@@ -141,8 +141,10 @@
   - [x] get User data
   - [x] get User's projects
   - [x] get user's avatar
+  - [x] get project user has been invited to
   - [x] change name
   - [x] change avatar
+  - [x] accept an invitation to a project
   - [x] delete user
 
 - [ ] **Project**
@@ -157,13 +159,12 @@
   - [ ] change time signature of project
   - [ ] change order of scenes
   - [ ] change order of tracks
-  - [ ] invite a user to a project
-  - [ ] accept an invitation to a project
-  - [ ] leave project
+  - [x] invite a user to a project
   - [ ] request access to a project
   - [ ] accept a request to a project
-  - [ ] undo
-  - [ ] redo
+  - [x] leave project
+  - [ ] undo action
+  - [ ] redo undo
 
 - [ ] **Scene**
 
@@ -190,7 +191,8 @@
   - [ ] add content to clip
     - [ ] take id and add audio or midi to clip
   - [ ] get metadata of clip, including reference to content
-  - [ ] get content of clip
+  - [ ] get id of clip by SceneId and ProjectId
+  - [ ] get content of clip by ClipId
   - [ ] delete clip
 
 - [ ] **Message**

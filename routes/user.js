@@ -8,6 +8,7 @@ const { Op } = require("sequelize");
 
 const validate = require("./handlers/helpers/validate");
 const User = require("./handlers/user.js");
+const Project = require("./handlers/project.js");
 const models = require("../db/models");
 
 require("dotenv").config();
@@ -268,13 +269,31 @@ router.put(
 );
 
 /**
- * Accept an invitation to a project (Authorization Bearer Required)
+ * Accept an invitation to a project and removes id from invited array (Authorization Bearer Required)
  * @route PUT /user/accept
  * @group user - Operations about user
- * @param {String} ProjectId - id for project to accept
+ * @param {String} ProjectId.body.required - id for project to accept
  * @returns {Object} 204
  */
-router.put("/accept", User.authorize, async (req, res) => {});
+router.put("/accept", User.authorize, async (req, res) => {
+  try {
+    const project = await Project.findInDatabase(req.body.ProjectId);
+
+    if (project.invited && project.invited.includes(req.user.UserId)) {
+      project.invited = project.invited.filter((id) => id !== req.user.UserId);
+      await project.save();
+
+      await project.addUser(req.user);
+      return res.sendStatus(204);
+    } else {
+      return res
+        .status(400)
+        .json({ error: ["user is not invited to this project"] });
+    }
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Delete user (Authorization Bearer Required)
