@@ -111,11 +111,26 @@ const post = async (body = {}) => {
 };
 
 /**
- * Takes a project and returns all info, users, scenes and tracks
+ * Takes a project and returns info, users' ids
+ * Shows enough for public display
  * @param {Object} project object to get users, scenes and tracks of
  * @returns {Object} all info, users, scenes and tracks of project
  */
 const get = async (project = {}) => {
+  const users = await project.getUsers();
+  return {
+    ...project.dataValues,
+    users: users.map((user) => user.UserId),
+  };
+};
+
+/**
+ * Takes a project and returns all info, users, scenes and tracks
+ * For detailed information only needed for users in project
+ * @param {Object} project object to get users, scenes and tracks of
+ * @returns {Object} all info, users, scenes and tracks of project
+ */
+const getDetail = async (project = {}) => {
   const users = await project.getUsers();
   const scenes = await project.getScenes();
   const tracks = await project.getTracks();
@@ -146,5 +161,6 @@ module.exports = {
   findInDatabase,
   post,
   get,
+  getDetail,
   leave,
 };
