@@ -29,7 +29,7 @@ const validatePost = (body = {}) => {
  * @param {string} id the id of the scene to be found
  * @returns {scene} if the scene is found
  */
-const isInDatabase = async (id = "") => {
+const findInDatabase = async (id = "") => {
   const scene = await Scene.findByPk(id);
 
   if (scene === null) {
@@ -66,7 +66,7 @@ const get = async (req, res) => {
 
 module.exports = {
   validatePost,
-  isInDatabase,
+  findInDatabase,
   post,
   get,
 };
