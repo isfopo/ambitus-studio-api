@@ -10,7 +10,7 @@ module.exports = {
           name: "MyFirstProject",
           tempo: 120,
           time_signature: "4/4",
-          // invited: [],
+          invited: ["a568f290-76ec-11eb-be2c-750b4547c521"],
           // backlog: [],
           // frontlog: [],
         },
