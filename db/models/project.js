@@ -31,6 +31,11 @@ module.exports = (sequelize) => {
         allowNull: true,
         defaultValue: [],
       },
+      requests: {
+        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
+        allowNull: true,
+        defaultValue: [],
+      },
       backlog: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
         allowNull: false,
