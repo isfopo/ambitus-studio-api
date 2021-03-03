@@ -84,7 +84,7 @@ const authorize = (req, res, next) => {
  * @returns {boolean} if the project is found
  */
 const findInDatabase = async (id = "") => {
-  const project = await Project.findByPk(id);
+  const project = await Project.findByPk(validate.id(id));
 
   if (project === null) {
     throw new Error("Couldn't find requested project in database");
