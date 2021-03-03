@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
+const { Op } = require("sequelize");
 
 const validate = require("./handlers/helpers/validate");
 const User = require("./handlers/user.js");
@@ -179,7 +180,12 @@ router.get("/avatar", async (req, res) => {
  * @returns {object} 200 - an array of projects that user has been invited to
  * @returns {Error}  400 - Invalid token or id
  */
-router.get("/invites", User.authorize, async (req, res) => {});
+router.get("/invites", User.authorize, async (req, res) => {
+  const projects = await models.Project.findAll({
+    where: { invited: { [Op.contains]: [req.user.UserId] } },
+  });
+  return res.status(200).json(projects);
+});
 
 /**
  * Change a user's username (Authorization Bearer Required)
