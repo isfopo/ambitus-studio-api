@@ -9,6 +9,8 @@ const fs = require("fs");
 
 const models = require("../../db/models");
 
+const Project = require("./project");
+
 require("dotenv").config();
 
 /**
@@ -152,6 +154,39 @@ const signToken = async (UserId = "") => {
   });
 };
 
+/**
+ * saves an avatar to a user in database
+ * @param {Object} user object returned from database
+ * @param {Object} avatar from request
+ */
+const saveAvatar = async (user, avatar) => {
+  user.avatar = avatar.path;
+  user.avatar_type = avatar.mimetype;
+  await user.save();
+};
+
+/**
+ * leaves all projects that a given user is in
+ * @param {Object} user object from database
+ */
+const leaveAllProjects = async (user) => {
+  const projects = await user.getProjects();
+  projects.forEach(async (project) => {
+    Project.leave(user, project);
+  });
+};
+
+/**
+ * deletes all messages of a user
+ * @params {Object} user
+ */
+const deleteAllMessages = async (user) => {
+  const messages = await user.getMessages();
+  messages.forEach(async (message) => {
+    await message.destroy();
+  });
+};
+
 module.exports = {
   validatePost,
   authorize,
@@ -159,4 +194,7 @@ module.exports = {
   hashValidPassword,
   verifyPassword,
   signToken,
+  saveAvatar,
+  leaveAllProjects,
+  deleteAllMessages,
 };
