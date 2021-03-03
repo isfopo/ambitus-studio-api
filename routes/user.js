@@ -1,10 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
+const multer = require("multer");
 const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
 
+const validate = require("./handlers/helpers/validate");
 const User = require("./handlers/user.js");
+const models = require("../db/models");
 
 require("dotenv").config();
 
@@ -170,15 +173,13 @@ router.get("/avatar", async (req, res) => {
 });
 
 /**
- * Get an array of projects that user has been invited to(Authorization Bearer Required)
+ * Get an array of projects that user has been invited to (Authorization Bearer Required)
  * @route GET /user/invited
  * @group user - Operations about user
  * @returns {object} 200 - an array of projects that user has been invited to
  * @returns {Error}  400 - Invalid token or id
  */
-router.get("/invited", User.authorize, async (req, res) => {
-  const allProjects = await models.Project.findAll(); // TODO: this might be too expensive, maybe rethink
-});
+router.get("/invites", User.authorize, async (req, res) => {});
 
 /**
  * Change a user's username (Authorization Bearer Required)
@@ -232,7 +233,7 @@ router.put("/password", User.authorize, async (req, res) => {
  * @route PUT /user/avatar
  * @group user - Operations about user
  * @param {string} avatar.multipart - user's new avatar
- * @returns {object} 200 - User id and changed avatar path
+ * @returns {object} 204 - avatar has been changed
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  404 - Avatar image has been deleted - returns to default
  */
@@ -242,33 +243,16 @@ router.put(
   upload.single("avatar"),
   async (req, res) => {
     try {
-      const userInDb = await models.User.findByPk(req.user.UserId);
-
       const avatar = validate.avatar(req.file);
 
-      if (!userInDb.avatar.includes("default-avatar.jpg")) {
+      if (!req.user.avatar.includes("default-avatar.jpg")) {
         fs.unlink(req.user.avatar, async (error) => {
-          req.user.avatar = avatar.path;
-          req.user.avatar_type = avatar.mimetype;
-          await req.user.save();
-
-          res.status(200).json({
-            UserId: req.user.UserId,
-            username: req.user.username,
-            avatar: req.user.avatar,
-          });
+          User.saveAvatar(req.user, avatar);
         });
       } else {
-        req.user.avatar = avatar.path;
-        req.user.avatar_type = avatar.mimetype;
-        await req.user.save();
-
-        res.status(200).json({
-          UserId: req.user.UserId,
-          username: req.user.username,
-          avatar: req.user.avatar,
-        });
+        User.saveAvatar(req.user, avatar);
       }
+      res.status(204);
     } catch (e) {
       fs.unlink(req.file.path, (error) => {
         return res.status(400).json({ error: e.message });
@@ -276,6 +260,15 @@ router.put(
     }
   }
 );
+
+/**
+ * Accept an invitation to a project (Authorization Bearer Required)
+ * @route PUT /user/accept
+ * @group user - Operations about user
+ * @param {String} ProjectId - id for project to accept
+ * @returns {Object} 204
+ */
+router.put("/accept", User.authorize, async (req, res) => {});
 
 /**
  * Delete user (Authorization Bearer Required)
@@ -286,11 +279,9 @@ router.put(
  */
 router.delete("/", User.authorize, async (req, res) => {
   try {
-    // delete messages of user
-    const messages = await req.user.getMessages();
-    messages.forEach(async (message) => {
-      await message.destroy();
-    });
+    await User.deleteAllMessages(req.user);
+    await User.leaveAllProjects(req.user);
+
     if (!req.user.avatar.includes("default-avatar.jpg")) {
       fs.unlink(req.user.avatar, async (error) => {
         await req.user.destroy();
