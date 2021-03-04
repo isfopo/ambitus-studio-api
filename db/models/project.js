@@ -28,23 +28,23 @@ module.exports = (sequelize) => {
       },
       invited: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
-        allowNull: true,
         defaultValue: [],
+        allowNull: false,
       },
       requests: {
         type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
-        allowNull: true,
         defaultValue: [],
+        allowNull: false,
       },
       backlog: {
-        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
-        allowNull: false,
+        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING), // store backlog as compressed string
         defaultValue: [],
+        allowNull: false,
       },
       frontlog: {
-        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
-        allowNull: false,
+        type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
         defaultValue: [],
+        allowNull: false,
       },
     },
     { sequelize }
