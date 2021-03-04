@@ -160,8 +160,8 @@
   - [ ] change order of scenes
   - [ ] change order of tracks
   - [x] invite a user to a project
-  - [ ] request access to a project
-  - [ ] accept a request to a project
+  - [x] request access to a project
+  - [x] accept a request to a project
   - [x] leave project
   - [ ] undo action
   - [ ] redo undo
