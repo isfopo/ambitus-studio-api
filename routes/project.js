@@ -167,15 +167,6 @@ router.get("/messages", Project.authorize, async (req, res) => {
 });
 
 /**
- * Gets users that have requested access to project (Authorization Bearer Required)
- * @route GET /project/requests
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {Object} 200 - array of UserIds that have requested access to project
- */
-router.get("/requests", Project.authorize, async (req, res) => {});
-
-/**
  * Put a UserId into invited array (Authorization Bearer Required)
  * @route PUT /project/invite
  * @group Project - Operations about projects
@@ -239,8 +230,28 @@ router.put("/request", User.authorize, async (req, res) => {
  * @route PUT /project/accept
  * @group Project - Operations about projects
  * @param {string} ProjectId.body.required - project's id
- * @param {string} requestor.body.required - requestor UserId
+ * @param {string} requester.body.required - requesting user's UserId
  */
-router.put("/accept", Project.authorize, () => {});
+router.put("/accept", Project.authorize, async (req, res) => {
+  try {
+    const requester = await User.findInDatabase(req.body.requester);
+
+    if (req.project.requests.includes(requester.UserId)) {
+      req.project.requests = req.project.requests.filter(
+        (id) => id !== requester.UserId
+      );
+      await req.project.save();
+
+      await req.project.addUser(requester);
+      return res.sendStatus(204);
+    } else {
+      return res
+        .status(400)
+        .json({ error: ["user has not requested this project"] });
+    }
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
 
 module.exports = router;
