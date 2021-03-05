@@ -25,6 +25,16 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
       },
+      bars: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 4,
+      },
+      repeats: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+      },
       ProjectId: {
         type: Sequelize.DataTypes.UUID,
         references: {
