@@ -89,18 +89,18 @@
     - [x] User id is on database
     - [x] valid id, tempo, time signature
 
-- [ ] Scene
+- [x] Scene
 
-  - [ ] check creation parameters
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] project is in database
     - [x] have valid id
-    - [ ] valid name, tempo and time signature if present
-  - [ ] check if is in database
+    - [x] valid name, tempo and time signature if present
+  - [x] check if is in database
 
 - [ ] Track
 
-  - [ ] check creation parameters
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] project is in database
     - [x] valid name, type and settings
   - [ ] check if is in database
 
@@ -170,7 +170,7 @@
 
   - [x] create a new scene at end of scenes in project
   - [x] get info about a scene
-  - [ ] get all clips in scene
+  - [ ] get all clips in scene with track ids
   - [ ] change tempo of scene
   - [ ] change time signature of scene
   - [ ] delete scene and all clips in scene
@@ -179,7 +179,7 @@
 
   - [x] create a new track at end of tracks in project
   - [x] get info about a track
-  - [ ] get all clips in track
+  - [ ] get all clips in track with scene ids
   - [ ] change name of track
   - [ ] change settings of track
   - [ ] delete track and all clips in track
