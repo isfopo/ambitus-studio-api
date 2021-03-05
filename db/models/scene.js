@@ -16,7 +16,8 @@ module.exports = (sequelize) => {
       },
       tempo: {
         type: Sequelize.DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: 120,
         validate: {
           min: 40,
           max: 280,
@@ -24,7 +25,8 @@ module.exports = (sequelize) => {
       },
       time_signature: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: "4/4",
       },
       bars: {
         type: Sequelize.DataTypes.INTEGER,
