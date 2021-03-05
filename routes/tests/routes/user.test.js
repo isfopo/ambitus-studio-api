@@ -121,6 +121,31 @@ describe("User.findInDatabase", () => {
   });
 });
 
-describe("User.verifyPassword", () => {});
+describe("User.verifyPassword", () => {
+  beforeEach(() => {
+    models.User = {
+      findOne: (username) =>
+        Promise.resolve({
+          UserId: "57fc1120-74d7-11eb-8c62-fdd5c8e05336",
+          username: username.where.username,
+          password:
+            "$2b$13$iBtJNpYYAkiAQF5Nb/zILO4Sh77Nm8HtWddffsJat42WpVNKamGuG",
+        }),
+    };
+  });
+  describe("when matching username and password are given", () => {
+    it("should return a user object", async () => {
+      const username = "isfopo";
+      const password = "te$tPa55word";
+      const user = await User.verifyPassword(username, password);
+      assert.deepStrictEqual(user, {
+        UserId: "57fc1120-74d7-11eb-8c62-fdd5c8e05336",
+        username,
+        password:
+          "$2b$13$iBtJNpYYAkiAQF5Nb/zILO4Sh77Nm8HtWddffsJat42WpVNKamGuG",
+      });
+    });
+  });
+});
 
 describe("User.signToken", () => {});

@@ -2,29 +2,15 @@ const assert = require("assert");
 const Project = require("../../handlers/project");
 
 describe("Project.validatePost", () => {
-  describe("when body contains a valid id, name, tempo and time signature", () => {
+  describe("when body contains a valid name, tempo and time signature", () => {
     it("should return body", () => {
       const input = {
-        id: "5ece01d0-7017-11eb-beda-e76c7ddac317",
         name: "MyProject",
         tempo: 120,
         time_signature: "4/4",
       };
       const output = Project.validatePost(input);
       assert.deepStrictEqual(output, input);
-    });
-  });
-
-  describe("when body does not contain an id", () => {
-    it("should throw an error", () => {
-      const input = {
-        name: "MyProject",
-        tempo: 120,
-        time_signature: "4/4",
-      };
-      assert.throws(() => {
-        const output = Project.validatePost(input);
-      });
     });
   });
 
@@ -60,20 +46,6 @@ describe("Project.validatePost", () => {
         id: "5ece01d0-7017-11eb-beda-e76c7ddac317",
         name: "MyProject",
         tempo: 120,
-      };
-      assert.throws(() => {
-        const output = Project.validatePost(input);
-      });
-    });
-  });
-
-  describe("when id is not a valid uuid", () => {
-    it("should throw an error", () => {
-      const input = {
-        id: "1234567890abcdef",
-        name: "MyProject",
-        tempo: 120,
-        time_signature: "4/4",
       };
       assert.throws(() => {
         const output = Project.validatePost(input);
@@ -124,4 +96,17 @@ describe("Project.validatePost", () => {
   });
 });
 
-describe("isInDatabase", () => {}); // TODO: finish test and function
+describe("Project.isInDatabase", () => {
+  describe("when project with given id is in database", () => {
+    it("should return the project", () => {});
+  });
+
+  describe("when project with given id is not in database", () => {
+    it("should return an error", () => {
+      const projectId = 1234;
+      assert.throws(() => {
+        const project = new Project.findInDatabase(projectId);
+      });
+    });
+  });
+});
