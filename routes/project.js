@@ -79,7 +79,7 @@ router.get("/users", Project.authorize, async (req, res) => {
  * Get all scenes from a project (Authorization Bearer Required)
  * @route GET /project/scenes
  * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
+ * @param {String} ProjectId.body.required - project's id
  * @returns {object} 200 - An array of scenes in project
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -105,7 +105,7 @@ router.get("/scenes", Project.authorize, async (req, res) => {
  * Get all tracks from a project (Authorization Bearer Required)
  * @route GET /project/tracks
  * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
+ * @param {String} ProjectId.body.required - project's id
  * @returns {object} 200 - An array of tracks in project
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -131,7 +131,7 @@ router.get("/tracks", Project.authorize, async (req, res) => {
  * Get all clips from a project (Authorization Bearer Required)
  * @route GET /project/clips
  * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
+ * @param {String} ProjectId.body.required - project's id
  * @returns {object} 200 - An nested array of clips in project by scene
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -155,7 +155,7 @@ router.get("/clips", Project.authorize, async (req, res) => {
  * Get all message (Authorization Bearer Required)
  * @route POST /project/messages
  * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
+ * @param {String} ProjectId.body.required - project's id
  * @returns {object} 200 - An array of messages in project
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -170,8 +170,8 @@ router.get("/messages", Project.authorize, async (req, res) => {
  * Put a UserId into invited array (Authorization Bearer Required)
  * @route PUT /project/invite
  * @group Project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
- * @param {string} invitee.body.required - invitee's UserId
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} invitee.body.required - invitee's UserId
  * @returns {object} 204
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -201,7 +201,7 @@ router.put("/invite", Project.authorize, async (req, res) => {
  * Requests access to a given project (Authorization Bearer Required)
  * @route PUT /project/request
  * @group Projects - Operations about projects
- * @param {string} ProjectId.body.required - requested project's ids
+ * @param {String} ProjectId.body.required - requested project's ids
  * @returns {Object} 204
  */
 router.put("/request", User.authorize, async (req, res) => {
@@ -229,8 +229,8 @@ router.put("/request", User.authorize, async (req, res) => {
  * Accepts request from a user to join a project (Authorization Bearer Required)
  * @route PUT /project/accept
  * @group Project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
- * @param {string} requester.body.required - requesting user's UserId
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} requester.body.required - requesting user's UserId
  */
 router.put("/accept", Project.authorize, async (req, res) => {
   try {
@@ -253,5 +253,15 @@ router.put("/accept", Project.authorize, async (req, res) => {
     res.status(400).json({ error: e.message });
   }
 });
+
+/**
+ * Put a given scene at a designated index (Authorization Bearer Required)
+ * @route PUT /project/accept
+ * @group Project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - SceneId of scene to be moved
+ * @param {Integer} index.body.required - index to insert scene
+ */
+router.put("/reorder-scenes", Project.authorize, async (req, res) => {});
 
 module.exports = router;
