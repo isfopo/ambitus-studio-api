@@ -168,4 +168,4 @@ describe("Scene.validatePost", () => {
   });
 });
 
-describe("isInDatabase", () => {}); // TODO: finish test and function
+describe("findInDatabase", () => {}); // TODO: finish test and function

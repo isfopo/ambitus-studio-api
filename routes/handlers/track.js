@@ -35,7 +35,7 @@ const validatePost = (body = {}) => {
  * @param {string} id the id of the track to be found
  * @returns {track} if the track is found
  */
-const isInDatabase = async (id = "") => {
+const findInDatabase = async (id = "") => {
   const track = await Track.findByPk(id);
 
   if (track === null) {
@@ -45,17 +45,7 @@ const isInDatabase = async (id = "") => {
   }
 };
 
-const get = async (req, res) => {
-  try {
-    const track = Track.isInDatabase(req.body.trackId);
-    return res.status(200).json(track);
-  } catch (error) {
-    return res.status(400).json({ error });
-  }
-};
-
 module.exports = {
   validatePost,
-  isInDatabase,
-  get,
+  findInDatabase,
 };
