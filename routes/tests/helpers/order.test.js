@@ -30,3 +30,49 @@ describe("getNextIndex", () => {
     });
   });
 });
+
+describe("reorderByProperty", () => {
+  describe("when given a proper arguments", () => {
+    it("should return reordered array", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      const output = order.reorderByProperty(input, "id", "3", 1);
+      assert.deepStrictEqual(output, [{ id: "1" }, { id: "3" }, { id: "2" }]);
+    });
+    it("should return reordered array", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      const output = order.reorderByProperty(input, "id", "3", 0);
+      assert.deepStrictEqual(output, [{ id: "3" }, { id: "1" }, { id: "2" }]);
+    });
+    it("should return reordered array", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      const output = order.reorderByProperty(input, "id", "1", 2);
+      assert.deepStrictEqual(output, [{ id: "2" }, { id: "3" }, { id: "1" }]);
+    });
+  });
+
+  describe("when given an id that is not in array", () => {
+    it("should throw an error", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      assert.throws(() => {
+        const output = order.reorderByProperty(input, "id", "4", 1);
+      });
+    });
+  });
+
+  describe("when given a property that is not in array", () => {
+    it("should throw an error", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      assert.throws(() => {
+        const output = order.reorderByProperty(input, "name", "3", 1);
+      });
+    });
+  });
+
+  describe("when given an index outside of the array", () => {
+    it("should return an array with element at the end", () => {
+      const input = [{ id: "1" }, { id: "2" }, { id: "3" }];
+      const output = order.reorderByProperty(input, "id", "1", 5);
+      assert.deepStrictEqual(output, [{ id: "2" }, { id: "3" }, { id: "1" }]);
+    });
+  });
+});
