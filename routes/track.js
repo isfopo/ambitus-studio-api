@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const order = require("./handlers/helpers/order");
 const Project = require("./handlers/project");
 const Track = require("./handlers/track");
 
@@ -15,7 +16,27 @@ const Track = require("./handlers/track");
  * @returns {object} 200 - An object of track's info with generated track id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
-router.post("/", Project.authorize, Track.post);
+router.post("/", Project.authorize, async (req, res) => {
+  try {
+    const trackParameters = Track.validatePost(req.body);
+    const tracks = await req.project.getTracks();
+
+    const trackDataValues = tracks.map((track) => track.dataValues);
+    const nextIndex = order.getNextIndex(trackDataValues, "index");
+
+    const track = await req.project.createTrack({
+      name: trackParameters.name,
+      settings: trackParameters.settings,
+      type: trackParameters.type,
+      index: nextIndex,
+    });
+
+    return res.status(200).json(track);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+});
 
 /**
  * Get track information (Authorization Bearer Required)

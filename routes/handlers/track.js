@@ -4,8 +4,8 @@ const Track = require("../../db/models").Track;
 const validatePost = (body = {}) => {
   const errors = [];
 
-  if (!body.id) {
-    errors.push("body should contain an id");
+  if (!body.ProjectId) {
+    errors.push("body should contain a ProjectId");
   } else if (!body.name) {
     errors.push("body should contain a name");
   } else if (!body.settings) {
@@ -15,7 +15,7 @@ const validatePost = (body = {}) => {
   }
 
   try {
-    validate.id(body.id);
+    validate.id(body.ProjectId);
     validate.name(body.name);
     validate.settings(body.settings);
     validate.type(body.type);
@@ -45,23 +45,6 @@ const isInDatabase = async (id = "") => {
   }
 };
 
-const post = async (req, res) => {
-  try {
-    const trackParameters = validatePost(req.body);
-
-    const track = await req.project.createTrack({
-      name: trackParameters.name,
-      settings: trackParameters.settings,
-      type: trackParameters.type,
-    });
-
-    return res.status(200).json(track);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
-  }
-};
-
 const get = async (req, res) => {
   try {
     const track = Track.isInDatabase(req.body.trackId);
@@ -74,6 +57,5 @@ const get = async (req, res) => {
 module.exports = {
   validatePost,
   isInDatabase,
-  post,
   get,
 };
