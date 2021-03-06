@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
   class Clip extends Sequelize.Model {}
   Clip.init(
     {
-      id: {
+      ClipId: {
         type: Sequelize.DataTypes.UUID,
         defaultValue: Sequelize.DataTypes.UUIDV1,
         primaryKey: true,
@@ -35,8 +35,8 @@ module.exports = (sequelize) => {
   );
 
   Clip.associate = (models) => {
-    Clip.belongsTo(models.Scene);
-    Clip.belongsTo(models.Track);
+    Clip.belongsTo(models.Scene, { foreignKey: "ClipId" });
+    Clip.belongsTo(models.Track, { foreignKey: "ClipId" });
   };
 
   return Clip;
