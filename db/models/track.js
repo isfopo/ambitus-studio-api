@@ -31,6 +31,11 @@ module.exports = (sequelize) => {
         ],
         allowNull: false,
       },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+      },
     },
     { sequelize }
   );

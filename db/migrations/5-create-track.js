@@ -30,6 +30,11 @@ module.exports = {
         ],
         allowNull: false,
       },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+      },
       ProjectId: {
         type: Sequelize.DataTypes.UUID,
         references: {
