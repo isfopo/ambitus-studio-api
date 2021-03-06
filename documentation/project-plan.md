@@ -151,6 +151,7 @@
 
   - [x] create a new project
   - [x] get info about one project
+  - [ ] subscribe to changes in project
   - [x] get all scenes in a project
   - [x] get all tracks in a project
   - [ ] get all clips in project organized by scenes and tracks
@@ -170,16 +171,16 @@
 
   - [x] create a new scene at end of scenes in project
   - [x] get info about a scene
-  - [ ] get all clips in scene with track ids
-  - [ ] change tempo of scene
-  - [ ] change time signature of scene
+  - [x] get all clips in scene with track ids
+  - [ ] add or change tempo of scene
+  - [ ] add or change time signature of scene
   - [ ] delete scene and all clips in scene
 
 - [ ] **Track**
 
   - [x] create a new track at end of tracks in project
   - [x] get info about a track
-  - [ ] get all clips in track with scene ids
+  - [x] get all clips in track with scene ids
   - [ ] change name of track
   - [ ] change settings of track
   - [ ] delete track and all clips in track
