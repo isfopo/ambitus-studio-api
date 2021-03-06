@@ -38,6 +38,11 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: 1,
       },
+      index: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+      },
     },
     { sequelize }
   );
