@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("./handlers/helpers/validate");
+const order = require("./handlers/helpers/order");
 const models = require("../db/models");
 const User = require("./handlers/user");
 const Project = require("./handlers/project");
@@ -262,6 +263,22 @@ router.put("/accept", Project.authorize, async (req, res) => {
  * @param {String} SceneId.body.required - SceneId of scene to be moved
  * @param {Integer} index.body.required - index to insert scene
  */
-router.put("/reorder-scenes", Project.authorize, async (req, res) => {});
+router.put("/reorder-scenes", Project.authorize, async (req, res) => {
+  const scenes = await req.project.getScenes();
+
+  // BUG: almost works, will insert at correct index, but will sometimes order other elements incorrectly
+  const reorderedScenes = order.reorderByProperty(
+    scenes,
+    "SceneId",
+    req.body.SceneId,
+    req.body.index
+  );
+  // assign index to scenes in array
+  for (let i = 0; i < scenes.length; i++) {
+    reorderedScenes[i].index = i;
+    await reorderedScenes[i].save();
+  }
+  return res.status(200).json(reorderedScenes);
+});
 
 module.exports = router;
