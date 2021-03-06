@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const order = require("./handlers/helpers/order");
 const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 
@@ -17,17 +18,22 @@ const Scene = require("./handlers/scene");
  */
 router.post("/", Project.authorize, async (req, res) => {
   try {
-    const sceneParameters = validatePost(req.body);
+    const sceneParameters = Scene.validatePost(req.body);
+    const scenes = await req.project.getScenes();
+
+    const sceneDataValues = scenes.map((scene) => scene.dataValues);
+    const nextIndex = order.getNextIndex(sceneDataValues, "index");
 
     const scene = await req.project.createScene({
       name: sceneParameters.name,
       tempo: sceneParameters.tempo,
       time_signature: sceneParameters.time_signature,
+      index: nextIndex,
     });
 
     return res.status(200).json(scene);
-  } catch (error) {
-    return res.status(400).json({ error });
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
   }
 });
 
