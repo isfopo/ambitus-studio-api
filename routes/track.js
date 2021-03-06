@@ -42,13 +42,21 @@ router.post("/", Project.authorize, async (req, res) => {
  * Get track information (Authorization Bearer Required)
  * @route GET /track
  * @group track - Operations about track
- * @param {string} projectId.body.required - project's id
- * @param {string} trackId.body.required - track's id
+ * @param {string} ProjectId.body.required - project's id
+ * @param {string} TrackId.body.required - track's id
  * @returns {object} 200 - An object of track's info with generated track id
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
  * @returns {Error}  404 - Track not found
  */
-router.get("/", Project.authorize, Track.get);
+router.get("/", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    const clips = await track.getClips();
+    return res.status(200).json({ ...track.dataValues, clips });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
 
 module.exports = router;

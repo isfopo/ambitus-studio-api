@@ -41,8 +41,8 @@ router.post("/", Project.authorize, async (req, res) => {
  * Get scene information (Authorization Bearer Required)
  * @route GET /scene
  * @group scene - Operations about scene
- * @param {string} projectId.body.required - project's id
- * @param {string} sceneId.body.required - scene's id
+ * @param {string} ProjectId.body.required - project's id
+ * @param {string} SceneId.body.required - scene's id
  * @returns {object} 200 - An object of scene's info with generated scene id
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  403 - User is not in project
@@ -50,11 +50,12 @@ router.post("/", Project.authorize, async (req, res) => {
  */
 router.get("/", Project.authorize, async (req, res) => {
   try {
-    const scene = Scene.isInDatabase(req.body.sceneId);
+    const scene = await Scene.findInDatabase(req.body.SceneId);
     const clips = await scene.getClips();
+    console.log(clips);
     return res.status(200).json({ ...scene.dataValues, clips });
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json({ error: error.message });
   }
 });
 
