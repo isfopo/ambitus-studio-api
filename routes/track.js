@@ -31,7 +31,20 @@ router.post("/", Project.authorize, async (req, res) => {
       index: nextIndex,
     });
 
-    return res.status(200).json(track);
+    const scenes = await req.project.getScenes();
+
+    scenes.forEach(async (scene) => {
+      const clip = await track.createClip({
+        tempo: req.project.tempo,
+        time_signature: req.project.time_signature,
+      });
+      scene.addClip(clip);
+    });
+
+    const newTrack = await Track.findInDatabase(track.TrackId);
+    const clips = await newTrack.getClips();
+
+    return res.status(200).json({ ...newTrack.dataValues, clips });
   } catch (error) {
     console.log(error);
     return res.status(400).json(error);

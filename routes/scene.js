@@ -31,7 +31,20 @@ router.post("/", Project.authorize, async (req, res) => {
       index: nextIndex,
     });
 
-    return res.status(200).json(scene);
+    const tracks = await req.project.getTracks();
+
+    tracks.forEach(async (track) => {
+      const clip = await scene.createClip({
+        tempo: req.project.tempo,
+        time_signature: req.project.time_signature,
+      });
+      await track.addClip(clip);
+    });
+
+    const newScene = await Scene.findInDatabase(scene.SceneId);
+    const clips = await newScene.getClips();
+
+    return res.status(200).json({ ...newScene.dataValues, clips });
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
@@ -52,7 +65,7 @@ router.get("/", Project.authorize, async (req, res) => {
   try {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     const clips = await scene.getClips();
-    console.log(clips);
+
     return res.status(200).json({ ...scene.dataValues, clips });
   } catch (error) {
     return res.status(400).json({ error: error.message });
