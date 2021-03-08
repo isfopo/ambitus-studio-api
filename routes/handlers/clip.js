@@ -39,35 +39,13 @@ const validatePost = (body = {}) => {
  * @param {string} id the id of the clip to be found
  * @returns {boolean} if the clip is found
  */
-const isInDatabase = async (id = "") => {
+const findInDatabase = async (id = "") => {
   const clip = await Clip.findByPk(id);
 
   if (clip === null) {
     throw new Error("Couldn't find requested clip in database");
   } else {
     return clip;
-  }
-};
-
-const post = async (req, res) => {
-  try {
-    const clipParameters = validatePost(req.body);
-
-    const scene = await Scene.isInDatabase(req.body.sceneId);
-    const track = await Track.isInDatabase(req.body.trackId);
-
-    const clip = await scene.createClip({
-      name: clipParameters.name,
-      tempo: clipParameters.tempo,
-      time_signature: clipParameters.time_signature,
-    });
-
-    await track.addClip(clip); // TODO: overwrite a clip with the same scene and track
-
-    return res.status(200).json(clip);
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
   }
 };
 
@@ -81,7 +59,7 @@ const get = async (req, res) => {
 };
 
 const getContent = async (req, res) => {
-  const clip = await isInDatabase(req.body.id);
+  const clip = await findInDatabase(req.body.id);
   const stream = Readable.from(clip.content);
 
   stream.pipe(res);
@@ -97,7 +75,7 @@ const putName = async (req, res) => {
 };
 
 const putContent = async (req, res) => {
-  const clip = await isInDatabase(req.body.id);
+  const clip = await findInDatabase(req.body.id);
 
   if ((clip.type = req.file.mimetype)) {
     const clipBuffer = fs.readFileSync(req.file.path);
@@ -114,8 +92,7 @@ const putContent = async (req, res) => {
 
 module.exports = {
   validatePost,
-  isInDatabase,
-  post,
+  findInDatabase,
   get,
   getContent,
   putName,
