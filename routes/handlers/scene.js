@@ -53,10 +53,12 @@ const createAndPopulate = async (project, params) => {
     name: params.name,
     tempo: params.tempo,
     time_signature: params.time_signature,
-    index: order.getNextIndex(
-      scenes.map((scene) => scene.dataValues),
-      "index"
-    ),
+    index: params.index
+      ? params.index
+      : order.getNextIndex(
+          scenes.map((scene) => scene.dataValues),
+          "index"
+        ),
   });
 
   const tracks = await project.getTracks();
