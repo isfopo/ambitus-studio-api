@@ -5,6 +5,37 @@ const order = require("./handlers/helpers/order");
 const models = require("../db/models");
 const User = require("./handlers/user");
 const Project = require("./handlers/project");
+const Scene = require("./handlers/scene");
+const Track = require("./handlers/track");
+
+const defaultScenes = [
+  { name: "Scene1", index: 1 },
+  { name: "Scene2", index: 2 },
+  { name: "Scene3", index: 3 },
+  { name: "Scene4", index: 4 },
+];
+const defaultTracks = [
+  {
+    name: "Track1",
+    type: "audio/midi",
+    index: 1,
+  },
+  {
+    name: "Track2",
+    type: "audio/midi",
+    index: 2,
+  },
+  {
+    name: "Track3",
+    type: "audio/wave",
+    index: 3,
+  },
+  {
+    name: "Track4",
+    type: "audio/wave",
+    index: 4,
+  },
+];
 
 /**
  * Create a new project (Authorization Bearer Required)
@@ -18,14 +49,30 @@ const Project = require("./handlers/project");
  */
 router.post("/", User.authorize, async (req, res) => {
   try {
-    const project = await Project.post(req.body);
+    const project = await Project.post(req.body, req.user);
+
+    defaultScenes.forEach(async (scene) => {
+      await Scene.createAndPopulate(project, scene);
+    });
+
+    defaultTracks.forEach(async (track) => {
+      await Track.createAndPopulate(project, track);
+    });
+
     return res.status(200).json(project);
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }
 });
 
+/**
+ * Gets non-sensitive data from all projects
+ * @route GET /project
+ * @group project - Operations about projects
+ * @returns {object} 200 - an array of all projects
+ */
 router.get("/", async (req, res) => {
+  //IDEA: add limit and offset
   const projects = await models.Project.findAll();
 
   const response = [];

@@ -96,12 +96,13 @@ const findInDatabase = async (id = "") => {
 /**
  * Validates and creates a new project in the database
  * @param {Object} body request body with project info
+ * @param {Object} user user object from req.user
  * @returns {Object} project
  */
-const post = async (body = {}) => {
-  const projectParameters = Project.validatePost(req.body);
+const post = async (body = {}, user = {}) => {
+  const projectParameters = validatePost(body);
 
-  const project = await req.user.createProject({
+  const project = await user.createProject({
     name: projectParameters.name,
     tempo: projectParameters.tempo,
     time_signature: projectParameters.time_signature,
