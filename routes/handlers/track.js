@@ -1,4 +1,5 @@
 const validate = require("./helpers/validate");
+const order = require("./helpers/order");
 const Track = require("../../db/models").Track;
 
 const validatePost = (body = {}) => {
@@ -45,7 +46,40 @@ const findInDatabase = async (id = "") => {
   }
 };
 
+/**
+ * Creates a new track in project and populates that track with clips for each track
+ * @param {Object} project object from req.project
+ * @param {Object} params verified track params
+ * @returns new track id
+ */
+const createAndPopulate = async (project, params) => {
+  const tracks = await project.getTracks();
+
+  const track = await project.createTrack({
+    name: params.name,
+    settings: params.settings,
+    type: params.type,
+    index: order.getNextIndex(
+      tracks.map((track) => track.dataValues),
+      "index"
+    ),
+  });
+
+  const scenes = await project.getScenes();
+
+  scenes.forEach(async (scene) => {
+    const clip = await track.createClip({
+      tempo: project.tempo,
+      time_signature: project.time_signature,
+    });
+    scene.addClip(clip);
+  });
+
+  return await findInDatabase(track.TrackId);
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
+  createAndPopulate,
 };

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const order = require("./handlers/helpers/order");
 const Project = require("./handlers/project");
 const Track = require("./handlers/track");
 
@@ -18,36 +17,13 @@ const Track = require("./handlers/track");
  */
 router.post("/", Project.authorize, async (req, res) => {
   try {
-    const trackParameters = Track.validatePost(req.body);
-    const tracks = await req.project.getTracks();
-
-    const trackDataValues = tracks.map((track) => track.dataValues);
-    const nextIndex = order.getNextIndex(trackDataValues, "index");
-
-    const track = await req.project.createTrack({
-      name: trackParameters.name,
-      settings: trackParameters.settings,
-      type: trackParameters.type,
-      index: nextIndex,
-    });
-
-    const scenes = await req.project.getScenes();
-
-    scenes.forEach(async (scene) => {
-      const clip = await track.createClip({
-        tempo: req.project.tempo,
-        time_signature: req.project.time_signature,
-      });
-      scene.addClip(clip);
-    });
-
-    const newTrack = await Track.findInDatabase(track.TrackId);
-    const clips = await newTrack.getClips();
-
-    return res.status(200).json({ ...newTrack.dataValues, clips });
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json(error);
+    return res
+      .status(200)
+      .json(
+        await Track.createAndPopulate(req.project, Track.validatePost(req.body))
+      );
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
   }
 });
 

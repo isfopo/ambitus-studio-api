@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const order = require("./handlers/helpers/order");
 const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 
@@ -18,33 +17,11 @@ const Scene = require("./handlers/scene");
  */
 router.post("/", Project.authorize, async (req, res) => {
   try {
-    const sceneParameters = Scene.validatePost(req.body);
-    const scenes = await req.project.getScenes();
-
-    const sceneDataValues = scenes.map((scene) => scene.dataValues);
-    const nextIndex = order.getNextIndex(sceneDataValues, "index");
-
-    const scene = await req.project.createScene({
-      name: sceneParameters.name,
-      tempo: sceneParameters.tempo,
-      time_signature: sceneParameters.time_signature,
-      index: nextIndex,
-    });
-
-    const tracks = await req.project.getTracks();
-
-    tracks.forEach(async (track) => {
-      const clip = await scene.createClip({
-        tempo: req.project.tempo,
-        time_signature: req.project.time_signature,
-      });
-      await track.addClip(clip);
-    });
-
-    const newScene = await Scene.findInDatabase(scene.SceneId);
-    const clips = await newScene.getClips();
-
-    return res.status(200).json({ ...newScene.dataValues, clips });
+    return res
+      .status(200)
+      .json(
+        await Scene.createAndPopulate(req.project, Scene.validatePost(req.body))
+      );
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }

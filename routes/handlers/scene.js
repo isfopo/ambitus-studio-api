@@ -1,4 +1,5 @@
 const validate = require("./helpers/validate");
+const order = require("./helpers/order");
 const Scene = require("../../db/models").Scene;
 
 const validatePost = (body = {}) => {
@@ -39,7 +40,40 @@ const findInDatabase = async (id = "") => {
   }
 };
 
+/**
+ * Creates a new scene in project and populates that scene with clips for each track
+ * @param {Object} project object from req.project
+ * @param {Object} params verified scene params
+ * @returns new scene id
+ */
+const createAndPopulate = async (project, params) => {
+  const scenes = await project.getScenes();
+
+  const scene = await project.createScene({
+    name: params.name,
+    tempo: params.tempo,
+    time_signature: params.time_signature,
+    index: order.getNextIndex(
+      scenes.map((scene) => scene.dataValues),
+      "index"
+    ),
+  });
+
+  const tracks = await project.getTracks();
+
+  tracks.forEach(async (track) => {
+    const clip = await scene.createClip({
+      tempo: project.tempo,
+      time_signature: project.time_signature,
+    });
+    await track.addClip(clip);
+  });
+
+  return await findInDatabase(scene.SceneId);
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
+  createAndPopulate,
 };
