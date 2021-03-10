@@ -9,8 +9,6 @@ const fs = require("fs");
 
 const models = require("../../db/models");
 
-const Project = require("./project");
-
 require("dotenv").config();
 
 /**
@@ -172,7 +170,7 @@ const saveAvatar = async (user, avatar) => {
 const leaveAllProjects = async (user) => {
   const projects = await user.getProjects();
   projects.forEach(async (project) => {
-    Project.leave(user, project);
+    leave(user, project);
   });
 };
 
@@ -187,6 +185,19 @@ const deleteAllMessages = async (user) => {
   });
 };
 
+/**
+ * removes a given user from a project
+ * @param {Object} user object from database
+ * @param {Object} project object from database
+ */
+const leave = async (user, project) => {
+  await project.removeUser(user);
+  const usersLeftInProject = await project.getUsers();
+  if (usersLeftInProject.length === 0) {
+    await project.destroy();
+  }
+};
+
 module.exports = {
   validatePost,
   authorize,
@@ -197,4 +208,5 @@ module.exports = {
   saveAvatar,
   leaveAllProjects,
   deleteAllMessages,
+  leave,
 };
