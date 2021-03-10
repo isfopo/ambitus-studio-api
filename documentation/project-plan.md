@@ -193,9 +193,9 @@
   - [ ] get content of clip by ClipId
   - [ ] remove content from clip
 
-- [ ] **Message**
+- [x] **Message**
   - [x] create a new message
-  - [ ] get all messages in project
+  - [x] get all messages in project
 
 ## Review
 
