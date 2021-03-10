@@ -123,7 +123,7 @@ const getDetail = async (project = {}) => {
 };
 
 /**
- * removes a given user from the project
+ * removes a given user from a project
  * @param {Object} user object from database
  * @param {Object} project object from database
  */
