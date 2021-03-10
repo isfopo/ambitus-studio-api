@@ -11,7 +11,6 @@ const Scene = require("./handlers/scene");
 const Track = require("./handlers/track");
 const Clip = require("./handlers/clip");
 
-// IDEA: maybe have a way to get clip by track and scene
 /**
  * Get all clips in project, scene or track (Authorization Bearer Required)
  * @route GET /clip
@@ -22,36 +21,14 @@ const Clip = require("./handlers/clip");
  * @returns {Array} 200 - A nested array of clips in project,  organized by scene then track
  */
 router.get("/", Project.authorize, async (req, res) => {
-  const scenes = await req.project.getScenes(
-    req.body.SceneId
-      ? {
-          where: { SceneId: req.body.SceneId },
-        }
-      : null
-  );
-
-  const tracks = await req.project.getTracks(
-    req.body.TrackId
-      ? {
-          where: { TrackId: req.body.TrackId },
-        }
-      : null
-  );
-
-  const clips = [];
-
-  for (let i = 0; i < scenes.length; i++) {
-    const sceneClips = [];
-    for (let j = 0; j < tracks.length; j++) {
-      const trackClips = await tracks[j].getClips({
-        where: { SceneId: scenes[i].SceneId },
-      });
-      sceneClips.push({ [tracks[j].TrackId]: trackClips[0] });
-    }
-    clips.push({ [scenes[i].SceneId]: sceneClips });
-  }
-
-  return res.status(200).json(clips);
+  return res
+    .status(200)
+    .json(
+      await Clip.getClipsFromScenesAndTracks(
+        await Scene.getScenesInProject(req.project, req.body.SceneId),
+        await Track.getTracksInProject(req.project, req.body.TrackId)
+      )
+    );
 });
 
 router.get("/content", Project.authorize, async (req, res) => {

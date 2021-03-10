@@ -47,6 +47,22 @@ const findInDatabase = async (id = "") => {
 };
 
 /**
+ * gets all tracks in project or one track with TracksId
+ * @param {Object} project
+ * @param {String} TrackId optional track to look up
+ * @returns {Array} all tracks or specified track
+ */
+const getTracksInProject = async (project = {}, TrackId = null) => {
+  return await project.getTracks(
+    TrackId
+      ? {
+          where: { TrackId },
+        }
+      : null
+  );
+};
+
+/**
  * Creates a new track in project and populates that track with clips for each track
  * @param {Object} project object from req.project
  * @param {Object} params verified track params
@@ -83,5 +99,6 @@ const createAndPopulate = async (project, params) => {
 module.exports = {
   validatePost,
   findInDatabase,
+  getTracksInProject,
   createAndPopulate,
 };

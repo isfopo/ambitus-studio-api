@@ -41,6 +41,22 @@ const findInDatabase = async (id = "") => {
 };
 
 /**
+ * gets all scene in project or one track with SceneId
+ * @param {Object} project
+ * @param {String} SceneId optional track to look up
+ * @returns {Array} all scene or specified track
+ */
+const getScenesInProject = async (project = {}, SceneId = null) => {
+  return await project.getScenes(
+    SceneId
+      ? {
+          where: { SceneId: SceneId },
+        }
+      : null
+  );
+};
+
+/**
  * Creates a new scene in project and populates that scene with clips for each track
  * @param {Object} project object from req.project
  * @param {Object} params verified scene params
@@ -77,5 +93,6 @@ const createAndPopulate = async (project, params) => {
 module.exports = {
   validatePost,
   findInDatabase,
+  getScenesInProject,
   createAndPopulate,
 };

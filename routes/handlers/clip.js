@@ -49,7 +49,31 @@ const findInDatabase = async (id = "") => {
   }
 };
 
+/**
+ * returns a nested array of clips by scenes and tracks
+ * @param {Array} scenes array of scenes in project
+ * @param {Array} track array of tracks in project
+ * @returns {Array} a nested array of clips by scenes and tracks
+ */
+const getClipsFromScenesAndTracks = async (scenes = [], tracks = []) => {
+  const clips = [];
+
+  for (let i = 0; i < scenes.length; i++) {
+    const sceneClips = [];
+    for (let j = 0; j < tracks.length; j++) {
+      const trackClips = await tracks[j].getClips({
+        where: { SceneId: scenes[i].SceneId },
+      });
+      sceneClips.push({ [tracks[j].TrackId]: trackClips[0] });
+    }
+    clips.push({ [scenes[i].SceneId]: sceneClips });
+  }
+
+  return clips;
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
+  getClipsFromScenesAndTracks,
 };
