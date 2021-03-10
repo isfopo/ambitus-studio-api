@@ -6,9 +6,10 @@
   "scripts": {
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "start": "npm run db:reset && npm run dev",
-    "dev": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
+    "dev": "nodemon ./bin/www",
+    "devDocs": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
     "test-helpers": "mocha --watch routes/tests/helpers/*.test.js",
-    "test-routes": "npm run db:reset && mocha routes/tests/routes/*.test.js",
+    "test-routes": "mocha routes/tests/routes/*.test.js",
     "test-coverage": "nyc mocha routes/tests/**/*test.js",
     "watch-test-routes": "watch 'npm run test-routes' ./routes"
   },
