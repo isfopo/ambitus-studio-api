@@ -49,52 +49,7 @@ const findInDatabase = async (id = "") => {
   }
 };
 
-const get = async (req, res) => {
-  try {
-    const clip = await Clip.findByPk(req.body.id);
-    return res.status(200).json(clip);
-  } catch (e) {
-    return res.status(404).json(e);
-  }
-};
-
-const getContent = async (req, res) => {
-  const clip = await findInDatabase(req.body.id);
-  const stream = Readable.from(clip.content);
-
-  stream.pipe(res);
-};
-
-const putName = async (req, res) => {
-  const clip = await User.findByPk(req.body.id);
-
-  clip.name = req.body.name;
-  await clip.save();
-
-  res.status(200).json(clip);
-};
-
-const putContent = async (req, res) => {
-  const clip = await findInDatabase(req.body.id);
-
-  if ((clip.type = req.file.mimetype)) {
-    const clipBuffer = fs.readFileSync(req.file.path);
-    clip.content = clip;
-    await clip.save();
-
-    res.status(200).json(clip);
-  } else {
-    return res.status(400).json({
-      error: "Clip type cannot be changed. Put clip in new track instead.",
-    });
-  }
-};
-
 module.exports = {
   validatePost,
   findInDatabase,
-  get,
-  getContent,
-  putName,
-  putContent,
 };
