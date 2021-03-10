@@ -104,12 +104,12 @@
     - [x] valid name, type and settings
   - [x] check if is in database
 
-- [ ] Clip
+- [x] Clip
 
-  - [ ] check creation parameters
-    - [ ] track and scene are in database
-    - [ ] valid name, type, tempo and time signature
-  - [ ] check if is in database
+  - [x] check creation parameters
+    - [x] track and scene are in database
+    - [x] valid name, type, tempo and time signature
+  - [x] check if is in database
 
 - [x] Message
 
