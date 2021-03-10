@@ -97,12 +97,12 @@
     - [x] valid name, tempo and time signature if present
   - [x] check if is in database
 
-- [ ] Track
+- [x] Track
 
   - [x] check creation parameters
     - [x] project is in database
     - [x] valid name, type and settings
-  - [ ] check if is in database
+  - [x] check if is in database
 
 - [ ] Clip
 
@@ -154,7 +154,6 @@
   - [ ] subscribe to changes in project
   - [x] get all scenes in a project
   - [x] get all tracks in a project
-  - [ ] get all clips in project organized by scenes and tracks
   - [ ] change name of project
   - [ ] change tempo of project
   - [ ] change time signature of project
@@ -187,14 +186,12 @@
 
 - [ ] **Clip**
 
-  - [ ] create new clip referencing a scene and a track
-    - [ ] gather metadata and return an id
-  - [ ] add content to clip
+  - [ ] add/change content to clip
     - [ ] take id and add audio or midi to clip
-  - [ ] get metadata of clip, including reference to content
-  - [ ] get id of clip by SceneId and ProjectId
+  - [x] get metadata of clip, including reference to content
+  - [x] get id of clip by SceneId and ProjectId
   - [ ] get content of clip by ClipId
-  - [ ] delete clip
+  - [ ] remove content from clips
 
 - [ ] **Message**
   - [ ] create a new message
@@ -204,5 +201,6 @@
 
 - [ ] has acceptable coverage
 - [ ] all tests are passing
+- [ ] clean up code and docs
 
 ## Deploy
