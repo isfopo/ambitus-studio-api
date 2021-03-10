@@ -69,7 +69,7 @@ router.post("/", User.authorize, async (req, res) => {
  * Gets non-sensitive data from all projects
  * @route GET /project
  * @group project - Operations about projects
- * @returns {object} 200 - an array of all projects
+ * @returns {Array} 200 - an array of all projects
  */
 router.get("/", async (req, res) => {
   //IDEA: add limit and offset
