@@ -47,19 +47,19 @@
     - [x] valid name and settings
   - [x] check if is in database
 
-- [ ] Clip
+- [x] Clip
 
-  - [ ] check creation parameters
-    - [ ] track and scene are in database
+  - [x] check creation parameters
+    - [x] track and scene are in database
     - [x] valid id and type
     - [x] valid name, tempo and time signature if present
   - [x] check if is in database
 
-- [ ] Message
+- [x] Message
 
-  - [ ] check creation parameters
-    - [ ] user is in database
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] user is in database
+    - [x] project is in database
     - [x] has valid content
 
 - [x] Helpers
@@ -111,11 +111,11 @@
     - [ ] valid name, type, tempo and time signature
   - [ ] check if is in database
 
-- [ ] Message
+- [x] Message
 
-  - [ ] check creation parameters
-    - [ ] user is in database
-    - [ ] project is in database
+  - [x] check creation parameters
+    - [x] user is in database
+    - [x] project is in database
     - [x] has id and valid content
 
 - [x] Helpers
@@ -191,10 +191,10 @@
   - [x] get metadata of clip, including reference to content
   - [x] get id of clip by SceneId and ProjectId
   - [ ] get content of clip by ClipId
-  - [ ] remove content from clips
+  - [ ] remove content from clip
 
 - [ ] **Message**
-  - [ ] create a new message
+  - [x] create a new message
   - [ ] get all messages in project
 
 ## Review
