@@ -2,8 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const validate = require("./helpers/validate");
 
-const User = require("../../db/models").User;
-const Project = require("../../db/models").Project;
+const User = require("./user");
+const models = require("../../db/models");
 
 const validatePost = (body = {}) => {
   const errors = [];
@@ -39,43 +39,22 @@ const validatePost = (body = {}) => {
  * @param {next} next express callback function
  */
 const authorize = (req, res, next) => {
-  //TODO: refactor
-  const header = req.headers["authorization"];
+  User.authorize(req, res, async () => {
+    try {
+      const project = await findInDatabase(validate.id(req.body.ProjectId));
 
-  if (typeof header !== "undefined") {
-    const bearer = header.split(" ");
-    const token = bearer[1];
-
-    jwt.verify(token, process.env.JWT_SECRET, async (error, user) => {
-      if (error) {
-        return res.status(403).json({ error: ["token not authorized"] });
+      if (await project.hasUser(await User.findInDatabase(req.user.UserId))) {
+        req.project = project;
+        next();
       } else {
-        if (user.exp < Date.now()) {
-          try {
-            req.user = user;
-            const project = await findInDatabase(
-              validate.id(req.body.ProjectId)
-            );
-
-            if (await project.hasUser(await User.findByPk(user.UserId))) {
-              req.project = project;
-              next();
-            } else {
-              return res.status(403).json({
-                error: ["user is not authorized to use this project"],
-              });
-            }
-          } catch (e) {
-            return res.status(400).json({ error: e.message });
-          }
-        } else {
-          return res.status(403).json({ error: ["token has expired"] });
-        }
+        return res.status(403).json({
+          error: ["user is not authorized to use this project"],
+        });
       }
-    });
-  } else {
-    return res.status(403).json({ error: ["token not present"] });
-  }
+    } catch (e) {
+      res.status(400).json({ error: e.message });
+    }
+  });
 };
 
 /**
@@ -84,7 +63,7 @@ const authorize = (req, res, next) => {
  * @returns {boolean} if the project is found
  */
 const findInDatabase = async (id = "") => {
-  const project = await Project.findByPk(validate.id(id));
+  const project = await models.Project.findByPk(validate.id(id));
 
   if (project === null) {
     throw new Error("Couldn't find requested project in database");
