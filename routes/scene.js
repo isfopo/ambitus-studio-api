@@ -8,11 +8,11 @@ const Scene = require("./handlers/scene");
  * Create a new scene in a project (Authorization Bearer Required)
  * @route POST /scene
  * @group scene - Operations about scene
- * @param {string} id.body.required - containing project's id
- * @param {string} name.body.optional - new scene's name
+ * @param {String} id.body.required - containing project's id
+ * @param {String} name.body.optional - new scene's name
  * @param {integer} tempo.body.optional - new scene's tempo
- * @param {string} time_signature.body.optional - new scene's time signature
- * @returns {object} 200 - An object of scene's info with generated scene id
+ * @param {String} time_signature.body.optional - new scene's time signature
+ * @returns {Object} 200 - An object of scene's info with generated scene id
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
 router.post("/", Project.authorize, async (req, res) => {
@@ -31,12 +31,9 @@ router.post("/", Project.authorize, async (req, res) => {
  * Get scene information (Authorization Bearer Required)
  * @route GET /scene
  * @group scene - Operations about scene
- * @param {string} ProjectId.body.required - project's id
- * @param {string} SceneId.body.required - scene's id
- * @returns {object} 200 - An object of scene's info with generated scene id
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Scene not found
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns {Object} 200 - An object of scene's info with generated scene id
  */
 router.get("/", Project.authorize, async (req, res) => {
   try {
@@ -48,5 +45,60 @@ router.get("/", Project.authorize, async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 });
+
+/**
+ * Change name of scene (Authorization Bearer Required)
+ * @route GET /scene/name
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @param {String} name.body.required - new name
+ * @returns 204
+ */
+router.put("/name", Project.authorize, async (req, res) => {});
+
+/**
+ * Change tempo of scene (Authorization Bearer Required)
+ * @route GET /scene/tempo
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @param {String} tempo.body.required - new tempo
+ * @returns 204
+ */
+router.put("/tempo", Project.authorize, async (req, res) => {});
+
+/**
+ * Change time signature of scene (Authorization Bearer Required)
+ * @route GET /scene/time-signature
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @param {String} time-signature.body.required - new time signature
+ * @returns 204
+ */
+router.put("/time-signature", Project.authorize, async (req, res) => {});
+
+/**
+ * Change number of bars in scene (Authorization Bearer Required)
+ * @route GET /scene/bars
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @param {String} bars.body.required - new number of bars
+ * @returns 204
+ */
+router.put("/bars", Project.authorize, async (req, res) => {});
+
+/**
+ * Change number of repeats in scene (Authorization Bearer Required)
+ * @route GET /scene/repeats
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @param {String} repeats.body.required - new number of repeats
+ * @returns 204
+ */
+router.put("/repeats", Project.authorize, async (req, res) => {});
 
 module.exports = router;
