@@ -70,19 +70,7 @@ const parseHeadersForToken = (headers = {}) => {
  * @returns {Object} token contents
  */
 const verifyToken = (token) => {
-  let output;
-  jwt.verify(token, process.env.JWT_SECRET, async (error, contents) => {
-    if (error) {
-      throw new Error("token not authorized");
-    } else {
-      if (contents.exp < Date.now()) {
-        output = contents;
-      } else {
-        throw new Error("token has expired");
-      }
-    }
-  });
-  return output;
+  return jwt.verify(token, process.env.JWT_SECRET);
 };
 
 /**
