@@ -105,6 +105,16 @@ const timeSignature = (timeSignature = "") => {
   }
 };
 
+const integer = (integer = 0) => {
+  if (typeof integer !== "number") {
+    throw new Error("input must be a number");
+  } else if (integer % 1 !== 0) {
+    throw new Error("input must be an integer");
+  } else {
+    return integer;
+  }
+};
+
 const message = (message = "") => {
   if (typeof message !== "string") {
     throw new Error("message must be a string");
@@ -157,6 +167,7 @@ module.exports = {
   avatar,
   tempo,
   timeSignature,
+  integer,
   message,
   settings,
   type,
