@@ -26,6 +26,11 @@ module.exports = (sequelize) => {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
+      bars: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 4,
+      },
       content: {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
