@@ -48,4 +48,22 @@ router.get("/", Project.authorize, async (req, res) => {
   }
 });
 
+/**
+ * Destroy track and all clips in track (Authorization Bearer Required)
+ * @route DELETE /track
+ * @group track - Operations about track
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - track's id
+ * @returns 204
+ */
+router.delete("/", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    await Track.destroyAndDepopulate(track);
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
 module.exports = router;

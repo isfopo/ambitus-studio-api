@@ -170,7 +170,7 @@
   - [ ] undo action
   - [ ] redo undo
 
-- [ ] **Scene**
+- [x] **Scene**
 
   - [x] create a new scene at end of scenes in project
   - [x] get info about a scene
@@ -186,7 +186,7 @@
   - [x] get info about a track
   - [ ] change name of track
   - [ ] change settings of track
-  - [ ] delete track and all clips in track
+  - [x] delete track and all clips in track
 
 - [ ] **Clip**
 

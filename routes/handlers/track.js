@@ -96,9 +96,24 @@ const createAndPopulate = async (project, params) => {
   return await findInDatabase(track.TrackId);
 };
 
+/**
+ * Destroys a track and all of it's clips
+ * @param {Object} track track to destroy and depopulate
+ */
+const destroyAndDepopulate = async (track) => {
+  const clips = await track.getClips();
+
+  clips.forEach(async (clip) => {
+    await clip.destroy();
+  });
+
+  await track.destroy();
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
   getTracksInProject,
   createAndPopulate,
+  destroyAndDepopulate,
 };
