@@ -159,8 +159,8 @@
   - [x] get all scenes in a project
   - [x] get all tracks in a project
   - [x] change name of project
-  - [ ] change tempo of project
-  - [ ] change time signature of project
+  - [x] change tempo of project
+  - [x] change time signature of project
   - [ ] change order of scenes
   - [ ] change order of tracks
   - [x] invite a user to a project

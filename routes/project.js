@@ -194,6 +194,24 @@ router.put("/name", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Change the tempo of a project (Authorization Bearer Required)
+ * @route PUT /project/tempo
+ * @group Project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @param {Number} tempo.body.required - new project tempo
+ * @returns {object} 204
+ */
+router.put("/tempo", Project.authorize, async (req, res) => {
+  try {
+    req.project.tempo = validate.tempo(req.body.tempo);
+    await req.project.save();
+    res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
+/**
  * Change the time signature of a project (Authorization Bearer Required)
  * @route PUT /project/time signature
  * @group Project - Operations about projects
@@ -201,17 +219,17 @@ router.put("/name", Project.authorize, async (req, res) => {
  * @param {String} time_signature.body.required - new project time signature
  * @returns {object} 204
  */
-router.put("/tempo", Project.authorize, async (req, res) => {});
-
-/**
- * Change the name of a project (Authorization Bearer Required)
- * @route PUT /project/name
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} name.body.required - new project name
- * @returns {object} 204
- */
-router.put("/time_signature", Project.authorize, async (req, res) => {});
+router.put("/time_signature", Project.authorize, async (req, res) => {
+  try {
+    req.project.time_signature = validate.timeSignature(
+      req.body.time_signature
+    );
+    await req.project.save();
+    res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Put a UserId into invited array (Authorization Bearer Required)
