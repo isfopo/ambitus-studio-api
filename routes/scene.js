@@ -110,25 +110,23 @@ router.put("/time-signature", Project.authorize, async (req, res) => {
 });
 
 /**
- * Change number of bars in scene (Authorization Bearer Required)
- * @route GET /scene/bars
- * @group scene - Operations about scene
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - scene's id
- * @param {String} bars.body.required - new number of bars
- * @returns 204
- */
-router.put("/bars", Project.authorize, async (req, res) => {});
-
-/**
  * Change number of repeats in scene (Authorization Bearer Required)
  * @route GET /scene/repeats
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
- * @param {String} repeats.body.required - new number of repeats
+ * @param {Integer} repeats.body.required - new number of repeats
  * @returns 204
  */
-router.put("/repeats", Project.authorize, async (req, res) => {});
+router.put("/repeats", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    scene.repeats = validate.integer(req.body.repeats);
+    await scene.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 module.exports = router;
