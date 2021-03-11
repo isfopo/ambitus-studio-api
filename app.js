@@ -1,7 +1,6 @@
 "use strict";
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const logger = require("morgan");
 
@@ -15,9 +14,9 @@ app.use(express.json());
 
 app.use(helmet());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 
-app.use(bodyParser.json()); //TODO: bodyParser is deprecated
+app.use(express.json());
 
 const routes = ["user", "project", "scene", "track", "clip", "message"];
 
