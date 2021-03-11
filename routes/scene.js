@@ -49,7 +49,7 @@ router.get("/", Project.authorize, async (req, res) => {
 
 /**
  * Change name of scene (Authorization Bearer Required)
- * @route GET /scene/name
+ * @route PUT /scene/name
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
@@ -69,7 +69,7 @@ router.put("/name", Project.authorize, async (req, res) => {
 
 /**
  * Change tempo of scene (Authorization Bearer Required)
- * @route GET /scene/tempo
+ * @route PUT /scene/tempo
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
@@ -89,7 +89,7 @@ router.put("/tempo", Project.authorize, async (req, res) => {
 
 /**
  * Change time signature of scene (Authorization Bearer Required)
- * @route GET /scene/time-signature
+ * @route PUT /scene/time-signature
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
@@ -111,7 +111,7 @@ router.put("/time-signature", Project.authorize, async (req, res) => {
 
 /**
  * Change number of repeats in scene (Authorization Bearer Required)
- * @route GET /scene/repeats
+ * @route PUT /scene/repeats
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
@@ -123,6 +123,24 @@ router.put("/repeats", Project.authorize, async (req, res) => {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     scene.repeats = validate.integer(req.body.repeats);
     await scene.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
+/**
+ * Destroy scene and all clips in scene (Authorization Bearer Required)
+ * @route DELETE /scene
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns 204
+ */
+router.delete("/", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    await Scene.destroyAndDepopulate(scene);
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });

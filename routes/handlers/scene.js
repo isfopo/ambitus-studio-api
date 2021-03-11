@@ -90,9 +90,24 @@ const createAndPopulate = async (project, params) => {
   return await findInDatabase(scene.SceneId);
 };
 
+/**
+ * Destroys a scene and all of it's clips
+ * @param {Object} scene scene to destroy and depopulate
+ */
+const destroyAndDepopulate = async (scene) => {
+  const clips = await scene.getClips();
+
+  clips.forEach(async (clip) => {
+    await clip.destroy();
+  });
+
+  await scene.destroy();
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
   getScenesInProject,
   createAndPopulate,
+  destroyAndDepopulate,
 };
