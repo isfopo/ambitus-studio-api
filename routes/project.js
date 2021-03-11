@@ -219,7 +219,7 @@ router.put("/tempo", Project.authorize, async (req, res) => {
  * @param {String} time_signature.body.required - new project time signature
  * @returns {object} 204
  */
-router.put("/time_signature", Project.authorize, async (req, res) => {
+router.put("/time-signature", Project.authorize, async (req, res) => {
   try {
     req.project.time_signature = validate.timeSignature(
       req.body.time_signature
