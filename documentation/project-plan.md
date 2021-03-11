@@ -177,7 +177,7 @@
   - [x] add or change name of scene
   - [x] add or change tempo of scene
   - [x] add or change time signature of scene
-  - [ ] change number of repeats
+  - [x] change number of repeats
   - [ ] delete scene and all clips in scene
 
 - [ ] **Track**
