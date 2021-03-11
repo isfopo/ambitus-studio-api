@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const validate = require("./handlers/helpers/validate");
 const Project = require("./handlers/project");
 const Track = require("./handlers/track");
 
@@ -45,6 +46,46 @@ router.get("/", Project.authorize, async (req, res) => {
     return res.status(200).json({ ...track.dataValues, clips });
   } catch (error) {
     return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
+ * Change name of track (Authorization Bearer Required)
+ * @route PUT /track/name
+ * @group track - Operations about track
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} TrackId.body.required - track's id
+ * @param {String} name.body.required - new name
+ * @returns 204
+ */
+router.put("/name", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    track.name = validate.name(req.body.name);
+    await track.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
+/**
+ * Change settings of track (Authorization Bearer Required)
+ * @route PUT /track/settings
+ * @group track - Operations about track
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} TrackId.body.required - track's id
+ * @param {String} settings.body.optional - new settings - if left empty, settings will be empty object
+ * @returns 204
+ */
+router.put("/settings", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    track.settings = validate.settings(req.body.settings);
+    await track.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
   }
 });
 

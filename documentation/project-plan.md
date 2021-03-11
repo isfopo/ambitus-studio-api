@@ -180,12 +180,12 @@
   - [x] change number of repeats
   - [x] delete scene and all clips in scene
 
-- [ ] **Track**
+- [x] **Track**
 
   - [x] create a new track at end of tracks in project
   - [x] get info about a track
-  - [ ] change name of track
-  - [ ] change settings of track
+  - [x] change name of track
+  - [x] change settings of track
   - [x] delete track and all clips in track
 
 - [ ] **Clip**
