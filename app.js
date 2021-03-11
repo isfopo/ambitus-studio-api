@@ -17,7 +17,7 @@ app.use(helmet());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //TODO: bodyParser is deprecated
 
 const routes = ["user", "project", "scene", "track", "clip", "message"];
 
