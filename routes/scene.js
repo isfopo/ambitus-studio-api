@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const validate = require("./handlers/helpers/validate");
 const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 
@@ -52,10 +53,19 @@ router.get("/", Project.authorize, async (req, res) => {
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
- * @param {String} name.body.required - new name
+ * @param {String} name.body.optional - new name - if left empty, name will be null
  * @returns 204
  */
-router.put("/name", Project.authorize, async (req, res) => {});
+router.put("/name", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    scene.name = req.body.name ? validate.name(req.body.name) : null;
+    await scene.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change tempo of scene (Authorization Bearer Required)
@@ -63,10 +73,19 @@ router.put("/name", Project.authorize, async (req, res) => {});
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
- * @param {String} tempo.body.required - new tempo
+ * @param {String} tempo.body.optional - new tempo - if left empty, tempo will be null
  * @returns 204
  */
-router.put("/tempo", Project.authorize, async (req, res) => {});
+router.put("/tempo", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    scene.tempo = req.body.tempo ? validate.tempo(req.body.tempo) : null;
+    await scene.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change time signature of scene (Authorization Bearer Required)
@@ -74,10 +93,21 @@ router.put("/tempo", Project.authorize, async (req, res) => {});
  * @group scene - Operations about scene
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - scene's id
- * @param {String} time-signature.body.required - new time signature
+ * @param {String} time_signature.body.optional - new time signature - if left empty, time signature will be null
  * @returns 204
  */
-router.put("/time-signature", Project.authorize, async (req, res) => {});
+router.put("/time-signature", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    scene.time_signature = req.body.time_signature
+      ? validate.timeSignature(req.body.time_signature)
+      : null;
+    await scene.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
 
 /**
  * Change number of bars in scene (Authorization Bearer Required)

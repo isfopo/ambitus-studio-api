@@ -174,16 +174,16 @@
 
   - [x] create a new scene at end of scenes in project
   - [x] get info about a scene
-  - [x] get all clips in scene with track ids
-  - [ ] add or change tempo of scene
-  - [ ] add or change time signature of scene
+  - [x] add or change name of scene
+  - [x] add or change tempo of scene
+  - [x] add or change time signature of scene
+  - [ ] change number of repeats
   - [ ] delete scene and all clips in scene
 
 - [ ] **Track**
 
   - [x] create a new track at end of tracks in project
   - [x] get info about a track
-  - [x] get all clips in track with scene ids
   - [ ] change name of track
   - [ ] change settings of track
   - [ ] delete track and all clips in track
@@ -192,6 +192,8 @@
 
   - [ ] add/change content to clip
     - [ ] take id and add audio or midi to clip
+  - [x] get all clips in track with scene ids
+  - [x] get all clips in scene with track ids
   - [x] get metadata of clip, including reference to content
   - [x] get id of clip by SceneId and ProjectId
   - [ ] get content of clip by ClipId
