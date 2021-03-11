@@ -8,35 +8,6 @@ const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 const Track = require("./handlers/track");
 
-const defaultScenes = [
-  { name: "Scene1", index: 1 },
-  { name: "Scene2", index: 2 },
-  { name: "Scene3", index: 3 },
-  { name: "Scene4", index: 4 },
-];
-const defaultTracks = [
-  {
-    name: "Track1",
-    type: "audio/midi",
-    index: 1,
-  },
-  {
-    name: "Track2",
-    type: "audio/midi",
-    index: 2,
-  },
-  {
-    name: "Track3",
-    type: "audio/wave",
-    index: 3,
-  },
-  {
-    name: "Track4",
-    type: "audio/wave",
-    index: 4,
-  },
-];
-
 /**
  * Create a new project (Authorization Bearer Required)
  * @route POST /project
@@ -48,6 +19,35 @@ const defaultTracks = [
  * @returns {Error}  400 - Invalid token, name, tempo or time signature
  */
 router.post("/", User.authorize, async (req, res) => {
+  const defaultScenes = [
+    { name: "Scene1", index: 1 },
+    { name: "Scene2", index: 2 },
+    { name: "Scene3", index: 3 },
+    { name: "Scene4", index: 4 },
+  ];
+  const defaultTracks = [
+    {
+      name: "Track1",
+      type: "audio/midi",
+      index: 1,
+    },
+    {
+      name: "Track2",
+      type: "audio/midi",
+      index: 2,
+    },
+    {
+      name: "Track3",
+      type: "audio/wave",
+      index: 3,
+    },
+    {
+      name: "Track4",
+      type: "audio/wave",
+      index: 4,
+    },
+  ];
+
   try {
     const project = await Project.post(req.body, req.user);
 
