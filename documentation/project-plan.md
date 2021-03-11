@@ -150,11 +150,15 @@
 - [ ] **Project**
 
   - [x] create a new project
+  - [x] get info about all projects
   - [x] get info about one project
+  - [x] get users in project
+  - [x] get scenes in projects
+  - [x] get tracks in project
   - [ ] subscribe to changes in project
   - [x] get all scenes in a project
   - [x] get all tracks in a project
-  - [ ] change name of project
+  - [x] change name of project
   - [ ] change tempo of project
   - [ ] change time signature of project
   - [ ] change order of scenes

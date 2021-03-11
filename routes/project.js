@@ -176,43 +176,42 @@ router.get("/tracks", Project.authorize, async (req, res) => {
 });
 
 /**
- * Get all clips from a project (Authorization Bearer Required)
- * @route GET /project/clips
- * @group project - Operations about projects
+ * Change the tempo of a project (Authorization Bearer Required)
+ * @route PUT /project/tempo
+ * @group Project - Operations about projects
  * @param {String} ProjectId.body.required - project's id
- * @returns {object} 200 - An nested array of clips in project by scene
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
+ * @param {String} tempo.body.required - new project tempo
+ * @returns {object} 204
  */
-router.get("/clips", Project.authorize, async (req, res) => {
+router.put("/name", Project.authorize, async (req, res) => {
   try {
-    const scenes = await req.project.getScenes();
-
-    // TODO: get clips for each scene
-
-    const clips = scenes.map(async (scene) => {});
-
-    res.status(200).json(clips);
+    req.project.name = validate.name(req.body.name);
+    await req.project.save();
+    res.sendStatus(204);
   } catch (e) {
-    res.status(400).json(e);
+    return res.status(400).json({ error: e.message });
   }
 });
 
 /**
- * Get all message (Authorization Bearer Required)
- * @route POST /project/messages
- * @group project - Operations about projects
+ * Change the time signature of a project (Authorization Bearer Required)
+ * @route PUT /project/time signature
+ * @group Project - Operations about projects
  * @param {String} ProjectId.body.required - project's id
- * @returns {object} 200 - An array of messages in project
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
+ * @param {String} time_signature.body.required - new project time signature
+ * @returns {object} 204
  */
-router.get("/messages", Project.authorize, async (req, res) => {
-  const messages = await req.project.getMessages();
-  res.status(200).json(messages);
-});
+router.put("/tempo", Project.authorize, async (req, res) => {});
+
+/**
+ * Change the name of a project (Authorization Bearer Required)
+ * @route PUT /project/name
+ * @group Project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} name.body.required - new project name
+ * @returns {object} 204
+ */
+router.put("/time_signature", Project.authorize, async (req, res) => {});
 
 /**
  * Put a UserId into invited array (Authorization Bearer Required)
@@ -221,9 +220,6 @@ router.get("/messages", Project.authorize, async (req, res) => {
  * @param {String} ProjectId.body.required - project's id
  * @param {String} invitee.body.required - invitee's UserId
  * @returns {object} 204
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
  */
 router.put("/invite", Project.authorize, async (req, res) => {
   try {
