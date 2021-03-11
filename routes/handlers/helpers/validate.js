@@ -83,13 +83,13 @@ const timeSignature = (timeSignature = "") => {
     upper = parseInt(split[0]);
     lower = parseInt(split[1]);
   } catch (e) {
-    throw new Error("timeSignature must be a string");
+    throw new Error("time signature must be a string");
   }
 
   if (!timeSignature.includes("/")) {
-    throw new Error("timeSignature must have a '/'");
+    throw new Error("time signature must have a '/'");
   } else if (isNaN(upper) || isNaN(lower)) {
-    throw new Error("timeSignature must have an upper and lower numbers");
+    throw new Error("time signature must have an upper and lower numbers");
   } else if (lower < 1) {
     throw new Error("lower number must be greater than 1");
   } else if (lower > 32) {
