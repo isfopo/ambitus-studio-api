@@ -80,7 +80,7 @@ const getClipsFromScenesAndTracks = async (scenes = [], tracks = []) => {
  * @param {Object} content from request
  */
 const saveContent = async (clip, content) => {
-  clip.content = content.path;
+  clip.content = content ? content.path : null;
   await clip.save();
 };
 
@@ -89,13 +89,15 @@ const saveContent = async (clip, content) => {
  * @param {String} content path to content
  */
 const deleteContent = (content = "") => {
-  const stats = fs.statSync(content);
-  if (content && stats.isFile()) {
-    fs.unlink(content, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
+  if (content) {
+    const stats = fs.statSync(content);
+    if (stats.isFile()) {
+      fs.unlink(content, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+    }
   }
 };
 

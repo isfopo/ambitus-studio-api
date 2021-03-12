@@ -65,7 +65,7 @@ router.put("/content", upload.single("content"), async (req, res) => {
       const clip = await Clip.findInDatabase(req.body.ClipId);
       const track = await Track.findInDatabase(clip.TrackId);
 
-      if (req.file.mimetype === track.type) {
+      if (!req.file || req.file.mimetype === track.type) {
         Clip.deleteContent(clip.content);
         Clip.saveData(clip, req.body);
         Clip.saveContent(clip, req.file);
@@ -74,9 +74,13 @@ router.put("/content", upload.single("content"), async (req, res) => {
         throw new Error("content mimetype must match track mimetype");
       }
     } catch (e) {
-      fs.unlink(req.file.path, () => {
+      if (req.file) {
+        fs.unlink(req.file.path, () => {
+          return res.status(400).json({ error: e.message });
+        });
+      } else {
         return res.status(400).json({ error: e.message });
-      });
+      }
     }
   });
 });
