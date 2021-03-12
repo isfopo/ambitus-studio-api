@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Readable = require("stream").Readable;
+const path = require("path");
 const multer = require("multer");
-const upload = multer({ dest: __dirname + "/temp/" });
+const upload = multer({ dest: path.join(__dirname, "../fs/clip-content") });
 const fs = require("fs");
 
 const models = require("../db/models");
@@ -32,44 +33,52 @@ router.get("/", Project.authorize, async (req, res) => {
 });
 
 router.get("/content", Project.authorize, async (req, res) => {
-  const clip = await findInDatabase(req.body.ClipId);
-  if (clip.content) {
-    const stream = Readable.from(clip.content);
-    stream.pipe(res);
-  } else {
+  try {
+    const clip = await Clip.findInDatabase(req.body.ClipId);
+    const track = await Track.findInDatabase(clip.TrackId);
+
+    if (clip.content) {
+      const stream = fs.createReadStream(clip.content);
+
+      res.setHeader("Content-Type", track.type);
+      stream.pipe(res);
+    } else {
+      throw new Error("this clip has no content");
+    }
+  } catch (e) {
     return res.status(400).json({ error: e.message });
   }
 });
 
 router.put("/name", Project.authorize, async (req, res) => {
-  const clip = await User.findByPk(req.body.id);
+  const clip = await Clip.findInDatabase(req.body.ClipId);
 
   clip.name = req.body.name;
   await clip.save();
 
-  res.status(200).json(clip);
+  res.sendStatus(204);
 });
 
-// new clip must match tracks, mimetype and have tempo and time signature
-router.put(
-  "/content",
-  Project.authorize,
-  upload.single("content"),
-  async (req, res) => {
-    const clip = await findInDatabase(req.body.id);
+router.put("/content", upload.single("content"), async (req, res) => {
+  Project.authorize(req, res, async () => {
+    try {
+      const clip = await Clip.findInDatabase(req.body.ClipId);
+      const track = await Track.findInDatabase(clip.TrackId);
 
-    if ((clip.type = req.file.mimetype)) {
-      const clipBuffer = fs.readFileSync(req.file.path);
-      clip.content = clip;
-      await clip.save();
-
-      res.status(200).json(clip);
-    } else {
-      return res.status(400).json({
-        error: "Clip type cannot be changed. Put clip in new track instead.",
+      if (req.file.mimetype === track.type) {
+        Clip.deleteContent(clip.content);
+        Clip.saveData(clip, req.body);
+        Clip.saveContent(clip, req.file);
+        res.sendStatus(204);
+      } else {
+        throw new Error("content mimetype must match track mimetype");
+      }
+    } catch (e) {
+      fs.unlink(req.file.path, () => {
+        return res.status(400).json({ error: e.message });
       });
     }
-  }
-);
+  });
+});
 
 module.exports = router;
