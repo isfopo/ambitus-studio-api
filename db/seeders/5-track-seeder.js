@@ -8,7 +8,7 @@ module.exports = {
         {
           TrackId: "d5656678-77c2-11eb-9439-0242ac130002",
           name: "MyFirstTrack",
-          type: "audio/midi",
+          type: "audio/wave",
           index: 0,
           ProjectId: "3a4639f8-77b6-11eb-9439-0242ac130002",
         },
