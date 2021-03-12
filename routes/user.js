@@ -154,7 +154,7 @@ router.get("/projects", User.authorize, async (req, res) => {
  */
 router.get("/avatar", async (req, res) => {
   try {
-    const user = await findInDatabase(req.body.UserId);
+    const user = await User.findInDatabase(req.body.UserId);
     const stream = fs.createReadStream(user.avatar);
 
     stream.on("error", async (err) => {
@@ -244,11 +244,8 @@ router.put("/password", User.authorize, async (req, res) => {
  * @returns {Error}  400 - Invalid token or id
  * @returns {Error}  404 - Avatar image has been deleted - returns to default
  */
-router.put(
-  "/avatar",
-  User.authorize,
-  upload.single("avatar"),
-  async (req, res) => {
+router.put("/avatar", upload.single("avatar"), async (req, res) => {
+  User.authorize(req, res, async () => {
     try {
       const avatar = validate.avatar(req.file);
 
@@ -259,14 +256,14 @@ router.put(
       } else {
         User.saveAvatar(req.user, avatar);
       }
-      res.status(204);
+      res.sendStatus(204);
     } catch (e) {
       fs.unlink(req.file.path, (error) => {
         return res.status(400).json({ error: e.message });
       });
     }
-  }
-);
+  });
+});
 
 /**
  * Accept an invitation to a project and removes id from invited array (Authorization Bearer Required)
