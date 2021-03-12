@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const validate = require("./helpers/validate");
 
 const Clip = require("../../db/models").Clip;
@@ -72,8 +74,47 @@ const getClipsFromScenesAndTracks = async (scenes = [], tracks = []) => {
   return clips;
 };
 
+/**
+ * saves path of content in clip to database
+ * @param {Object} clip object returned from database
+ * @param {Object} content from request
+ */
+const saveContent = async (clip, content) => {
+  clip.content = content.path;
+  await clip.save();
+};
+
+/**
+ * deletes content
+ * @param {String} content path to content
+ */
+const deleteContent = (content = "") => {
+  const stats = fs.statSync(content);
+  if (content && stats.isFile()) {
+    fs.unlink(content, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
+  }
+};
+
+/**
+ * update the tempo and time signature of a clip
+ * @param {Object} clip to update
+ * @param {Object} data data to update
+ */
+const saveData = async (clip, data) => {
+  clip.tempo = data.tempo;
+  clip.time_signature = data.time_signature;
+  await clip.save();
+};
+
 module.exports = {
   validatePost,
   findInDatabase,
   getClipsFromScenesAndTracks,
+  saveContent,
+  deleteContent,
+  saveData,
 };
