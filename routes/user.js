@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
-const upload = multer({ dest: path.join(__dirname, "../" + "temp") });
+const upload = multer({ dest: path.join(__dirname, "../fs/avatar") });
 const { Op } = require("sequelize");
 
 const validate = require("./handlers/helpers/validate");
