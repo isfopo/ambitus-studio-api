@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Project = require("../../handlers/project");
+const Project = require("../handlers/project");
 
 describe("Project.validatePost", () => {
   describe("when body contains a valid name, tempo and time signature", () => {

@@ -1,7 +1,7 @@
 const assert = require("assert");
 const sinon = require("sinon");
-const User = require("../../handlers/user");
-const models = require("../../../db/models");
+const User = require("../handlers/user");
+const models = require("../../db/models");
 
 let token = "";
 

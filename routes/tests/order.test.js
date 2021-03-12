@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require("assert");
-const order = require("../../handlers/helpers/order");
+const order = require("../handlers/helpers/order");
 
 describe("getNextIndex", () => {
   describe("when given an object and property containing integer", () => {

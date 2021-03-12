@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Scene = require("../../handlers/scene");
+const Scene = require("../handlers/scene");
 
 describe("Scene.validatePost", () => {
   describe("when body contains valid ProjectId, name, tempo and time signature", () => {

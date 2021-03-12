@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Track = require("../../handlers/track");
+const Track = require("../handlers/track");
 
 describe("Track.validatePost", () => {
   describe("when body contains ProjectId, name, settings and type", () => {

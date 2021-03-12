@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require("assert");
-const validate = require("../../handlers/helpers/validate");
+const validate = require("../handlers/helpers/validate");
 
 describe("validate id", () => {
   describe("when id is a valid uuid", () => {

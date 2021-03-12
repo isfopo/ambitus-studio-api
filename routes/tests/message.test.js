@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Message = require("../../handlers/message");
+const Message = require("../handlers/message");
 
 describe("Message.validatePost", () => {
   describe("when body contains ProjectId and content", () => {

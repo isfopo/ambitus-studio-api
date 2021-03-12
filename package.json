@@ -8,10 +8,16 @@
     "start": "npm run db:reset && npm run dev",
     "dev": "nodemon ./bin/www",
     "devDocs": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
-    "test-helpers": "mocha --watch routes/tests/helpers/*.test.js",
+    "test": "mocha --watch routes/tests/*.test.js",
+    "test-clip": "mocha --watch routes/tests/clip.test.js",
+    "test-message": "mocha --watch routes/tests/message.test.js",
+    "test-order": "mocha --watch routes/tests/order.test.js",
+    "test-project": "mocha --watch routes/tests/project.test.js",
+    "test-scene": "mocha --watch routes/tests/scene.test.js",
+    "test-user": "mocha --watch routes/tests/user.test.js",
+    "test-validate": "mocha --watch routes/tests/validate.test.js",
     "test-routes": "mocha routes/tests/routes/*.test.js",
-    "test-coverage": "nyc mocha routes/tests/**/*test.js",
-    "watch-test-routes": "watch 'npm run test-routes' ./routes"
+    "test-coverage": "nyc mocha routes/tests/*.test.js"
   },
   "repository": {
     "type": "git",

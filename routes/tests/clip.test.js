@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Clip = require("../../handlers/clip");
+const Clip = require("../handlers/clip");
 
 describe("Clip.validatePost", () => {
   describe("when body contains valid SceneId, TrackId, name, tempo and time signature", () => {
