@@ -2,10 +2,10 @@ const assert = require("assert");
 const Track = require("../../handlers/track");
 
 describe("Track.validatePost", () => {
-  describe("when body contains id, name, settings and type", () => {
+  describe("when body contains ProjectId, name, settings and type", () => {
     it("should return body", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "MyTrack",
         settings: {
           delay_feedback: 32,
@@ -19,7 +19,7 @@ describe("Track.validatePost", () => {
     });
   });
 
-  describe("when id is not present", () => {
+  describe("when ProjectId is not present", () => {
     it("should throw an error", () => {
       const input = {
         name: "MyTrack",
@@ -39,7 +39,7 @@ describe("Track.validatePost", () => {
   describe("when name is not present", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         settings: {
           delay_feedback: 32,
           gain: 46,
@@ -56,7 +56,7 @@ describe("Track.validatePost", () => {
   describe("when settings are not present", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "MyTrack",
         type: "audio/midi",
       };
@@ -69,7 +69,7 @@ describe("Track.validatePost", () => {
   describe("when type is not present", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "MyTrack",
         settings: {
           delay_feedback: 32,
@@ -83,10 +83,10 @@ describe("Track.validatePost", () => {
     });
   });
 
-  describe("when id is not a valid uuid", () => {
+  describe("when ProjectId is not a valid uuid", () => {
     it("should throw an error", () => {
       const input = {
-        id: "123456789abcdef",
+        ProjectId: "123456789abcdef",
         name: "MyTrack",
         settings: {
           delay_feedback: 32,
@@ -104,7 +104,7 @@ describe("Track.validatePost", () => {
   describe("when name is not a valid name", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "hi",
         settings: {
           delay_feedback: 32,
@@ -122,7 +122,7 @@ describe("Track.validatePost", () => {
   describe("when settings is not valid settings", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "MyTrack",
         settings: "delay",
         type: "audio/midi",
@@ -136,7 +136,7 @@ describe("Track.validatePost", () => {
   describe("when type is not a valid type", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         name: "MyTrack",
         settings: {
           delay_feedback: 32,

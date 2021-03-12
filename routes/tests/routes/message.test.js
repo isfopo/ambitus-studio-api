@@ -2,10 +2,10 @@ const assert = require("assert");
 const Message = require("../../handlers/message");
 
 describe("Message.validatePost", () => {
-  describe("when body contains id and content", () => {
+  describe("when body contains ProjectId and content", () => {
     it("should return body", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         content: "This sounds great!!!",
       };
       const output = Message.validatePost(input);
@@ -13,7 +13,7 @@ describe("Message.validatePost", () => {
     });
   });
 
-  describe("when body does not contain an id", () => {
+  describe("when body does not contain an ProjectId", () => {
     it("should throw an error", () => {
       const input = {
         content: "This sounds great!!!",
@@ -27,7 +27,7 @@ describe("Message.validatePost", () => {
   describe("when body does not contain content", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
       };
       assert.throws(() => {
         const output = Message.validatePost(input);
@@ -35,10 +35,10 @@ describe("Message.validatePost", () => {
     });
   });
 
-  describe("when id is not a valid uuid", () => {
+  describe("when ProjectId is not a valid uuid", () => {
     it("should throw an error", () => {
       const input = {
-        id: "1234567890abcdef",
+        ProjectId: "1234567890abcdef",
         content: "This sounds great!!!",
       };
       assert.throws(() => {
@@ -50,7 +50,7 @@ describe("Message.validatePost", () => {
   describe("when content is not a valid message", () => {
     it("should throw an error", () => {
       const input = {
-        id: "709ae450-7017-11eb-beda-e76c7ddac317",
+        ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
         content: 12345,
       };
       assert.throws(() => {
