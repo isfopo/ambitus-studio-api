@@ -190,13 +190,12 @@
 
 - [ ] **Clip**
 
-  - [ ] add/change content to clip
-    - [ ] take id and add audio or midi to clip
+  - [x] add/change content to clip
   - [x] get all clips in track with scene ids
   - [x] get all clips in scene with track ids
   - [x] get metadata of clip, including reference to content
   - [x] get id of clip by SceneId and ProjectId
-  - [ ] get content of clip by ClipId
+  - [x] get content of clip by ClipId
   - [ ] remove content from clip
 
 - [x] **Message**
