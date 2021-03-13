@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
+      bio: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
+      },
       avatar: {
         type: Sequelize.DataTypes.STRING,
         defaultValue: path.join(

@@ -199,12 +199,8 @@ router.get("/invites", User.authorize, async (req, res) => {
 router.put("/username", User.authorize, async (req, res) => {
   try {
     req.user.username = validate.name(req.body.newName);
-
     await req.user.save();
-
-    return res
-      .status(200)
-      .json({ UserId: req.user.UserId, username: req.user.username });
+    return res.sendStatus(204);
   } catch (e) {
     if (e.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({ error: ["username already exists"] });
@@ -224,12 +220,29 @@ router.put("/username", User.authorize, async (req, res) => {
  */
 router.put("/password", User.authorize, async (req, res) => {
   try {
-    req.user.password = await hashValidPassword(
+    req.user.password = await User.hashValidPassword(
       validate.password(req.body.newPassword)
     );
     await req.user.save();
 
-    return res.status(200).json({ UserId: req.user.UserId });
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
+/**
+ * Change a user's bio (Authorization Bearer Required)
+ * @route PUT /user/bio
+ * @group user - Operations about user
+ * @param {string} bio.body.optional - user's new bio - if left empty, bio is assigned null
+ * @returns {object} 204 - bio has been changed
+ */
+router.put("/bio", User.authorize, async (req, res) => {
+  try {
+    req.user.bio = req.body.bio ? validate.bio(req.body.bio) : null;
+    await req.user.save();
+    return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
   }

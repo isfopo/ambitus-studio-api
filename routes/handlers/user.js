@@ -96,13 +96,7 @@ const authorize = async (req, res, next) => {
  * @returns {boolean} if the user is found
  */
 const findInDatabase = async (UserId = "") => {
-  const user = await models.User.findByPk(validate.id(UserId));
-
-  if (user === null) {
-    throw new Error("Couldn't find requested user in database");
-  } else {
-    return user;
-  }
+  return await models.User.findByPk(validate.id(UserId));
 };
 
 /**
@@ -152,6 +146,19 @@ const saveAvatar = async (user, avatar) => {
 };
 
 /**
+ * removes a given user from a project
+ * @param {Object} user object from database
+ * @param {Object} project object from database
+ */
+const leave = async (user, project) => {
+  await project.removeUser(user);
+  const usersLeftInProject = await project.getUsers();
+  if (usersLeftInProject.length === 0) {
+    await project.destroy();
+  }
+};
+
+/**
  * leaves all projects that a given user is in
  * @param {Object} user object from database
  */
@@ -173,24 +180,13 @@ const deleteAllMessages = async (user) => {
   });
 };
 
-/**
- * removes a given user from a project
- * @param {Object} user object from database
- * @param {Object} project object from database
- */
-const leave = async (user, project) => {
-  await project.removeUser(user);
-  const usersLeftInProject = await project.getUsers();
-  if (usersLeftInProject.length === 0) {
-    await project.destroy();
-  }
-};
-
 module.exports = {
   validatePost,
   authorize,
   findInDatabase,
   hashValidPassword,
+  parseHeadersForToken,
+  verifyToken,
   verifyPassword,
   signToken,
   saveAvatar,
