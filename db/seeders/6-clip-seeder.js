@@ -10,6 +10,7 @@ module.exports = {
           name: "scene1track1",
           tempo: 120,
           time_signature: "4/4",
+          content: "",
           SceneId: "0e30ef4e-77bf-11eb-9439-0242ac130002",
           TrackId: "d5656678-77c2-11eb-9439-0242ac130002",
         },
