@@ -188,7 +188,7 @@
   - [x] change settings of track
   - [x] delete track and all clips in track
 
-- [ ] **Clip**
+- [x] **Clip**
 
   - [x] add/change content to clip
   - [x] get all clips in track with scene ids
@@ -196,7 +196,7 @@
   - [x] get metadata of clip, including reference to content
   - [x] get id of clip by SceneId and ProjectId
   - [x] get content of clip by ClipId
-  - [ ] remove content from clip
+  - [x] remove content from clip
 
 - [x] **Message**
   - [x] create a new message
