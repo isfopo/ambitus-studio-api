@@ -1,4 +1,5 @@
 const assert = require("assert");
+const sinon = require("sinon");
 const Project = require("../handlers/project");
 
 describe("Project.validatePost", () => {
@@ -110,3 +111,11 @@ describe("Project.isInDatabase", () => {
     });
   });
 });
+
+describe("Project.post", () => {});
+
+describe("Project.get", () => {});
+
+describe("Project.getDetail", () => {});
+
+describe("Project.leave", () => {});

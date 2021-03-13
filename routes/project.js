@@ -194,6 +194,26 @@ router.put("/name", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Change a project's description (Authorization Bearer Required)
+ * @route PUT /project/description
+ * @group project - Operations about project
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} description.body.optional - project's new description - if left empty, description is assigned null
+ * @returns {Object} 204 - description has been changed
+ */
+router.put("/description", Project.authorize, async (req, res) => {
+  try {
+    req.project.description = req.body.description
+      ? validate.description(req.body.description)
+      : null;
+    await req.project.save();
+    return res.sendStatus(204);
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+});
+
+/**
  * Change the tempo of a project (Authorization Bearer Required)
  * @route PUT /project/tempo
  * @group Project - Operations about projects
