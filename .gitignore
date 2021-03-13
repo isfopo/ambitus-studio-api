@@ -105,4 +105,9 @@ dist
 
 notes
 
-/fs
+#files for file storage
+fs/avatar/*
+!fs/avatar/.gitkeep
+
+fs/clip-content/*
+!fs/clip-content/.gitkeep
