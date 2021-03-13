@@ -3,7 +3,7 @@
 const assert = require("assert");
 const validate = require("../handlers/helpers/validate");
 
-describe("validate id", () => {
+describe("validate.id", () => {
   describe("when id is a valid uuid", () => {
     it("should return id", () => {
       const input = "5ece01d0-7017-11eb-beda-e76c7ddac317";
@@ -22,7 +22,7 @@ describe("validate id", () => {
   });
 });
 
-describe("validate name", () => {
+describe("validate.name", () => {
   describe("valid", () => {
     describe("when name is a string", () => {
       it("should return name", () => {
@@ -71,7 +71,7 @@ describe("validate name", () => {
   });
 });
 
-describe("validate password", () => {
+describe("validate.password", () => {
   describe("when password is valid", () => {
     it("should return password", () => {
       const input = "te$tPa55word";
@@ -144,7 +144,7 @@ describe("validate password", () => {
   });
 });
 
-describe("validate avatar", () => {
+describe("validate.avatar", () => {
   describe("when file type is valid", () => {
     it("should return avatar", () => {
       const input = {
@@ -188,7 +188,7 @@ describe("validate avatar", () => {
   describe("when file size is greater than 2GB", () => {
     it("should throw an error", () => {
       const input = {
-        mimetype: "text/html",
+        mimetype: "image/jpeg",
         path:
           "/Users/isaacpoole/Current Projects/ambitus-studio-api/routes/temp/24e961d9968c4e0ff8d017288815edb6",
         size: 2147483649,
@@ -200,7 +200,7 @@ describe("validate avatar", () => {
   });
 });
 
-describe("validate tempo", () => {
+describe("validate.tempo", () => {
   describe("valid", () => {
     describe("when tempo is an integer", () => {
       it("should return tempo", () => {
@@ -258,7 +258,7 @@ describe("validate tempo", () => {
   });
 });
 
-describe("validate time signature", () => {
+describe("validate.time signature", () => {
   describe("valid", () => {
     describe("when time signature is a string", () => {
       it("should return time signature", () => {
@@ -393,7 +393,7 @@ describe("validate time signature", () => {
   });
 });
 
-describe("validate message", () => {
+describe("validate.message", () => {
   describe("valid", () => {
     describe("when message is a string", () => {
       it("should return message", () => {
@@ -443,7 +443,7 @@ describe("validate message", () => {
   });
 });
 
-describe("validate settings", () => {
+describe("validate.settings", () => {
   describe("valid", () => {
     describe("when settings are a json object", () => {
       it("should return settings", () => {
@@ -466,7 +466,7 @@ describe("validate settings", () => {
   });
 });
 
-describe("validate type", () => {
+describe("validate.type", () => {
   describe("valid", () => {
     describe("when type is a string", () => {
       it("should return type", () => {
@@ -501,6 +501,31 @@ describe("validate type", () => {
         assert.throws(() => {
           const output = validate.type(input);
         });
+      });
+    });
+  });
+});
+
+describe("validate.integer", () => {
+  describe("when input is a valid integer", () => {
+    it("should return integer", () => {
+      const input = 3;
+      const output = validate.integer(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when input is not a valid integer", () => {
+    it("should throw an error", () => {
+      const input = "abc";
+      assert.throws(() => {
+        const output = validate.integer(input);
+      });
+    });
+    it("should throw an error", () => {
+      const input = 3.3;
+      assert.throws(() => {
+        const output = validate.integer(input);
       });
     });
   });
