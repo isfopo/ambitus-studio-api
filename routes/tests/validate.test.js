@@ -1,6 +1,8 @@
 "use strict";
 
 const assert = require("assert");
+const rs = require("randomstring");
+const { valuesIn } = require("lodash");
 const validate = require("../handlers/helpers/validate");
 
 describe("validate.id", () => {
@@ -139,6 +141,62 @@ describe("validate.password", () => {
       const input = "te$t Pa55word";
       assert.throws(() => {
         const output = validate.password(input);
+      });
+    });
+  });
+});
+
+describe("validate.bio", () => {
+  describe("when bio is valid", () => {
+    it("should return bio", () => {
+      const input = "I love tacos";
+      const output = validate.bio(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when bio not a string", () => {
+    it("should throw an error", () => {
+      const input = 1234;
+      assert.throws(() => {
+        validate.bio(input);
+      });
+    });
+  });
+
+  describe("when bio greater than 160 characters", () => {
+    it("should throw an error", () => {
+      const input = rs.generate(161);
+      assert.throws(() => {
+        validate.bio(input);
+      });
+    });
+  });
+});
+
+describe("validate.description", () => {
+  describe("when description is valid", () => {
+    it("should return description", () => {
+      const input = "I love tacos";
+      const output = validate.description(input);
+      assert.deepStrictEqual(output, input);
+    });
+  });
+
+  describe("when description not a string", () => {
+    it("should throw an error", () => {
+      const input = 1234;
+      assert.throws(() => {
+        validate.description(input);
+      });
+    });
+  });
+
+  describe("when description greater than 1200 characters", () => {
+    it("should throw an error", () => {
+      const input = rs.generate(1201);
+      assert.throws(() => {
+        validate.description(input);
       });
     });
   });

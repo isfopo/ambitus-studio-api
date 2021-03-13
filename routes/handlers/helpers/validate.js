@@ -45,6 +45,26 @@ const password = (password = "") => {
   }
 };
 
+const bio = (bio = "") => {
+  if (typeof bio !== "string") {
+    throw new Error("bio must be a string");
+  } else if (bio.length > 160) {
+    throw new Error("bio must be less than 160 characters");
+  } else {
+    return bio;
+  }
+};
+
+const description = (description = "") => {
+  if (typeof description !== "string") {
+    throw new Error("description must be a string");
+  } else if (description.length > 1200) {
+    throw new Error("description must be less than 1200 characters");
+  } else {
+    return description;
+  }
+};
+
 const avatar = (avatar = {}) => {
   const values = ["image/jpeg", "image/png"];
 
@@ -164,6 +184,8 @@ module.exports = {
   id,
   name,
   password,
+  bio,
+  description,
   avatar,
   tempo,
   timeSignature,
