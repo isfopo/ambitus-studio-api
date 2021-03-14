@@ -4,12 +4,18 @@ Ambitus Studio is a collaborative music making platform that allows you to creat
 
 ## Setup
 
+This project will need to use PostgreSQL. If you do not have it installed on your machine, please use the following instructions:
+
+[Windows](https://www.postgresqltutorial.com/install-postgresql/)
+[Mac](https://www.postgresqltutorial.com/install-postgresql-macos/)
+[Linux](https://www.postgresqltutorial.com/install-postgresql-linux/)
+
 To start api run these commands in a location you want to store the project:
 
 ```shell
 git clone https://github.com/isfopo/ambitus-studio-api.git
 cd ambitus-studio-api
-pg_ctl -D /usr/local/var/postgres start // if you have PostgreSQL installed
+pg_ctl -D /usr/local/var/postgres start
 npm install
 npm start
 ```
