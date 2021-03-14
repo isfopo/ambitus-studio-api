@@ -5,7 +5,6 @@ Ambitus Studio is a collaborative music making platform that allows you to creat
 ## Setup
 
 This project will need to use PostgreSQL. If you do not have it installed on your machine, please use the following instructions:
-
 [Windows](https://www.postgresqltutorial.com/install-postgresql/) ||
 [Mac](https://www.postgresqltutorial.com/install-postgresql-macos/) ||
 [Linux](https://www.postgresqltutorial.com/install-postgresql-linux/)
