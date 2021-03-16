@@ -7,6 +7,7 @@
 const app = require("../app");
 const debug = require("debug")("sequelize-with-express:server");
 const http = require("http");
+const ws = require("ws");
 const sequelize = require("../db/models").sequelize;
 
 /**
@@ -22,9 +23,43 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-// TODO: can I run command to start database automatically?
-// pg_ctl -D /usr/local/var/postgres
-// does this need to be in the root directory?
+const wss = new ws.Server({ server });
+
+wss.on("connection", (socket) => {
+  socket.isAlive = true;
+
+  socket.on("pong", () => {
+    socket.isAlive = true;
+  });
+
+  socket.on("message", (message) => {
+    console.log("received %s:", message);
+    const broadcastRegex = /^broadcast\:/;
+
+    if (broadcastRegex.test(message)) {
+      message.replace(broadcastRegex, "");
+
+      wss.clients.forEach((client) => {
+        if (client != socket) {
+          client.send(`hello, broadcast -> ${message}`);
+        }
+      });
+    } else {
+      socket.send(`hello, you send -> ${message}`);
+    }
+  });
+
+  socket.send(`hello, I'm a WebSocket server`);
+});
+
+setInterval(() => {
+  wss.clients.forEach((socket) => {
+    if (!socket.isAlive) return socket.terminate();
+
+    socket.isAlive = false;
+    socket.ping(null, false, true);
+  });
+}, 10000);
 
 /**
  * Listen on provided port, on all network interfaces.
