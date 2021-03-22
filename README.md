@@ -14,8 +14,8 @@ To start api run these commands in a location you want to store the project:
 ```shell
 git clone https://github.com/isfopo/ambitus-studio-api.git
 cd ambitus-studio-api
-pg_ctl -D /usr/local/var/postgres start
 npm install
+npm run db:init
 npm start
 ```
 
