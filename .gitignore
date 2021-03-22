@@ -111,3 +111,6 @@ fs/avatar/*
 
 fs/clip-content/*
 !fs/clip-content/.gitkeep
+
+.sync-conflict-20210318-135743-DVZ7CRE.DS_Store
+.DS_Store
