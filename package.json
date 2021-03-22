@@ -4,8 +4,9 @@
   "description": "Ambitus Studio is a collaborative music making platform that allows you to create music across the internet with anyone.",
   "main": "index.js",
   "scripts": {
-    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "start": "npm run db:reset && npm run dev",
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "db:init": "pg_ctl -D /usr/local/var/postgres start",
     "dev": "nodemon ./bin/www",
     "devDocs": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
     "test": "mocha --watch routes/tests/*.test.js",
@@ -44,7 +45,9 @@
     "mysql2": "^2.2.5",
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "socket.io": "^4.0.0",
+    "ws": "^7.4.4"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
