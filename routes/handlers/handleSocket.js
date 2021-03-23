@@ -1,27 +1,26 @@
 const User = require("./user");
+const Project = require("./project");
 
 let interval;
 
 let io, socket;
 
-const connect = (ioParam, socketParam) => {
+const connect = async (ioParam, socketParam) => {
   try {
     io = ioParam;
     socket = socketParam;
 
-    //socket.join(socket.handshake.query.ProjectId); //joins room with ProjectId
-    //console.log(socket.rooms); // get rooms
-    //console.log(io.sockets.adapter.rooms); // gets clients in rooms
-    //console.log(socket.handshake);
-
-    const userId = authorize(socket.handshake);
-    console.log("New client connected", userId);
-
-    io.to(socket.handshake.query.ProjectId).emit(
-      "roomInfo",
-      "a new User has joined"
-      // TODO: broadcast which users are in the room
+    const user = await User.findInDatabase(authorize(socket.handshake));
+    const project = await Project.findInDatabase(
+      socket.handshake.query.ProjectId
     );
+    socket.join(socket.handshake.query.ProjectId); //joins room with ProjectId
+
+    console.log(`${user.username} is working on ${project.name}`);
+
+    io.to(socket.handshake.query.ProjectId).emit("status", {
+      project,
+    });
 
     if (interval) {
       clearInterval(interval);
@@ -31,10 +30,9 @@ const connect = (ioParam, socketParam) => {
     socket.on("disconnect", (reason) => {
       console.log("Client disconnected");
       socket.leave(socket.handshake.query.ProjectId);
-      console.log(io.sockets.adapter.rooms);
       io.to(socket.handshake.query.ProjectId).emit(
-        "roomInfo",
-        "a user has left"
+        "status",
+        `${user.username} has left`
       );
       clearInterval(interval);
     });
@@ -52,7 +50,7 @@ const connect = (ioParam, socketParam) => {
 const authorize = (handshake) => {
   try {
     const token = parseHandshakeForToken(handshake);
-    return User.verifyToken(token);
+    return User.verifyToken(token).UserId;
   } catch (e) {
     throw new Error(e.message);
   }
