@@ -1,4 +1,3 @@
-const { omitBy } = require("lodash");
 const User = require("./user");
 
 let interval;
@@ -10,13 +9,13 @@ const connect = (ioParam, socketParam) => {
     io = ioParam;
     socket = socketParam;
 
-    console.log("New client connected");
     //socket.join(socket.handshake.query.ProjectId); //joins room with ProjectId
     //console.log(socket.rooms); // get rooms
     //console.log(io.sockets.adapter.rooms); // gets clients in rooms
     //console.log(socket.handshake);
 
-    const userId = authorize(socket.handshake); // TODO: catch error and disconnect
+    const userId = authorize(socket.handshake);
+    console.log("New client connected", userId);
 
     io.to(socket.handshake.query.ProjectId).emit(
       "roomInfo",
@@ -40,7 +39,8 @@ const connect = (ioParam, socketParam) => {
       clearInterval(interval);
     });
   } catch (e) {
-    io.to(socket.handshake.query.ProjectId).emit();
+    socket.emit("error", e.message);
+    socket.disconnect();
   }
 };
 
@@ -54,7 +54,7 @@ const authorize = (handshake) => {
     const token = parseHandshakeForToken(handshake);
     return User.verifyToken(token);
   } catch (e) {
-    throw e;
+    throw new Error(e.message);
   }
 };
 
