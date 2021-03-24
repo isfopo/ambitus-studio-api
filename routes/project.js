@@ -7,6 +7,7 @@ const User = require("./handlers/user");
 const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 const Track = require("./handlers/track");
+const Socket = require("./handlers/socket");
 
 /**
  * Create a new project (Authorization Bearer Required)
@@ -187,6 +188,9 @@ router.put("/name", Project.authorize, async (req, res) => {
   try {
     req.project.name = validate.name(req.body.name);
     await req.project.save();
+    Socket.broadcastUpdate("/project/name", {
+      ProjectId: req.project.ProjectId,
+    });
     res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -338,7 +342,7 @@ router.put("/accept", Project.authorize, async (req, res) => {
 
 /**
  * Put a given scene at a designated index (Authorization Bearer Required)
- * @route PUT /project/accept
+ * @route PUT /project/reorder-scenes
  * @group Project - Operations about projects
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - SceneId of scene to be moved
@@ -346,15 +350,12 @@ router.put("/accept", Project.authorize, async (req, res) => {
  */
 router.put("/reorder-scenes", Project.authorize, async (req, res) => {
   const scenes = await req.project.getScenes();
-
-  // BUG: almost works, will insert at correct index, but will sometimes order other elements incorrectly
   const reorderedScenes = order.reorderByProperty(
     scenes,
     "SceneId",
     req.body.SceneId,
     req.body.index
   );
-  // assign index to scenes in array
   for (let i = 0; i < scenes.length; i++) {
     reorderedScenes[i].index = i;
     await reorderedScenes[i].save();
