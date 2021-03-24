@@ -72,7 +72,9 @@ const parseHandshakeForToken = (handshake = {}) => {
  * @param {Object} body body to include in call  - must include ProjectId
  */
 const broadcastUpdate = (path, body) => {
-  io.to(body.ProjectId).emit("update", { path, body });
+  if (io) {
+    io.to(body.ProjectId).emit("update", { path, body });
+  }
 };
 
 module.exports = {
