@@ -50,6 +50,40 @@ router.get("/", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get name of track (Authorization Bearer Required)
+ * @route GET /track/name
+ * @group track - Operations about track
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - track's id
+ * @returns {Object} 200 - name of track
+ */
+router.get("/name", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    return res.status(200).json({ name: track.name });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
+ * Get settings of track (Authorization Bearer Required)
+ * @route GET /track/settings
+ * @group track - Operations about track
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - track's id
+ * @returns {Object} 200 - settings of track
+ */
+router.get("/settings", Project.authorize, async (req, res) => {
+  try {
+    const track = await Track.findInDatabase(req.body.TrackId);
+    return res.status(200).json({ settings: track.settings });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
  * Change name of track (Authorization Bearer Required)
  * @route PUT /track/name
  * @group track - Operations about track
@@ -63,6 +97,10 @@ router.put("/name", Project.authorize, async (req, res) => {
     const track = await Track.findInDatabase(req.body.TrackId);
     track.name = validate.name(req.body.name);
     await track.save();
+    Socket.broadcastUpdate("/track/name", {
+      ProjectId: req.project.ProjectId,
+      TrackId: req.body.TrackId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -83,6 +121,10 @@ router.put("/settings", Project.authorize, async (req, res) => {
     const track = await Track.findInDatabase(req.body.TrackId);
     track.settings = validate.settings(req.body.settings);
     await track.save();
+    Socket.broadcastUpdate("/track/settings", {
+      ProjectId: req.project.ProjectId,
+      TrackId: req.body.TrackId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
