@@ -255,6 +255,9 @@ router.put("/description", Project.authorize, async (req, res) => {
       ? validate.description(req.body.description)
       : null;
     await req.project.save();
+    Socket.broadcastUpdate("/project/description", {
+      ProjectId: req.project.ProjectId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -273,6 +276,9 @@ router.put("/tempo", Project.authorize, async (req, res) => {
   try {
     req.project.tempo = validate.tempo(req.body.tempo);
     await req.project.save();
+    Socket.broadcastUpdate("/project/tempo", {
+      ProjectId: req.project.ProjectId,
+    });
     res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -287,12 +293,15 @@ router.put("/tempo", Project.authorize, async (req, res) => {
  * @param {String} time_signature.body.required - new project time signature
  * @returns {object} 204
  */
-router.put("/time-signature", Project.authorize, async (req, res) => {
+router.put("/time_signature", Project.authorize, async (req, res) => {
   try {
     req.project.time_signature = validate.timeSignature(
       req.body.time_signature
     );
     await req.project.save();
+    Socket.broadcastUpdate("/project/time_signature", {
+      ProjectId: req.project.ProjectId,
+    });
     res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -386,13 +395,13 @@ router.put("/accept", Project.authorize, async (req, res) => {
 
 /**
  * Put a given scene at a designated index (Authorization Bearer Required)
- * @route PUT /project/reorder-scenes
+ * @route PUT /project/reorder_scenes
  * @group Project - Operations about projects
  * @param {String} ProjectId.body.required - project's id
  * @param {String} SceneId.body.required - SceneId of scene to be moved
  * @param {Integer} index.body.required - index to insert scene
  */
-router.put("/reorder-scenes", Project.authorize, async (req, res) => {
+router.put("/reorder_scenes", Project.authorize, async (req, res) => {
   const scenes = await req.project.getScenes();
   const reorderedScenes = order.reorderByProperty(
     scenes,
@@ -404,7 +413,36 @@ router.put("/reorder-scenes", Project.authorize, async (req, res) => {
     reorderedScenes[i].index = i;
     await reorderedScenes[i].save();
   }
+  Socket.broadcastUpdate("/project/scenes", {
+    ProjectId: req.project.ProjectId,
+  });
   return res.status(200).json(reorderedScenes);
+});
+
+/**
+ * Put a given track at a designated index (Authorization Bearer Required)
+ * @route PUT /project/reorder_tracks
+ * @group Project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} TrackId.body.required - TrackId of track to be moved
+ * @param {Integer} index.body.required - index to insert track
+ */
+router.put("/reorder_tracks", Project.authorize, async (req, res) => {
+  const tracks = await req.project.getTracks();
+  const reorderedTracks = order.reorderByProperty(
+    tracks,
+    "TrackId",
+    req.body.TrackId,
+    req.body.index
+  );
+  for (let i = 0; i < tracks.length; i++) {
+    reorderedTracks[i].index = i;
+    await reorderedTracks[i].save();
+  }
+  Socket.broadcastUpdate("/project/tracks", {
+    ProjectId: req.project.ProjectId,
+  });
+  return res.status(200).json(reorderedTracks);
 });
 
 module.exports = router;
