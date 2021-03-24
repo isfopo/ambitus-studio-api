@@ -18,6 +18,9 @@ const Scene = require("./handlers/scene");
  */
 router.post("/", Project.authorize, async (req, res) => {
   try {
+    Socket.broadcastUpdate("/project/scenes", {
+      ProjectId: req.project.ProjectId,
+    });
     return res
       .status(200)
       .json(
@@ -48,6 +51,23 @@ router.get("/", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get name of scene (Authorization Bearer Required)
+ * @route GET /scene/name
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns {Object} 200 - name of scene
+ */
+router.get("/", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    return res.status(200).json({ name: scene.name });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
  * Change name of scene (Authorization Bearer Required)
  * @route PUT /scene/name
  * @group scene - Operations about scene
@@ -61,6 +81,10 @@ router.put("/name", Project.authorize, async (req, res) => {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     scene.name = req.body.name ? validate.name(req.body.name) : null;
     await scene.save();
+    Socket.broadcastUpdate("/scene/name", {
+      ProjectId: req.project.ProjectId,
+      SceneId: req.body.SceneId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -81,6 +105,10 @@ router.put("/tempo", Project.authorize, async (req, res) => {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     scene.tempo = req.body.tempo ? validate.tempo(req.body.tempo) : null;
     await scene.save();
+    Socket.broadcastUpdate("/scene/tempo", {
+      ProjectId: req.project.ProjectId,
+      SceneId: req.body.SceneId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -96,13 +124,17 @@ router.put("/tempo", Project.authorize, async (req, res) => {
  * @param {String} time_signature.body.optional - new time signature - if left empty, time signature will be null
  * @returns 204
  */
-router.put("/time-signature", Project.authorize, async (req, res) => {
+router.put("/time_signature", Project.authorize, async (req, res) => {
   try {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     scene.time_signature = req.body.time_signature
       ? validate.timeSignature(req.body.time_signature)
       : null;
     await scene.save();
+    Socket.broadcastUpdate("/scene/time_signature", {
+      ProjectId: req.project.ProjectId,
+      SceneId: req.body.SceneId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
@@ -123,6 +155,10 @@ router.put("/repeats", Project.authorize, async (req, res) => {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     scene.repeats = validate.integer(req.body.repeats);
     await scene.save();
+    Socket.broadcastUpdate("/scene/repeats", {
+      ProjectId: req.project.ProjectId,
+      SceneId: req.body.SceneId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });
