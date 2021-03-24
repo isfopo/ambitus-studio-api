@@ -14,18 +14,11 @@ const connect = async (ioParam, socketParam) => {
     const project = await Project.findInDatabase(
       socket.handshake.query.ProjectId
     );
-    socket.join(socket.handshake.query.ProjectId); //joins room with ProjectId
+    socket.join(socket.handshake.query.ProjectId);
 
-    console.log(`${user.username} is working on ${project.name}`);
-
-    io.to(socket.handshake.query.ProjectId).emit("status", {
+    io.to(socket.handshake.query.ProjectId).emit("project", {
       project,
     });
-
-    if (interval) {
-      clearInterval(interval);
-    }
-    interval = setInterval(() => getApiAndEmit(socket), 1000);
 
     socket.on("disconnect", (reason) => {
       console.log("Client disconnected");
@@ -34,7 +27,6 @@ const connect = async (ioParam, socketParam) => {
         "status",
         `${user.username} has left`
       );
-      clearInterval(interval);
     });
   } catch (e) {
     socket.emit("error", e.message);
@@ -71,27 +63,19 @@ const parseHandshakeForToken = (handshake = {}) => {
   }
 };
 
-// TODO: create function that broadcasts change
-// TODO: this function should tell the path to get and any relevant information for that change
 // TODO: put this function in all PUT routes in users, project, scenes, tracks, clips and messages
 // use io and socket variables
 
 /**
  * broadcast a update in a project to sockets in that project
- * @param {Object} project that has changed
  * @param {String} path path of update
- * @param {Object} body body to include in call
+ * @param {Object} body body to include in call  - must include ProjectId
  */
-const broadcastUpdate = (project, path, body) => {
-  io.to(project.ProjectId).emit("update", { path, body });
-};
-
-const getApiAndEmit = (socket) => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
+const broadcastUpdate = (path, body) => {
+  io.to(body.ProjectId).emit("update", { path, body });
 };
 
 module.exports = {
   connect,
+  broadcastUpdate,
 };
