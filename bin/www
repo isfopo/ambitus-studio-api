@@ -7,10 +7,10 @@
 const app = require("../app");
 const debug = require("debug")("sequelize-with-express:server");
 const server = require("http").Server(app);
-const io = require("socket.io")(server, { cors: { origin: "*/*" } });
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 const sequelize = require("../db/models").sequelize;
 
-const handleSocket = require("../routes/handlers/handleSocket");
+const Socket = require("../routes/handlers/socket");
 
 /**
  * Get port from environment and store in Express.
@@ -24,7 +24,7 @@ app.set("port", port);
  */
 
 io.on("connection", (socket) => {
-  handleSocket.connect(io, socket);
+  Socket.connect(io, socket);
 });
 
 /**
