@@ -55,7 +55,10 @@ router.put("/name", Project.authorize, async (req, res) => {
 
   clip.name = req.body.name;
   await clip.save();
-
+  Socket.broadcastUpdate("/clip/name", {
+    ProjectId: req.project.ProjectId,
+    ClipId: req.body.ClipId,
+  });
   res.sendStatus(204);
 });
 
@@ -69,6 +72,10 @@ router.put("/content", upload.single("content"), async (req, res) => {
         Clip.deleteContent(clip.content);
         Clip.saveData(clip, req.body);
         Clip.saveContent(clip, req.file);
+        Socket.broadcastUpdate("/clip/content", {
+          ProjectId: req.project.ProjectId,
+          ClipId: req.body.ClipId,
+        });
         res.sendStatus(204);
       } else {
         throw new Error("content mimetype must match track mimetype");
