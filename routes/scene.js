@@ -85,6 +85,40 @@ router.get("/tempo", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get time signature of scene (Authorization Bearer Required)
+ * @route GET /scene/time_signature
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns {Object} 200 - time signature of scene
+ */
+router.get("/time_signature", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    return res.status(200).json({ time_signature: scene.time_signature });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
+ * Get repeats of scene (Authorization Bearer Required)
+ * @route GET /scene/repeats
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns {Object} 200 - repeats of scene
+ */
+router.get("/repeats", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    return res.status(200).json({ repeats: scene.repeats });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
  * Change name of scene (Authorization Bearer Required)
  * @route PUT /scene/name
  * @group scene - Operations about scene
