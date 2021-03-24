@@ -68,6 +68,23 @@ router.get("/name", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get tempo of scene (Authorization Bearer Required)
+ * @route GET /scene/tempo
+ * @group scene - Operations about scene
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - scene's id
+ * @returns {Object} 200 - tempo of scene
+ */
+router.get("/tempo", Project.authorize, async (req, res) => {
+  try {
+    const scene = await Scene.findInDatabase(req.body.SceneId);
+    return res.status(200).json({ tempo: scene.tempo });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+});
+
+/**
  * Change name of scene (Authorization Bearer Required)
  * @route PUT /scene/name
  * @group scene - Operations about scene
