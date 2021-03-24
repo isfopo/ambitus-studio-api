@@ -58,7 +58,7 @@ router.get("/", Project.authorize, async (req, res) => {
  * @param {String} SceneId.body.required - scene's id
  * @returns {Object} 200 - name of scene
  */
-router.get("/", Project.authorize, async (req, res) => {
+router.get("/name", Project.authorize, async (req, res) => {
   try {
     const scene = await Scene.findInDatabase(req.body.SceneId);
     return res.status(200).json({ name: scene.name });
