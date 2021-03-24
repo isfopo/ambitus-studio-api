@@ -177,6 +177,50 @@ router.get("/tracks", Project.authorize, async (req, res) => {
 });
 
 /**
+ * Get th name of a project (Authorization Bearer Required)
+ * @route GET /project/name
+ * @group project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @returns {Object} 200 - name of project
+ */
+router.get("/name", Project.authorize, async (req, res) => {
+  res.status(200).json({ name: req.project.name });
+});
+
+/**
+ * Get the description of a project (Authorization Bearer Required)
+ * @route GET /project/description
+ * @group project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @returns {Object} 200 - description of project
+ */
+router.get("/description", Project.authorize, async (req, res) => {
+  res.status(200).json({ description: req.project.description });
+});
+
+/**
+ * Get the tempo of a project (Authorization Bearer Required)
+ * @route GET /project/tempo
+ * @group project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @returns {Object} 200 - tempo of project
+ */
+router.get("/tempo", Project.authorize, async (req, res) => {
+  res.status(200).json({ tempo: req.project.tempo });
+});
+
+/**
+ * Get the time signature of a project (Authorization Bearer Required)
+ * @route GET /project/time_signature
+ * @group project - Operations about projects
+ * @param {String} ProjectId.body.required - project's id
+ * @returns {Object} 200 - time_signature of project
+ */
+router.get("/time_signature", Project.authorize, async (req, res) => {
+  res.status(200).json({ time_signature: req.project.time_signature });
+});
+
+/**
  * Change the tempo of a project (Authorization Bearer Required)
  * @route PUT /project/tempo
  * @group Project - Operations about projects
