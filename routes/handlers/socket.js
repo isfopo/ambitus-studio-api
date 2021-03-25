@@ -63,17 +63,14 @@ const parseHandshakeForToken = (handshake = {}) => {
   }
 };
 
-// TODO: put this function in all PUT routes in users, project, scenes, tracks, clips and messages
-// use io and socket variables
-
 /**
  * broadcast a update in a project to sockets in that project
  * @param {String} path path of update
- * @param {Object} body body to include in call  - must include ProjectId
+ * @param {Object} query query to include in call  - must include ProjectId
  */
-const broadcastUpdate = (path, body) => {
+const broadcastUpdate = (path, query) => {
   if (io) {
-    io.to(body.ProjectId).emit("update", { path, body });
+    io.to(query.ProjectId).emit("update", { path, query });
   }
 };
 
