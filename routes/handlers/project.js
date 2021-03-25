@@ -41,7 +41,7 @@ const validatePost = (body = {}) => {
 const authorize = (req, res, next) => {
   User.authorize(req, res, async () => {
     try {
-      const project = await findInDatabase(validate.id(req.body.ProjectId));
+      const project = await findInDatabase(validate.id(req.query.ProjectId));
 
       if (await project.hasUser(await User.findInDatabase(req.user.UserId))) {
         req.project = project;
