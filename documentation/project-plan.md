@@ -155,14 +155,14 @@
   - [x] get users in project
   - [x] get scenes in projects
   - [x] get tracks in project
-  - [ ] subscribe to changes in project
+  - [x] subscribe to changes in project
   - [x] get all scenes in a project
   - [x] get all tracks in a project
   - [x] change name of project
   - [x] change tempo of project
   - [x] change time signature of project
-  - [ ] change order of scenes
-  - [ ] change order of tracks
+  - [x] change order of scenes
+  - [x] change order of tracks
   - [x] invite a user to a project
   - [x] request access to a project
   - [x] accept a request to a project
