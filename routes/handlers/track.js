@@ -2,12 +2,13 @@ const validate = require("./helpers/validate");
 const order = require("./helpers/order");
 const Track = require("../../db/models").Track;
 
+/**
+ * checks for valid parameters for a new track
+ */
 const validatePost = (body = {}) => {
   const errors = [];
 
-  if (!body.ProjectId) {
-    errors.push("body should contain a ProjectId");
-  } else if (!body.name) {
+  if (!body.name) {
     errors.push("body should contain a name");
   } else if (!body.settings) {
     errors.push("body should contain settings");
@@ -16,7 +17,6 @@ const validatePost = (body = {}) => {
   }
 
   try {
-    validate.id(body.ProjectId);
     validate.name(body.name);
     validate.settings(body.settings);
     validate.type(body.type);
@@ -69,31 +69,35 @@ const getTracksInProject = async (project = {}, TrackId = null) => {
  * @returns new track id
  */
 const createAndPopulate = async (project, params) => {
-  const tracks = await project.getTracks();
+  try {
+    const tracks = await project.getTracks();
 
-  const track = await project.createTrack({
-    name: params.name,
-    settings: params.settings,
-    type: params.type,
-    index: params.index
-      ? params.index
-      : order.getNextIndex(
-          tracks.map((track) => track.dataValues),
-          "index"
-        ),
-  });
-
-  const scenes = await project.getScenes();
-
-  scenes.forEach(async (scene) => {
-    const clip = await track.createClip({
-      tempo: project.tempo,
-      time_signature: project.time_signature,
+    const track = await project.createTrack({
+      name: params.name,
+      settings: params.settings,
+      type: params.type,
+      index: params.index
+        ? params.index
+        : order.getNextIndex(
+            tracks.map((track) => track.dataValues),
+            "index"
+          ),
     });
-    scene.addClip(clip);
-  });
 
-  return await findInDatabase(track.TrackId);
+    const scenes = await project.getScenes();
+
+    scenes.forEach(async (scene) => {
+      const clip = await track.createClip({
+        tempo: project.tempo,
+        time_signature: project.time_signature,
+      });
+      scene.addClip(clip);
+    });
+
+    return await findInDatabase(track.TrackId);
+  } catch (e) {
+    throw new Error(e.message);
+  }
 };
 
 /**

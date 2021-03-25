@@ -5,12 +5,7 @@ const Scene = require("../../db/models").Scene;
 const validatePost = (body = {}) => {
   const errors = [];
 
-  if (!body.ProjectId) {
-    errors.push("body should contain an ProjectId");
-  }
-
   try {
-    validate.id(body.ProjectId);
     body.name && validate.name(body.name);
     body.tempo && validate.tempo(body.tempo);
     body.time_signature && validate.timeSignature(body.time_signature);
