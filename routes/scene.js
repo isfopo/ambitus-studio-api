@@ -42,7 +42,7 @@ router.post("/", Project.authorize, async (req, res) => {
  */
 router.get("/", Project.authorize, async (req, res) => {
   try {
-    const scene = await Scene.findInDatabase(req.body.SceneId);
+    const scene = await Scene.findInDatabase(req.query.SceneId);
     const clips = await scene.getClips();
 
     return res.status(200).json({ ...scene.dataValues, clips });
@@ -61,7 +61,7 @@ router.get("/", Project.authorize, async (req, res) => {
  */
 router.get("/name", Project.authorize, async (req, res) => {
   try {
-    const scene = await Scene.findInDatabase(req.body.SceneId);
+    const scene = await Scene.findInDatabase(req.query.SceneId);
     return res.status(200).json({ name: scene.name });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -78,7 +78,7 @@ router.get("/name", Project.authorize, async (req, res) => {
  */
 router.get("/tempo", Project.authorize, async (req, res) => {
   try {
-    const scene = await Scene.findInDatabase(req.body.SceneId);
+    const scene = await Scene.findInDatabase(req.query.SceneId);
     return res.status(200).json({ tempo: scene.tempo });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -95,7 +95,7 @@ router.get("/tempo", Project.authorize, async (req, res) => {
  */
 router.get("/time_signature", Project.authorize, async (req, res) => {
   try {
-    const scene = await Scene.findInDatabase(req.body.SceneId);
+    const scene = await Scene.findInDatabase(req.query.SceneId);
     return res.status(200).json({ time_signature: scene.time_signature });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -112,7 +112,7 @@ router.get("/time_signature", Project.authorize, async (req, res) => {
  */
 router.get("/repeats", Project.authorize, async (req, res) => {
   try {
-    const scene = await Scene.findInDatabase(req.body.SceneId);
+    const scene = await Scene.findInDatabase(req.query.SceneId);
     return res.status(200).json({ repeats: scene.repeats });
   } catch (error) {
     return res.status(400).json({ error: error.message });
