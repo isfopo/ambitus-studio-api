@@ -3,6 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
+const _ = require("lodash");
 const upload = multer({ dest: path.join(__dirname, "../fs/avatar") });
 const { Op } = require("sequelize");
 
@@ -54,44 +55,45 @@ router.post("/", async (req, res) => {
  */
 router.get("/", async (req, res) => {
   try {
-    if (req.body.UserId) {
-      const user = await findInDatabase(validate.id(req.body.UserId));
+    if (req.query.UserId) {
+      const user = await User.findInDatabase(validate.id(req.query.UserId));
       if (user) {
         return res.status(200).json({
           UserId: user.UserId,
           username: user.username,
-          avatar: user.avatar,
+          bio: user.bio,
         });
       } else {
         return res.status(404).json({ error: ["UserId could not be found"] });
       }
-    } else if (req.body.username) {
+    } else if (req.query.username) {
       const user = await models.User.findOne({
-        where: { username: validate.name(req.body.username) },
+        where: { username: validate.name(req.query.username) },
       });
       if (user) {
         return res.status(200).json({
           UserId: user.UserId,
           username: user.username,
-          avatar: user.avatar,
+          bio: user.bio,
         });
       } else {
         return res.status(404).json({ error: ["username could not be found"] });
       }
-    } else if (_.isEmpty(req.body)) {
+    } else if (_.isEmpty(req.query)) {
       const users = await models.User.findAll();
       return res.status(200).json(
         users.map((user) => {
           return {
             UserId: user.UserId,
             username: user.username,
+            bio: user.bio,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
           };
         })
       );
     } else {
-      const keys = Object.keys(req.body);
+      const keys = Object.keys(req.query);
       return res.status(400).json({
         error: keys.map((key) => `${key} is not a valid key`),
       });
@@ -113,8 +115,8 @@ router.get("/", async (req, res) => {
 router.get("/login", async (req, res) => {
   try {
     const user = await User.verifyPassword(
-      req.body.username,
-      req.body.password
+      req.query.username,
+      req.query.password
     );
     if (user) {
       token = await User.signToken(user.UserId);
@@ -154,17 +156,17 @@ router.get("/projects", User.authorize, async (req, res) => {
  */
 router.get("/avatar", async (req, res) => {
   try {
-    const user = await User.findInDatabase(req.body.UserId);
+    const user = await User.findInDatabase(req.query.UserId);
     const stream = fs.createReadStream(user.avatar);
 
     stream.on("error", async (err) => {
       user.avatar = path.join(
         __dirname,
-        "../../assets/images/default-avatar.jpg"
+        "../assets/images/default-avatar.jpeg"
       );
       user.avatar_type = "image/jpeg";
       await user.save();
-      res.status(404).json({ error: ["could not find avatar"] });
+      res.status(404).json({ error: "could not find avatar" });
     });
 
     res.setHeader("Content-Type", user.avatar_type);
