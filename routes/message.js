@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Project = require("./handlers/project");
 const Message = require("./handlers/message");
+const Socket = require("./handlers/socket");
 
 /**
  * Create a new message (Authorization Bearer Required)
@@ -16,6 +17,9 @@ router.post("/", Project.authorize, async (req, res) => {
     await req.user.addMessage(
       await req.project.createMessage(Message.validatePost(req.body))
     );
+    Socket.broadcastUpdate("/message", {
+      ProjectId: req.project.ProjectId,
+    });
     return res.sendStatus(204);
   } catch (e) {
     return res.status(400).json({ error: e.message });

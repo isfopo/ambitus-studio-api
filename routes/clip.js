@@ -11,6 +11,7 @@ const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
 const Track = require("./handlers/track");
 const Clip = require("./handlers/clip");
+const Socket = require("./handlers/socket");
 
 /**
  * Get all clips in project, scene or track (Authorization Bearer Required)
@@ -30,6 +31,23 @@ router.get("/", Project.authorize, async (req, res) => {
         await Track.getTracksInProject(req.project, req.body.TrackId)
       )
     );
+});
+
+/**
+ * Get name of clip (Authorization Bearer Required)
+ * @route GET /clip/name
+ * @group clip - Operations about clip
+ * @param {String} ProjectId.body.required - project's id
+ * @param {String} SceneId.body.required - clip's id
+ * @returns {Object} 200 - name of clip
+ */
+router.get("/name", Project.authorize, async (req, res) => {
+  try {
+    const clip = await Clip.findInDatabase(req.body.ClipId);
+    return res.status(200).json({ name: clip.name });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 });
 
 router.get("/content", Project.authorize, async (req, res) => {

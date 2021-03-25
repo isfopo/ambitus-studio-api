@@ -4,6 +4,7 @@ const router = express.Router();
 const validate = require("./handlers/helpers/validate");
 const Project = require("./handlers/project");
 const Scene = require("./handlers/scene");
+const Socket = require("./handlers/socket");
 
 /**
  * Create a new scene in a project (Authorization Bearer Required)

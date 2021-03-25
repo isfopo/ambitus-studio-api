@@ -4,6 +4,7 @@ const router = express.Router();
 const validate = require("./handlers/helpers/validate");
 const Project = require("./handlers/project");
 const Track = require("./handlers/track");
+const Socket = require("./handlers/socket");
 
 /**
  * Create a new track in a project (Authorization Bearer Required)
@@ -18,6 +19,9 @@ const Track = require("./handlers/track");
  */
 router.post("/", Project.authorize, async (req, res) => {
   try {
+    Socket.broadcastUpdate("/project/tracks", {
+      ProjectId: req.project.ProjectId,
+    });
     return res
       .status(200)
       .json(
