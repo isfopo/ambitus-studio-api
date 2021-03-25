@@ -25,7 +25,7 @@ module.exports = {
           "audio/mpeg",
           "audio/ogg",
           "audio/webm",
-          "audio/wave",
+          "audio/wav",
           "audio/midi",
         ],
         allowNull: false,

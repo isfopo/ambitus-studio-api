@@ -27,8 +27,8 @@ router.get("/", Project.authorize, async (req, res) => {
     .status(200)
     .json(
       await Clip.getClipsFromScenesAndTracks(
-        await Scene.getScenesInProject(req.project, req.body.SceneId),
-        await Track.getTracksInProject(req.project, req.body.TrackId)
+        await Scene.getScenesInProject(req.project, req.query.SceneId),
+        await Track.getTracksInProject(req.project, req.query.TrackId)
       )
     );
 });
@@ -43,7 +43,7 @@ router.get("/", Project.authorize, async (req, res) => {
  */
 router.get("/name", Project.authorize, async (req, res) => {
   try {
-    const clip = await Clip.findInDatabase(req.body.ClipId);
+    const clip = await Clip.findInDatabase(req.query.ClipId);
     return res.status(200).json({ name: clip.name });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -52,7 +52,7 @@ router.get("/name", Project.authorize, async (req, res) => {
 
 router.get("/content", Project.authorize, async (req, res) => {
   try {
-    const clip = await Clip.findInDatabase(req.body.ClipId);
+    const clip = await Clip.findInDatabase(req.query.ClipId);
     const track = await Track.findInDatabase(clip.TrackId);
 
     if (clip.content) {
@@ -85,6 +85,10 @@ router.put("/content", upload.single("content"), async (req, res) => {
     try {
       const clip = await Clip.findInDatabase(req.body.ClipId);
       const track = await Track.findInDatabase(clip.TrackId);
+
+      if (req.file.mimetype === "audio/wave") {
+        req.file.mimetype = "audio/wav";
+      }
 
       if (!req.file || req.file.mimetype === track.type) {
         Clip.deleteContent(clip.content);

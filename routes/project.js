@@ -39,12 +39,12 @@ router.post("/", User.authorize, async (req, res) => {
     },
     {
       name: "Track3",
-      type: "audio/wave",
+      type: "audio/wav",
       index: 3,
     },
     {
       name: "Track4",
-      type: "audio/wave",
+      type: "audio/wav",
       index: 4,
     },
   ];

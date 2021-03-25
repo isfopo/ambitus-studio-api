@@ -161,7 +161,7 @@ const type = (type = "") => {
     "audio/mpeg",
     "audio/ogg",
     "audio/webm",
-    "audio/wave",
+    "audio/wav",
     "audio/midi",
     "audio/x-midi",
   ];
@@ -173,7 +173,7 @@ const type = (type = "") => {
     "audio/mpeg",
     "audio/ogg",
     "audio/webm",
-    "audio/wave" or
+    "audio/wav" or
     "audio/midi"`);
   } else {
     return type;
