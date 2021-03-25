@@ -3,6 +3,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const logger = require("morgan");
+const cors = require("cors");
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(logger("dev"));
 app.use(express.json());
 
 app.use(helmet());
+
+app.use(cors({ origin: "http://localhost:1212" }));
 
 app.use(express.urlencoded({ extended: false }));
 
