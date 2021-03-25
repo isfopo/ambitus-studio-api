@@ -45,7 +45,7 @@ router.post("/", Project.authorize, async (req, res) => {
  */
 router.get("/", Project.authorize, async (req, res) => {
   try {
-    const track = await Track.findInDatabase(req.body.TrackId);
+    const track = await Track.findInDatabase(req.query.TrackId);
     const clips = await track.getClips();
     return res.status(200).json({ ...track.dataValues, clips });
   } catch (error) {
@@ -63,7 +63,7 @@ router.get("/", Project.authorize, async (req, res) => {
  */
 router.get("/name", Project.authorize, async (req, res) => {
   try {
-    const track = await Track.findInDatabase(req.body.TrackId);
+    const track = await Track.findInDatabase(req.query.TrackId);
     return res.status(200).json({ name: track.name });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -80,7 +80,7 @@ router.get("/name", Project.authorize, async (req, res) => {
  */
 router.get("/settings", Project.authorize, async (req, res) => {
   try {
-    const track = await Track.findInDatabase(req.body.TrackId);
+    const track = await Track.findInDatabase(req.query.TrackId);
     return res.status(200).json({ settings: track.settings });
   } catch (error) {
     return res.status(400).json({ error: error.message });
