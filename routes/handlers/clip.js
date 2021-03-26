@@ -109,6 +109,7 @@ const deleteContent = (content = "") => {
 const saveData = async (clip, data) => {
   clip.tempo = data.tempo;
   clip.time_signature = data.time_signature;
+  clip.bars = data.bars;
   await clip.save();
 };
 
