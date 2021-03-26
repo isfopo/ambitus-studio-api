@@ -79,7 +79,14 @@ router.get("/", async (req, res) => {
   const response = [];
 
   for (let i = 0; i < projects.length; i++) {
-    response.push(await Project.get(projects[i]));
+    const project = await Project.get(projects[i]);
+    response.push({
+      ProjectId: project.ProjectId,
+      name: project.name,
+      description: project.description,
+      tempo: project.tempo,
+      time_signature: project.time_signature,
+    });
   }
 
   return res.status(200).json(response);
