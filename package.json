@@ -8,7 +8,6 @@
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "db:init": "pg_ctl -D /usr/local/var/postgres start",
     "dev": "nodemon ./bin/www",
-    "devDocs": "concurrently \"nodemon ./bin/www\" \" nodemon swagger.js\"",
     "test": "mocha --watch routes/tests/*.test.js",
     "test-clip": "mocha --watch routes/tests/clip.test.js",
     "test-message": "mocha --watch routes/tests/message.test.js",
@@ -51,7 +50,6 @@
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "express-swagger-generator": "^1.1.17",
     "faker": "^5.4.0",
     "mocha": "^8.3.0",
     "mock-req-res": "^1.2.0",

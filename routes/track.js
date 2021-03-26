@@ -6,17 +6,6 @@ const Project = require("./handlers/project");
 const Track = require("./handlers/track");
 const Socket = require("./handlers/socket");
 
-/**
- * Create a new track in a project (Authorization Bearer Required)
- * @route POST /track
- * @group track - Operations about track
- * @param {string} id.body.required - containing project's id
- * @param {integer} name.body.required - new track's name
- * @param {string} settings.body.required - new track's settings
- * @param {string} type.body.required - new track's type
- * @returns {object} 200 - An object of track's info with generated track id
- * @returns {Error}  400 - Invalid token, name, tempo or time signature
- */
 router.post("/", Project.authorize, async (req, res) => {
   try {
     Socket.broadcastUpdate("/project/tracks", {
@@ -32,17 +21,6 @@ router.post("/", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Get track information (Authorization Bearer Required)
- * @route GET /track
- * @group track - Operations about track
- * @param {string} ProjectId.body.required - project's id
- * @param {string} TrackId.body.required - track's id
- * @returns {object} 200 - An object of track's info with generated track id
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Track not found
- */
 router.get("/", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.query.TrackId);
@@ -53,14 +31,6 @@ router.get("/", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Get name of track (Authorization Bearer Required)
- * @route GET /track/name
- * @group track - Operations about track
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - track's id
- * @returns {Object} 200 - name of track
- */
 router.get("/name", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.query.TrackId);
@@ -70,14 +40,6 @@ router.get("/name", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Get settings of track (Authorization Bearer Required)
- * @route GET /track/settings
- * @group track - Operations about track
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - track's id
- * @returns {Object} 200 - settings of track
- */
 router.get("/settings", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.query.TrackId);
@@ -87,15 +49,6 @@ router.get("/settings", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change name of track (Authorization Bearer Required)
- * @route PUT /track/name
- * @group track - Operations about track
- * @param {String} ProjectId.body.required - project's id
- * @param {String} TrackId.body.required - track's id
- * @param {String} name.body.required - new name
- * @returns 204
- */
 router.put("/name", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.body.TrackId);
@@ -111,15 +64,6 @@ router.put("/name", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change settings of track (Authorization Bearer Required)
- * @route PUT /track/settings
- * @group track - Operations about track
- * @param {String} ProjectId.body.required - project's id
- * @param {String} TrackId.body.required - track's id
- * @param {String} settings.body.optional - new settings - if left empty, settings will be empty object
- * @returns 204
- */
 router.put("/settings", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.body.TrackId);
@@ -135,14 +79,6 @@ router.put("/settings", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Destroy track and all clips in track (Authorization Bearer Required)
- * @route DELETE /track
- * @group track - Operations about track
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - track's id
- * @returns 204
- */
 router.delete("/", Project.authorize, async (req, res) => {
   try {
     const track = await Track.findInDatabase(req.body.TrackId);

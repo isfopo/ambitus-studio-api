@@ -9,16 +9,6 @@ const Scene = require("./handlers/scene");
 const Track = require("./handlers/track");
 const Socket = require("./handlers/socket");
 
-/**
- * Create a new project (Authorization Bearer Required)
- * @route POST /project
- * @group project - Operations about projects
- * @param {string} name.body.required - new project's name
- * @param {integer} tempo.body.required - new project's tempo
- * @param {string} time_signature.body.required - new project's time signature
- * @returns {object} 200 - An object of project's info with generated project id
- * @returns {Error}  400 - Invalid token, name, tempo or time signature
- */
 router.post("/", User.authorize, async (req, res) => {
   const defaultScenes = [
     { name: "Scene1", index: 1 },
@@ -66,12 +56,6 @@ router.post("/", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Gets non-sensitive data from all projects
- * @route GET /project
- * @group project - Operations about projects
- * @returns {Array} 200 - an array of all projects
- */
 router.get("/", async (req, res) => {
   //IDEA: add limit and offset
   const projects = await models.Project.findAll();
@@ -92,31 +76,11 @@ router.get("/", async (req, res) => {
   return res.status(200).json(response);
 });
 
-/**
- * Get project information (Authorization Bearer Required)
- * @route POST /project/detail
- * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
- * @returns {object} 200 - An object of project's info with generated project id
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
- */
 router.get("/detail", Project.authorize, async (req, res) => {
   const project = await Project.getDetail(req.project);
   return res.status(200).json(project);
 });
 
-/**
- * Get all users in project (Authorization Bearer Required)
- * @route POST /project/users
- * @group project - Operations about projects
- * @param {string} ProjectId.body.required - project's id
- * @returns {object} 200 - An array of users in project
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
- */
 router.get("/users", Project.authorize, async (req, res) => {
   const users = await req.project.getUsers();
   return res.status(200).json(
@@ -131,16 +95,6 @@ router.get("/users", Project.authorize, async (req, res) => {
   );
 });
 
-/**
- * Get all scenes from a project (Authorization Bearer Required)
- * @route GET /project/scenes
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {object} 200 - An array of scenes in project
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
- */
 router.get("/scenes", Project.authorize, async (req, res) => {
   const scenes = await req.project.getScenes();
   res.status(200).json(
@@ -157,16 +111,6 @@ router.get("/scenes", Project.authorize, async (req, res) => {
   );
 });
 
-/**
- * Get all tracks from a project (Authorization Bearer Required)
- * @route GET /project/tracks
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {object} 200 - An array of tracks in project
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  403 - User is not in project
- * @returns {Error}  404 - Project not found
- */
 router.get("/tracks", Project.authorize, async (req, res) => {
   const tracks = await req.project.getTracks();
   res.status(200).json(
@@ -183,58 +127,22 @@ router.get("/tracks", Project.authorize, async (req, res) => {
   );
 });
 
-/**
- * Get th name of a project (Authorization Bearer Required)
- * @route GET /project/name
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {Object} 200 - name of project
- */
 router.get("/name", Project.authorize, async (req, res) => {
   res.status(200).json({ name: req.project.name });
 });
 
-/**
- * Get the description of a project (Authorization Bearer Required)
- * @route GET /project/description
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {Object} 200 - description of project
- */
 router.get("/description", Project.authorize, async (req, res) => {
   res.status(200).json({ description: req.project.description });
 });
 
-/**
- * Get the tempo of a project (Authorization Bearer Required)
- * @route GET /project/tempo
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {Object} 200 - tempo of project
- */
 router.get("/tempo", Project.authorize, async (req, res) => {
   res.status(200).json({ tempo: req.project.tempo });
 });
 
-/**
- * Get the time signature of a project (Authorization Bearer Required)
- * @route GET /project/time_signature
- * @group project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @returns {Object} 200 - time_signature of project
- */
 router.get("/time_signature", Project.authorize, async (req, res) => {
   res.status(200).json({ time_signature: req.project.time_signature });
 });
 
-/**
- * Change the tempo of a project (Authorization Bearer Required)
- * @route PUT /project/tempo
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} tempo.body.required - new project tempo
- * @returns {object} 204
- */
 router.put("/name", Project.authorize, async (req, res) => {
   try {
     req.project.name = validate.name(req.body.name);
@@ -248,14 +156,6 @@ router.put("/name", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change a project's description (Authorization Bearer Required)
- * @route PUT /project/description
- * @group project - Operations about project
- * @param {String} ProjectId.body.required - project's id
- * @param {String} description.body.optional - project's new description - if left empty, description is assigned null
- * @returns {Object} 204 - description has been changed
- */
 router.put("/description", Project.authorize, async (req, res) => {
   try {
     req.project.description = req.body.description
@@ -271,14 +171,6 @@ router.put("/description", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change the tempo of a project (Authorization Bearer Required)
- * @route PUT /project/tempo
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {Number} tempo.body.required - new project tempo
- * @returns {object} 204
- */
 router.put("/tempo", Project.authorize, async (req, res) => {
   try {
     req.project.tempo = validate.tempo(req.body.tempo);
@@ -292,14 +184,6 @@ router.put("/tempo", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change the time signature of a project (Authorization Bearer Required)
- * @route PUT /project/time signature
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} time_signature.body.required - new project time signature
- * @returns {object} 204
- */
 router.put("/time_signature", Project.authorize, async (req, res) => {
   try {
     req.project.time_signature = validate.timeSignature(
@@ -315,14 +199,6 @@ router.put("/time_signature", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Put a UserId into invited array (Authorization Bearer Required)
- * @route PUT /project/invite
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} invitee.body.required - invitee's UserId
- * @returns {object} 204
- */
 router.put("/invite", Project.authorize, async (req, res) => {
   try {
     const users = await req.project.getUsers();
@@ -343,13 +219,6 @@ router.put("/invite", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Requests access to a given project (Authorization Bearer Required)
- * @route PUT /project/request
- * @group Projects - Operations about projects
- * @param {String} ProjectId.body.required - requested project's ids
- * @returns {Object} 204
- */
 router.put("/request", User.authorize, async (req, res) => {
   try {
     const project = await models.Project.findByPk(req.body.ProjectId);
@@ -371,13 +240,6 @@ router.put("/request", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Accepts request from a user to join a project (Authorization Bearer Required)
- * @route PUT /project/accept
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} requester.body.required - requesting user's UserId
- */
 router.put("/accept", Project.authorize, async (req, res) => {
   try {
     const requester = await User.findInDatabase(req.body.requester);
@@ -400,14 +262,6 @@ router.put("/accept", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Put a given scene at a designated index (Authorization Bearer Required)
- * @route PUT /project/reorder_scenes
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - SceneId of scene to be moved
- * @param {Integer} index.body.required - index to insert scene
- */
 router.put("/reorder_scenes", Project.authorize, async (req, res) => {
   const scenes = await req.project.getScenes();
   const reorderedScenes = order.reorderByProperty(
@@ -426,14 +280,6 @@ router.put("/reorder_scenes", Project.authorize, async (req, res) => {
   return res.status(200).json(reorderedScenes);
 });
 
-/**
- * Put a given track at a designated index (Authorization Bearer Required)
- * @route PUT /project/reorder_tracks
- * @group Project - Operations about projects
- * @param {String} ProjectId.body.required - project's id
- * @param {String} TrackId.body.required - TrackId of track to be moved
- * @param {Integer} index.body.required - index to insert track
- */
 router.put("/reorder_tracks", Project.authorize, async (req, res) => {
   const tracks = await req.project.getTracks();
   const reorderedTracks = order.reorderByProperty(

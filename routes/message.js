@@ -1,17 +1,10 @@
 const express = require("express");
 const router = express.Router();
+
 const Project = require("./handlers/project");
 const Message = require("./handlers/message");
 const Socket = require("./handlers/socket");
 
-/**
- * Create a new message (Authorization Bearer Required)
- * @route POST /message
- * @group message - Operations about messages
- * @param {String} ProjectId.body.required - project's id
- * @param {String} content.body.required - message content to post
- * @returns {object} 204
- */
 router.post("/", Project.authorize, async (req, res) => {
   try {
     await req.user.addMessage(
@@ -26,12 +19,6 @@ router.post("/", Project.authorize, async (req, res) => {
   }
 });
 
-/**
- * Gets all messages from project (Authorization Bearer Required)
- * @route GET /project
- * @group message - Operations about messages
- * @returns {Array} 200 - an array of messages in project
- */
 router.get("/", Project.authorize, async (req, res) => {
   return res.status(200).json(await req.project.getMessages());
 });

@@ -111,6 +111,7 @@ const get = async (project = {}) => {
  * @returns {Object} all info, users, scenes and tracks of project
  */
 const getDetail = async (project = {}) => {
+  // TODO: have this route provide all info about a given project, incuding clips and scene and track info
   const users = await project.getUsers();
   const scenes = await project.getScenes();
   const tracks = await project.getTracks();

@@ -13,15 +13,6 @@ const Track = require("./handlers/track");
 const Clip = require("./handlers/clip");
 const Socket = require("./handlers/socket");
 
-/**
- * Get all clips in project, scene or track (Authorization Bearer Required)
- * @route GET /clip
- * @group clip - Operations about clips
- * @param {String} ProjectId.body.required
- * @param {String} SceneId.body.optional
- * @param {String} TrackId.body.optional
- * @returns {Array} 200 - A nested array of clips in project,  organized by scene then track
- */
 router.get("/", Project.authorize, async (req, res) => {
   return res
     .status(200)
@@ -33,14 +24,6 @@ router.get("/", Project.authorize, async (req, res) => {
     );
 });
 
-/**
- * Get name of clip (Authorization Bearer Required)
- * @route GET /clip/name
- * @group clip - Operations about clip
- * @param {String} ProjectId.body.required - project's id
- * @param {String} SceneId.body.required - clip's id
- * @returns {Object} 200 - name of clip
- */
 router.get("/name", Project.authorize, async (req, res) => {
   try {
     const clip = await Clip.findInDatabase(req.query.ClipId);

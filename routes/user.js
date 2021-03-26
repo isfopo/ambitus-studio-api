@@ -14,15 +14,6 @@ const models = require("../db/models");
 
 require("dotenv").config();
 
-/**
- * Create a new user with a username and password
- * @route POST /user/
- * @group user - Operations about user
- * @param {string} username.body.required - new user's username
- * @param {string} password.body.required - new user's password
- * @returns {object} 200 - An object of user's info with generated user id
- * @returns {Error}  400 - Invalid or taken username or password
- */
 router.post("/", async (req, res) => {
   try {
     const { username, password } = validatePost(req.body);
@@ -44,15 +35,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-/**
- * Gets either all users or one user based on id or username
- * @route GET /user/
- * @group user - Operations about user
- * @param {string} id.body.optional - user's id
- * @param {string} username.body.optional - user's username
- * @returns {object} 200 - An object of user's info or an array of all users info
- * @returns {Error}  404 - User could not be found
- */
 router.get("/", async (req, res) => {
   try {
     if (req.query.UserId) {
@@ -103,15 +85,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-/**
- * Get a JWT with a username and password
- * @route GET /user/login
- * @group user - Operations about user
- * @param {string} username.body.required - new user's username
- * @param {string} password.body.required - new user's password
- * @returns {object} 200 - a valid JSON Web Token
- * @returns {Error}  400 - Invalid or taken username or password
- */
 router.get("/login", async (req, res) => {
   try {
     const user = await User.verifyPassword(
@@ -127,14 +100,6 @@ router.get("/login", async (req, res) => {
   }
 });
 
-/**
- * Get an array of user's current projects by id (Authorization Bearer Required)
- * @route GET /user/projects
- * @group user - Operations about user
- * @param {string} UserId.body.required - user's id
- * @returns {object} 200 - User id and an array of project ids
- * @returns {Error}  400 - Invalid id
- */
 router.get("/projects", User.authorize, async (req, res) => {
   try {
     return res.status(200).json({
@@ -146,14 +111,6 @@ router.get("/projects", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Get user's avatar
- * @route GET /user/avatar
- * @group user - Operations about user
- * @param {string} id.body.required - user's id
- * @returns {object} 200 - user's avatar
- * @returns {Error}  400 - Invalid id
- */
 router.get("/avatar", async (req, res) => {
   try {
     const user = await User.findInDatabase(req.query.UserId);
@@ -176,13 +133,6 @@ router.get("/avatar", async (req, res) => {
   }
 });
 
-/**
- * Get an array of projects that user has been invited to (Authorization Bearer Required)
- * @route GET /user/invited
- * @group user - Operations about user
- * @returns {object} 200 - an array of projects that user has been invited to
- * @returns {Error}  400 - Invalid token or id
- */
 router.get("/invites", User.authorize, async (req, res) => {
   const projects = await models.Project.findAll({
     where: { invited: { [Op.contains]: [req.user.UserId] } },
@@ -190,14 +140,6 @@ router.get("/invites", User.authorize, async (req, res) => {
   return res.status(200).json(projects);
 });
 
-/**
- * Change a user's username (Authorization Bearer Required)
- * @route PUT /user/username
- * @group user - Operations about user
- * @param {string} newName.body - user's newName
- * @returns {object} 200 - User id and changed name
- * @returns {Error}  400 - Invalid token, id or username
- */
 router.put("/username", User.authorize, async (req, res) => {
   try {
     req.user.username = validate.name(req.body.newName);
@@ -212,14 +154,6 @@ router.put("/username", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change a user's password (Authorization Bearer Required)
- * @route PUT /user/password
- * @group user - Operations about user
- * @param {string} newPassword.body - user's new password
- * @returns {object} 200 - User id
- * @returns {Error}  400 - Invalid token, id or password
- */
 router.put("/password", User.authorize, async (req, res) => {
   try {
     req.user.password = await User.hashValidPassword(
@@ -233,13 +167,6 @@ router.put("/password", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change a user's bio (Authorization Bearer Required)
- * @route PUT /user/bio
- * @group user - Operations about user
- * @param {string} bio.body.optional - user's new bio - if left empty, bio is assigned null
- * @returns {object} 204 - bio has been changed
- */
 router.put("/bio", User.authorize, async (req, res) => {
   try {
     req.user.bio = req.body.bio ? validate.bio(req.body.bio) : null;
@@ -250,15 +177,6 @@ router.put("/bio", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Change a user's avatar (Authorization Bearer Required)
- * @route PUT /user/avatar
- * @group user - Operations about user
- * @param {string} avatar.multipart - user's new avatar
- * @returns {object} 204 - avatar has been changed
- * @returns {Error}  400 - Invalid token or id
- * @returns {Error}  404 - Avatar image has been deleted - returns to default
- */
 router.put("/avatar", upload.single("avatar"), async (req, res) => {
   User.authorize(req, res, async () => {
     try {
@@ -280,13 +198,6 @@ router.put("/avatar", upload.single("avatar"), async (req, res) => {
   });
 });
 
-/**
- * Accept an invitation to a project and removes id from invited array (Authorization Bearer Required)
- * @route PUT /user/accept
- * @group user - Operations about user
- * @param {String} ProjectId.body.required - id for project to accept
- * @returns {Object} 204
- */
 router.put("/accept", User.authorize, async (req, res) => {
   try {
     const project = await Project.findInDatabase(req.body.ProjectId);
@@ -307,13 +218,6 @@ router.put("/accept", User.authorize, async (req, res) => {
   }
 });
 
-/**
- * Delete user (Authorization Bearer Required)
- * @route DELETE /user/
- * @group user - Operations about user
- * @returns {object} 204
- * @returns {Error}  400 - Invalid token or id
- */
 router.delete("/", User.authorize, async (req, res) => {
   try {
     await User.deleteAllMessages(req.user);
