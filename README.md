@@ -36,6 +36,16 @@ To see client-to-client real-time updates using Socket.io, open the repo [ambitu
 
 While having this api running, follow the instructions in the README.md.
 
+## testing
+
+To run tests, have the repo download and the dependencies installed then run:
+
+```shell
+npm test
+```
+
+This will run all tests. To run only specific test suites, see package.json. All test scripts are prefixed with "test-" and can be run using "npm run script-name"
+
 ## Challenges
 
 - Authentication and authorization
