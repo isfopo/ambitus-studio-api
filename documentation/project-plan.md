@@ -147,7 +147,7 @@
   - [x] accept an invitation to a project
   - [x] delete user
 
-- [ ] **Project**
+- [x] **Project**
 
   - [x] create a new project
   - [x] get info about all projects
@@ -167,8 +167,6 @@
   - [x] request access to a project
   - [x] accept a request to a project
   - [x] leave project
-  - [ ] undo action
-  - [ ] redo undo
 
 - [x] **Scene**
 
@@ -204,8 +202,5 @@
 
 ## Review
 
-- [ ] has acceptable coverage
-- [ ] all tests are passing
-- [ ] clean up code and docs
-
-## Deploy
+- [x] all tests are passing
+- [x] clean up code and docs

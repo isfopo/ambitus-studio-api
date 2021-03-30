@@ -111,14 +111,23 @@ const get = async (project = {}) => {
  * @returns {Object} all info, users, scenes and tracks of project
  */
 const getDetail = async (project = {}) => {
-  // TODO: have this route provide all info about a given project, incuding clips and scene and track info
   const users = await project.getUsers();
   const scenes = await project.getScenes();
   const tracks = await project.getTracks();
-  return {
+  return await {
     ...project.dataValues,
-    users: users.map((user) => user.UserId),
-    scenes: scenes.map((scene) => scene.SceneId),
+    users: users.map((user) => {
+      return {
+        UserId: user.UserId,
+        username: user.username,
+        bio: user.bio,
+      };
+    }),
+    scenes: await scenes.map(async (scene) => {
+      const clips = await scene.getClips();
+      console.log(clips);
+      return { ...scene.dataValues, clips };
+    }),
     tracks: tracks.map((track) => track.TrackId),
   };
 };
