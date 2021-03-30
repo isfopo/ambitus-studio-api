@@ -36,7 +36,7 @@ To see client-to-client real-time updates using Socket.io, open the repo [ambitu
 
 While having this api running, follow the instructions in the README.md.
 
-## testing
+## Testing
 
 To run tests, have the repo download and the dependencies installed then run:
 
