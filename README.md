@@ -15,13 +15,27 @@ To start api run these commands in a location you want to store the project:
 git clone https://github.com/isfopo/ambitus-studio-api.git
 cd ambitus-studio-api
 npm install
-npm run db:init
 npm start
 ```
 
-This will start a server on [localhost:3000](http://localhost:3000).
+This will seed the database and start a server on [localhost:3000](http://localhost:3000).
 
 (Uses node.js version 14.15.4)
+
+## Demonstration
+
+Using either Insomina or Postman with the server running, feel free to expore any availible route. Routes with multiple functionality (like GET /project) will have seperate request demonstrations to show each way to use the route.
+
+Some routes require an authorization token in order to work. The routes that do have a placeholder token, but that token will not work because it is expired. To get a fresh token, use the "Login" request. You can use the default example user "jim" which has access to the rest of the eample requests, or, after using the "Create User" request, login to your newly created user.
+
+This token can be copied and pasted into the authorization header of any route that requires it and expires after an hour. After that to continue to use the api, request another token via the "Login" request.
+
+
+## Socket Demo
+
+To see client-to-client real-time updates using Socket.io, open the repo [ambitus-studio-api-socket-demo](https://github.com/isfopo/ambitus-studio-api-socket-demo)
+
+While having this api running, follow the instructions in the README.md.
 
 ## Challenges
 
