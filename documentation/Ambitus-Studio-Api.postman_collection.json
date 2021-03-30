@@ -1,0 +1,2839 @@
+{
+	"info": {
+		"_postman_id": "1dd8938e-9bdc-401a-a0bf-f06fc5c764e6",
+		"name": "Ambitus Studio Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST /message ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDkzNzQsImV4cCI6MTYxNjcxMjk3NH0.9qakDC9wDDdQB9emaTy6j8uP8SBPdqGnYuuHBbz6oNk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/message?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"message"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /message ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDkzNzQsImV4cCI6MTYxNjcxMjk3NH0.9qakDC9wDDdQB9emaTy6j8uP8SBPdqGnYuuHBbz6oNk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/message?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"message"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /track ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /track ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&TrackId=d5656678-77c2-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "TrackId",
+							"value": "d5656678-77c2-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /track/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&TrackId=d5656678-77c2-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "TrackId",
+							"value": "d5656678-77c2-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /track/settings ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track/settings?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&TrackId=d5656678-77c2-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track",
+						"settings"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "TrackId",
+							"value": "d5656678-77c2-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /track/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3Nzc5MDMsImV4cCI6MTYxNjc4MTUwM30.jcdYgEsKb8MO7BHzR3C-d4mVvTL3Iy55LmX3GMtWN4o"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /track/settings ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track/settings?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track",
+						"settings"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /track ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/track?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"track"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /project/ ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTUzMjYyMzgsImV4cCI6MTYxNTMyOTgzOH0.9P1W425BY2nr5TsVvbB7vEqk4LPnFLAxsqHH9ozL8Is"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/project?=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/detail ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3OTUxNzYsImV4cCI6MTYxNjc5ODc3Nn0.kMY9F94IYTvjLLktSFwlrCxAjSk_8pD6YfeU9QJcM90"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/detail?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"detail"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/users ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJ1c2VybmFtZSI6ImppbSIsImlhdCI6MTYxNDM3NzQzMSwiZXhwIjoxNjE0MzgxMDMxfQ.zw_dHMBqqshS48T4zMmUpV9tv5zKqjzBaQmWPjXGza0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/users?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"users"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/scenes ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJ1c2VybmFtZSI6ImppbSIsImlhdCI6MTYxNDM3NzQzMSwiZXhwIjoxNjE0MzgxMDMxfQ.zw_dHMBqqshS48T4zMmUpV9tv5zKqjzBaQmWPjXGza0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/scenes?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"scenes"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/tracks ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJ1c2VybmFtZSI6ImppbSIsImlhdCI6MTYxNDM3NzQzMSwiZXhwIjoxNjE0MzgxMDMxfQ.zw_dHMBqqshS48T4zMmUpV9tv5zKqjzBaQmWPjXGza0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/tracks?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"tracks"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/messages ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJ1c2VybmFtZSI6ImppbSIsImlhdCI6MTYxNDQwMDgxOSwiZXhwIjoxNjE0NDA0NDE5fQ.vxyhNRIU5hdrdZ8Xbvv8dFma7l6qaAsu-Ja6NYRS0xc"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/messages?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"messages"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTU3ODUsImV4cCI6MTYxNjY5OTM4NX0.akqUaAqgzgF4QJSKEvolzaRPWk3RggRx67FBjK4CfGM"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/description ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTIwOTMsImV4cCI6MTYxNjYxNTY5M30.kjUKjUdbnRqJI6GBlFtDZzQE7F3zWL8X8CadtA1gOOQ"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/description?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"description"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/tempo ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTIwOTMsImV4cCI6MTYxNjYxNTY5M30.kjUKjUdbnRqJI6GBlFtDZzQE7F3zWL8X8CadtA1gOOQ"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/tempo?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"tempo"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /project/time_signature ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTIwOTMsImV4cCI6MTYxNjYxNTY5M30.kjUKjUdbnRqJI6GBlFtDZzQE7F3zWL8X8CadtA1gOOQ"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/time_signature?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"time_signature"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /clip/ ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						""
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /clip/ ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						""
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /clip/ ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&TrackId=d5656894-77c2-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						""
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "TrackId",
+							"value": "d5656894-77c2-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /clip/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&ClipId=9541f546-81c4-11eb-8dcd-0242ac130003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "ClipId",
+							"value": "9541f546-81c4-11eb-8dcd-0242ac130003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /clip/content ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDczNjAsImV4cCI6MTYxNjcxMDk2MH0.MkST9tlO8Kr7sYlvgZQKCtZ0YUVKged4fkraukeSMtY"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/content?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&ClipId=9541f546-81c4-11eb-8dcd-0242ac130003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						"content"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "ClipId",
+							"value": "9541f546-81c4-11eb-8dcd-0242ac130003"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /clip/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3Nzc5MDMsImV4cCI6MTYxNjc4MTUwM30.jcdYgEsKb8MO7BHzR3C-d4mVvTL3Iy55LmX3GMtWN4o"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /clip/content ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3Nzc5MDMsImV4cCI6MTYxNjc4MTUwM30.jcdYgEsKb8MO7BHzR3C-d4mVvTL3Iy55LmX3GMtWN4o"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/clip/content?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"clip",
+						"content"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /scene ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3MDM2MjIsImV4cCI6MTYxNjcwNzIyMn0.HHE_BIMSaW_fNZ6M7tizj6XU5e8ccRrwdMAL-2r2HX0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /scene ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3Nzc5MDMsImV4cCI6MTYxNjc4MTUwM30.jcdYgEsKb8MO7BHzR3C-d4mVvTL3Iy55LmX3GMtWN4o"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /scene ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /scene/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /scene/tempo ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/tempo?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"tempo"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /scene/time_signature ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/time_signature?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"time_signature"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /scene/repeats ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/repeats?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002&SceneId=0e30ef4e-77bf-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"repeats"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						},
+						{
+							"key": "SceneId",
+							"value": "0e30ef4e-77bf-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY3Nzc5MDMsImV4cCI6MTYxNjc4MTUwM30.jcdYgEsKb8MO7BHzR3C-d4mVvTL3Iy55LmX3GMtWN4o"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/tempo ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/tempo?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"tempo"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/tempo ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/tempo?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"tempo"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/time_signature ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/time_signature?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"time_signature"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/time_signature ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/time_signature?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"time_signature"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /scene/repeats ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene/repeats?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene",
+						"repeats"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /scene ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTk5OTYsImV4cCI6MTYxNjcwMzU5Nn0.ebEwro9j8CF3fg7pxHrTvKO1JMpcpxo2lH2Y1-96Opw"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/scene?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"scene"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/name ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2OTU3ODUsImV4cCI6MTYxNjY5OTM4NX0.akqUaAqgzgF4QJSKEvolzaRPWk3RggRx67FBjK4CfGM"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/name?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"name"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/description ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU2NzE5OTcsImV4cCI6MTYxNTY3NTU5N30.y1LNZ5ndheaft_JO2gM1Fo2YiYpW8WzSv7-JxNejuBA"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/description?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"description"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/tempo ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTM3MzUsImV4cCI6MTYxNjYxNzMzNX0.kHL3w89uQX0Yon4SUi-LLsgJu2ZdQYXzE1OgbgYhPRk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/tempo?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"tempo"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/time_signature ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU0Nzk1NjgsImV4cCI6MTYxNTQ4MzE2OH0.4RxDBEDMRWbBJFmiKXpgflGzVTFob2UAArYZTzFVRuk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/time_signature?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"time_signature"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/invite ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI1N2ZjMTEyMC03NGQ3LTExZWItOGM2Mi1mZGQ1YzhlMDUzMzYiLCJpYXQiOjE2MTQ3MzY2MjksImV4cCI6MTYxNDc0MDIyOX0.978xhFHFtkFpMhIZwgNaa0vlOytdt7wT6f_6f89gHwU"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/invite?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"invite"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/accept ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTQ4MTcxNzAsImV4cCI6MTYxNDgyMDc3MH0.VhbIvCLJh-mNkVlHLJMo1T4gHvwYnHkq_NKgSQ4R-Bk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/accept?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"accept"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/reorder_scenes ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTM3MzUsImV4cCI6MTYxNjYxNzMzNX0.kHL3w89uQX0Yon4SUi-LLsgJu2ZdQYXzE1OgbgYhPRk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/reorder_scenes?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"reorder_scenes"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /project/reorder_tracks ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY2MTM3MzUsImV4cCI6MTYxNjYxNzMzNX0.kHL3w89uQX0Yon4SUi-LLsgJu2ZdQYXzE1OgbgYhPRk"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/project/reorder_tracks?ProjectId=3a4639f8-77b6-11eb-9439-0242ac130002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"project",
+						"reorder_tracks"
+					],
+					"query": [
+						{
+							"key": "ProjectId",
+							"value": "3a4639f8-77b6-11eb-9439-0242ac130002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /user ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/user?UserId=4abcaff0-779e-11eb-83f3-bdec7a849d18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "UserId",
+							"value": "4abcaff0-779e-11eb-83f3-bdec7a849d18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/user?username=jim",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "jim"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user/login ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/user/login?username=jim&password=te$tPa55word",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "jim"
+						},
+						{
+							"key": "password",
+							"value": "te$tPa55word"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user/projects ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTY1MTc2MTksImV4cCI6MTYxNjUyMTIxOX0.p0-beN-Ev24i2AL1iqeoP2uzOLEWVdYZh8RZh951I2c"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user/avatar ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/user/avatar?UserId=57fc1120-74d7-11eb-8c62-fdd5c8e05336",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"avatar"
+					],
+					"query": [
+						{
+							"key": "UserId",
+							"value": "57fc1120-74d7-11eb-8c62-fdd5c8e05336"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /user/invites ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJhNTY4ZjI5MC03NmVjLTExZWItYmUyYy03NTBiNDU0N2M1MjEiLCJpYXQiOjE2MTQ3Mzk1ODksImV4cCI6MTYxNDc0MzE4OX0.FIwVn4Ifv0pVed-cfRqx86mI8fuEDi7kyU3HuS-7mq0"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/invites",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"invites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /user/username ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU2NzE5OTcsImV4cCI6MTYxNTY3NTU5N30.y1LNZ5ndheaft_JO2gM1Fo2YiYpW8WzSv7-JxNejuBA"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/username",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"username"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /user/password ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU2NzE5OTcsImV4cCI6MTYxNTY3NTU5N30.y1LNZ5ndheaft_JO2gM1Fo2YiYpW8WzSv7-JxNejuBA"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /user/bio ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU2NzE5OTcsImV4cCI6MTYxNTY3NTU5N30.y1LNZ5ndheaft_JO2gM1Fo2YiYpW8WzSv7-JxNejuBA"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/bio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"bio"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /user/avatar ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTU1NDU4MjUsImV4cCI6MTYxNTU0OTQyNX0.WWaehUk5yOQSzw_0SsRNCAcsLRHqPfVcNxRFd4qJb8A"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/avatar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /user/accept ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiJhNTY4ZjI5MC03NmVjLTExZWItYmUyYy03NTBiNDU0N2M1MjEiLCJpYXQiOjE2MTQ3NDI4OTIsImV4cCI6MTYxNDc0NjQ5Mn0.FRXxzhgZJf9hmgSbTrIM8LrlzYHzA0s_u_x6F1jap50"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/accept",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						"accept"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /user/ ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 0\", function () {",
+							"    pm.response.to.have.status(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI0YWJjYWZmMC03NzllLTExZWItODNmMy1iZGVjN2E4NDlkMTgiLCJpYXQiOjE2MTQ3MjI2ODgsImV4cCI6MTYxNDcyNjI4OH0.ZEehS39DQ1SMlTEaMfj9V_CxV-HA0qj3VzLSElc5qhY"
+					}
+				],
+				"url": {
+					"raw": "http://localhost/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"user",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
