@@ -11,7 +11,6 @@ module.exports = {
     logging: false,
   },
   production: {
-    //TODO: setup for production
     username: "root",
     password: null,
     database: "database_production",
