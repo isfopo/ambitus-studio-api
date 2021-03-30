@@ -2,7 +2,7 @@ const assert = require("assert");
 const Track = require("../handlers/track");
 
 describe("Track.validatePost", () => {
-  describe("when body contains ProjectId, name, settings and type", () => {
+  describe("when body contains name, settings and type", () => {
     it("should return body", () => {
       const input = {
         ProjectId: "709ae450-7017-11eb-beda-e76c7ddac317",
@@ -16,23 +16,6 @@ describe("Track.validatePost", () => {
       };
       const output = Track.validatePost(input);
       assert.deepStrictEqual(output, input);
-    });
-  });
-
-  describe("when ProjectId is not present", () => {
-    it("should throw an error", () => {
-      const input = {
-        name: "MyTrack",
-        settings: {
-          delay_feedback: 32,
-          gain: 46,
-          mono: true,
-        },
-        type: "audio/midi",
-      };
-      assert.throws(() => {
-        const output = Track.validatePost(input);
-      });
     });
   });
 
@@ -76,24 +59,6 @@ describe("Track.validatePost", () => {
           gain: 46,
           mono: true,
         },
-      };
-      assert.throws(() => {
-        const output = Track.validatePost(input);
-      });
-    });
-  });
-
-  describe("when ProjectId is not a valid uuid", () => {
-    it("should throw an error", () => {
-      const input = {
-        ProjectId: "123456789abcdef",
-        name: "MyTrack",
-        settings: {
-          delay_feedback: 32,
-          gain: 46,
-          mono: true,
-        },
-        type: "audio/midi",
       };
       assert.throws(() => {
         const output = Track.validatePost(input);

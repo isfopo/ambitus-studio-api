@@ -94,25 +94,12 @@ describe("User.parseHeadersForToken", () => {
 });
 
 describe("User.verifyToken", () => {
-  beforeEach(() => {
-    sinon.spy(jwt, "verify");
-  });
-
-  afterEach(() => {
-    jwt.verify.restore();
-  });
-  describe("when given a token", () => {
-    const token = "12345";
-    it("should call jwt.verify with token", () => {
-      User.verifyToken(token);
-      assert.deepStrictEqual(jwt.verify.firstCall.args[0], token);
-    });
-    it("should call jwt.verify with secret", () => {
-      User.verifyToken(token);
-      assert.deepStrictEqual(
-        jwt.verify.firstCall.args[1],
-        process.env.JWT_SECRET
-      );
+  describe("when given a token", async () => {
+    const UserId = "4abcaff0-779e-11eb-83f3-bdec7a849d18";
+    const token = await User.signToken(UserId);
+    it("should return object with UserId", () => {
+      output = User.verifyToken(token);
+      assert.deepStrictEqual(output.UserId, UserId);
     });
   });
 });
