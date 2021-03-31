@@ -15,6 +15,23 @@ To start api run these commands in a location you want to store the project:
 git clone https://github.com/isfopo/ambitus-studio-api.git
 cd ambitus-studio-api
 npm install
+```
+
+After this step, create a `.env` file that contains the followign information:
+
+```
+PORT = // the port to run the server
+DB_USER = // the username for the database you created
+DB_PASSWORD = // the password for the database you created
+
+SALT_ROUNDS = // the number of salt round for the password hash (13 is recommended)
+
+JWT_SECRET = // a very long string to be used for the JWT
+```
+
+Then finally use:
+
+```shell
 npm start
 ```
 
