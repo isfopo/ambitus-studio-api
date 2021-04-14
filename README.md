@@ -17,9 +17,9 @@ cd ambitus-studio-api
 npm install
 ```
 
-After this step, create a `.env` file that contains the followign information:
+After this step, create a `.env` file that contains the following information:
 
-```
+```shell
 PORT = // the port to run the server
 DB_USER = // the username for the database you created
 DB_PASSWORD = // the password for the database you created
